@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="pro-mod.css" />
+  <title>Typing Tester</title>
+</head>
+<body>
+
+
+  <div class="container">
+    <div class="login-form">
+      <h3>Login</h3>
+      <label for="loginUsername">Username</label><br>
+      <input id="loginUsername" placeholder="Username"><br>
+
+      <label for="loginPassword">Password</label><br>
+      <input id="loginPassword" type="password" placeholder="Password"><br>
+
+      <button class="login">Login</button><br><br>
+
+      <p>Need to create a new account?</p>
+      <button class="registernew">Register</button>
+    </div>
+    <div class="register-form hide">
+      <h3>Register</h3>
+      <form id="registerForm">
+        <label for="regName">Name</label><br>
+        <input id="regName" name="name" placeholder="Name" required><br>
+
+        <label for="regUsername">Username</label><br>
+        <input id="regUsername" name="username" placeholder="Username" required><br>
+
+        <label for="regPassword">Password</label><br>
+        <input id="regPassword" name="password" type="password" placeholder="Password" required><br>
+
+        <label for="regConfirmPassword">Confirm Password</label><br>
+        <input id="regConfirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password" required><br><br>
+
+        <button type="button" class="register">Register</button>
+
+        <p>Already have an account?</p>
+        <button class="log">Login</button>
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="flex hide">
+    <div class="modebox">
+      <button class="mode selectedmode">Typing Test</button>
+      <button class="mode">Typing Practice</button>
+      <button class="mode">Certification</button>
+      <button class="mode">Your Stats</button>
+      <button class="mode">Leaderboard</button>
+      <button onclick="logout()" id="logout">LogOut</button>
+    </div>
+
+    <div class="fillpage page" id="Typing Test">
+      <h1>Provide your interests</h1>
+      <label for="difficulty">Choose a difficulty level:</label>
+      <select id="difficulty" name="difficulty">
+        <option value="easy">easy</option>
+        <option value="medium" selected>medium</option>
+        <option value="hard">hard</option>
+      </select>
+
+      <label for="time">Choose the Duration (min):</label>
+      <select id="time" name="time">
+        <option value="1">1</option>
+        <option value="3" selected>3</option>
+        <option value="5">5</option>
+      </select>
+    <button onclick="SUBMIT()">Submit</button>
+    </div>
+    <div class="testpage hide page">
+      <div class="top-controls">
+        <h1>Typing Test</h1>
+        <div id="modedisplay">Difficulty: Medium</div>
+        <div id="timer-controls">
+          <button id="startTimerBtn" onclick="startTimer()">Start</button>
+          <div id="timer">00:00</div>
+          <button id="stopBtn" onclick="STOP()">Stop</button>
+        </div>
+      </div>
+      <div class="typeworld">
+          <div id="matter">matter</div>
+          <textarea id="typing-space" placeholder="Start typing here..." disabled></textarea>
+      </div>
+      <button onclick="CANCEL()">Cancel</button>
+    </div>
+
+    <div class="practicepage hide page" id="Typing Practice">
+      <h1>Practice makes you PERFECT</h1>
+    </div>
+    <div class="certipage hide page" id="Certification">
+      <h1>Take a Test for Certification</h1>
+    </div>
+    <div class="statpage hide page" id="Your Stats">
+      <h1>Your Stats are amazing</h1>
+    </div>
+    <div class="leaderpage hide page" id="Leaderboard">
+      <h1>You are Top </h1>
+    </div>
+
+
+  </div>
+
+  <script src="pro-mod.js"></script>
+</body>
+</html>

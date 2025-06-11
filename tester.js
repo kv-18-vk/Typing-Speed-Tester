@@ -104,7 +104,7 @@ function SUBMIT() {
   document.getElementById("modedisplay").innerText = difficulty;
   matter.innerText = difficulty;
   element.value = "";
-  element.disabled = true;
+  element.disabled = false;
   endtime = 0;
   if (interval) {
     clearInterval(interval);
@@ -126,7 +126,6 @@ function CANCEL() {
 
 function startTimer() {
   if (interval || seconds <= 0) return;
-  element.disabled = false;
 
   interval = setInterval(() => {
     seconds--;
@@ -134,25 +133,24 @@ function startTimer() {
 
     if (seconds <= 0) {
       STOP();
-      alert("Time's up!");
     }
   }, 1000);
 }
 
 function STOP() {
-  element.disabled = true;
   if (interval) {
     clearInterval(interval);
     interval = null;
   }
   endtime = seconds;
   updateTimerDisplay();
+  element.disabled = true;
 }
 
 // Initial display
 updateTimerDisplay();
 
-
+// mode buttons
 const modes = document.querySelectorAll(".mode")
 const pages = document.querySelectorAll(".page")
 for(const mode of modes){
@@ -168,3 +166,10 @@ function selectmode(val){
   page.classList.remove("hide")
   val.classList.add("selectedmode")
 }
+
+
+
+// keyboard event --- timer 
+element.addEventListener("keypress", function(){
+    startTimer();
+})

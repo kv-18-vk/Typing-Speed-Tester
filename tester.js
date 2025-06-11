@@ -152,14 +152,14 @@ function STOP() {
 
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "Time Up";
+  Accuracy = (correcttyped/totaltyped)*100;
   timerEl.classList.add("blink");
 
   // After 2 seconds, stop blinking
   setTimeout(() => {
     timerEl.classList.remove("blink");
+    timerEl.innerText = `Accuracy : ${Accuracy.toFixed(2)} %`;
   }, 2000);
-  Accuracy = (correcttyped/totaltyped)*100;
-  timerEl.innerText = `Accuracy : ${Accuracy.toFixed(2)} %`;
 }
 
 // Initial display

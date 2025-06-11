@@ -86,6 +86,9 @@ let matter = document.getElementById("matter")
 let seconds=0;
 let interval = null;
 let endtime = 0;
+let correcttyped;
+let totaltyped;
+let Accuracy;
 
 function updateTimerDisplay() {
   const mins = Math.floor(seconds / 60);
@@ -104,6 +107,8 @@ function SUBMIT() {
   document.getElementById("modedisplay").innerText = difficulty;
   matter.innerText = "hello i am vishnu , i am very good boy";
   element.value = "";
+  correcttyped = 0;
+  totaltyped = 0;
   element.disabled = false;
   endtime = 0;
   if (interval) {
@@ -153,6 +158,8 @@ function STOP() {
   setTimeout(() => {
     timerEl.classList.remove("blink");
   }, 2000);
+  Accuracy = (correcttyped/totaltyped)*100;
+  timerEl.innerText = `Accuracy : ${Accuracy.toFixed(2)} %`;
 }
 
 // Initial display
@@ -179,15 +186,18 @@ function selectmode(val){
 
 // keyboard event --- timer 
 
+
+
 function comparetext() {
     let referencetext = matter.innerText;
     let inputtext = element.value;
     let newtext = "";
-
+    correcttyped = 0;
     for (let i = 0; i<referencetext.length;i++){
         if (i<inputtext.length){
             if (inputtext[i] === referencetext[i]){
                 newtext += `<span class="correct-char">${referencetext[i]}</span>`;
+                correcttyped++;
             } else {
                 newtext += `<span class="wrong-char">${referencetext[i]}</span>`;
             }
@@ -204,3 +214,8 @@ element.addEventListener("input", function(){
     startTimer();
     comparetext();
 })
+element.addEventListener("keydown", function (event) {
+    if (event.key.length === 1 || event.key === " ") {
+        totaltyped++;
+    } 
+});

@@ -218,4 +218,7 @@ element.addEventListener("keydown", function (event) {
     if (event.key.length === 1 || event.key === " ") {
         totaltyped++;
     } 
+    if (event.key === "Enter"){
+        event.preventDefault();
+    }
 });

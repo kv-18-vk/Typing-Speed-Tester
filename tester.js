@@ -102,7 +102,7 @@ function SUBMIT() {
   seconds = time * 60; 
   updateTimerDisplay();
   document.getElementById("modedisplay").innerText = difficulty;
-  matter.innerText = difficulty;
+  matter.innerText = "hello i am vishnu , i am very good boy";
   element.value = "";
   element.disabled = false;
   endtime = 0;
@@ -143,14 +143,23 @@ function STOP() {
     interval = null;
   }
   endtime = seconds;
-  updateTimerDisplay();
   element.disabled = true;
+
+  const timerEl = document.getElementById("timer");
+  timerEl.textContent = "Time Up";
+  timerEl.classList.add("blink");
+
+  // After 2 seconds, stop blinking
+  setTimeout(() => {
+    timerEl.classList.remove("blink");
+  }, 2000);
 }
 
 // Initial display
 updateTimerDisplay();
 
-// mode buttons
+
+// mode buttons 
 const modes = document.querySelectorAll(".mode")
 const pages = document.querySelectorAll(".page")
 for(const mode of modes){
@@ -168,8 +177,30 @@ function selectmode(val){
 }
 
 
-
 // keyboard event --- timer 
-element.addEventListener("keypress", function(){
+
+function comparetext() {
+    let referencetext = matter.innerText;
+    let inputtext = element.value;
+    let newtext = "";
+
+    for (let i = 0; i<referencetext.length;i++){
+        if (i<inputtext.length){
+            if (inputtext[i] === referencetext[i]){
+                newtext += `<span class="correct-char">${referencetext[i]}</span>`;
+            } else {
+                newtext += `<span class="wrong-char">${referencetext[i]}</span>`;
+            }
+        } else {
+            newtext += `<span>${referencetext[i]}</span>`;
+        }
+    }
+    matter.innerHTML = newtext;
+}
+
+
+
+element.addEventListener("input", function(){
     startTimer();
+    comparetext();
 })

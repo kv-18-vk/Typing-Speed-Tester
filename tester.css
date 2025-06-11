@@ -178,6 +178,7 @@ body{
 }
 
 
+
 .typeworld {
   display: flex;
   flex-direction: column;
@@ -204,6 +205,7 @@ body{
 #typing-space {
   background-color: ivory;
   border: 2px solid brown;
+  color:blue;
   padding: 15px;
   border-radius: 8px;
   width: 70%;
@@ -314,4 +316,45 @@ body{
 }
 .leaderpage{
   background: linear-gradient(135deg, #FF416C, #FF4B2B);
+}
+
+
+
+
+
+
+
+
+@keyframes correctPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); color: limegreen; }
+  100% { transform: scale(1); }
+}
+
+.correct-char {
+  color: green;
+  animation: correctPop 0.3s ease;
+}
+@keyframes shake {
+  0% { transform: translateX(0px); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0px); }
+}
+
+.wrong-char {
+  color: red;
+  animation: shake 0.2s ease-in-out;
+}
+@keyframes blink-animation {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blink {
+  animation: blink-animation 0.5s ease-in-out infinite;
+  font-weight: bold;
+  color: red;
 }

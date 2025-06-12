@@ -82,7 +82,8 @@ document.querySelector("#logout").addEventListener("click", function() {
 const fillpage = document.querySelector(".fillpage");
 const testpage = document.querySelector(".testpage");
 const element = document.getElementById("typing-space");
-let matter = document.getElementById("matter")
+const matter = document.getElementById("matter");
+const element2 = document.querySelector("#practice-space");
 let seconds=0;
 let interval = null;
 let endtime = 0;
@@ -118,10 +119,10 @@ function SUBMIT() {
   totaltyped = 0;
   currentStart = 0;
   correctWords = 0;
-  referenceText = "hello i am vieck c check check check check check check check check checkvv";
+  referenceText = "Throughout history, humanity has been driven by an insatiable curiosity, a desire to explore the unknown, to sail beyond the horizon, and to chart territories never before seen. From the ancient voyages of Polynesians navigating by the stars, to the daring expeditions of the Age of Discovery, exploration has always played a vital role in the evolution of civilization.In the 15th century, figures like Vasco da Gama and Christopher Columbus changed the world map forever. They braved treacherous seas and uncertain paths, guided by rudimentary tools and an unshakable belief in something greater beyond the edge of the known world. Their discoveries were both wondrous and controversial, sparking centuries of trade, conflict, and cultural exchange.Fast forward to the 20th century — exploration didn’t stop at Earth. The Space Age brought forth a new frontier, with the launch of Sputnik, the first artificial satellite, in 1957. Just twelve years later, Neil Armstrong stepped onto the Moon and declared, “That’s one small step for man, one giant leap for mankind.” Humanity had gone beyond the planet that birthed it, venturing into the vacuum of space.Today, exploration has evolved in fascinating ways. We no longer rely solely on physical travel. The digital revolution allows us to explore virtually — zooming through satellite maps, diving into underwater ecosystems using remote submersibles, or learning about the past through virtual reality simulations. Information travels faster than ever, and with it, our capacity to understand and appreciate the world grows.Yet, there is still so much to discover. Oceans, which cover more than 70% of our planet, remain largely uncharted. Deep within jungles or beneath the ice of Antarctica, secrets lie hidden. New species, ancient fossils, and even entire ecosystems are still being found every year";
   element.disabled = false;
   endtime = 0;
-  initMatter(referenceText);
+  initMatter(referenceText,"matter","char");
   if (interval) {
     clearInterval(interval);
     interval = null;
@@ -138,6 +139,7 @@ function CANCEL() {
   }
   element.value = "";
   element.disabled = true;
+  matter.innerhtml="";
 }
 
 function startTimer() {
@@ -217,6 +219,17 @@ function selectmode(val){
   let page = document.getElementById(val.innerText.trim())
   page.classList.remove("hide")
   val.classList.add("selectedmode")
+
+  if (val.innerText.trim() === "Typing Practice") {
+    element2.disabled = false;
+    element2.value = "";
+    correcttyped = 0;
+    totaltyped = 0;
+    currentStart = 0;
+    correctWords = 0;
+    referenceText = "hello i am vishnu naveen rodshan siva and we doing project based on our typing speed and accuracy, we are using jaavscript and html,csss.";
+    initMatter(referenceText,"practicematter","pchar");
+  } 
 }
 
 
@@ -225,33 +238,33 @@ function selectmode(val){
 
 
 
-function initMatter(val) {
+function initMatter(val,id,x) {
   let html = "";
   for (let i = 0; i < val.length; i++) {
-    html += `<span class=" ${i >= windowSize ? 'hide-char' : ''}" id="char-${i}">${val[i]}</span>`;
+    html += `<span class=" ${i >= windowSize ? 'hide-char' : ''}" id="${x}-${i}">${val[i]}</span>`;
   }
-  document.getElementById("matter").innerHTML = html;
+  document.getElementById(id).innerHTML = html;
 }
 
-function updateWindowForward() {
+function updateWindowForward(x) {
   for (let i = currentStart; i < currentStart + stepSize; i++) {
-    const charEl = document.getElementById(`char-${i}`);
+    const charEl = document.getElementById(`${x}-${i}`);
     if (charEl) charEl.classList.add("hide-char");
   }
   for (let i = currentStart + windowSize; i < currentStart + windowSize + stepSize; i++) {
-    const charEl = document.getElementById(`char-${i}`);
+    const charEl = document.getElementById(`${x}-${i}`);
     if (charEl) charEl.classList.remove("hide-char");
   }
   currentStart += stepSize;
 }
 
-function updateWindowBackward() {
+function updateWindowBackward(x) {
   for (let i = currentStart + windowSize - stepSize; i < currentStart + windowSize; i++) {
-    const charEl = document.getElementById(`char-${i}`);
+    const charEl = document.getElementById(`${x}-${i}`);
     if (charEl) charEl.classList.add("hide-char");
   }
   for (let i = currentStart - stepSize; i < currentStart; i++) {
-    const charEl = document.getElementById(`char-${i}`);
+    const charEl = document.getElementById(`${x}-${i}`);
     if (charEl) charEl.classList.remove("hide-char");
   }
   currentStart -= stepSize;
@@ -260,12 +273,12 @@ function updateWindowBackward() {
 
 
 
-function colorCharacters(userInput) {
+function colorCharacters(userInput,x) {
   correcttyped = 0;
   for (let i = 0; i < referenceText.length; i++) {
     let expected = referenceText[i];
     let typed = userInput[i];
-    let charSpan = document.getElementById(`char-${i}`);
+    let charSpan = document.getElementById(`${x}-${i}`);
 
     if (!charSpan) continue;
     charSpan.classList.remove("correct-char", "wrong-char");
@@ -296,19 +309,42 @@ element.addEventListener("input", () => {
   startTimer();
   const typed = element.value;
 
-  colorCharacters(typed); // update colors
+  colorCharacters(typed,"char"); // update colors
 
   if (typed.length >= referenceText.length) {
     finish();
   }
   if (typed.length >= currentStart + changesize) {
-    updateWindowForward(); // update visible range
+    updateWindowForward("char"); // update visible range
   } else if (typed.length < currentStart+changesize && currentStart > 0) {
-    updateWindowBackward();
+    updateWindowBackward("char");
   }
 });
 
 element.addEventListener("keydown", function (event) {
+    if (event.key.length === 1 || event.key === " ") {
+        totaltyped++;
+    } 
+    if (event.key === "Enter"){
+        event.preventDefault();
+    }
+});
+
+
+
+element2.addEventListener("input", () => {
+  const typed = element2.value;
+
+  colorCharacters(typed,"pchar"); // update colors
+
+  if (typed.length >= currentStart + changesize) {
+    updateWindowForward("pchar"); // update visible range
+  } else if (typed.length < currentStart+changesize && currentStart > 0) {
+    updateWindowBackward("pchar");
+  }
+});
+
+element2.addEventListener("keydown", function (event) {
     if (event.key.length === 1 || event.key === " ") {
         totaltyped++;
     } 

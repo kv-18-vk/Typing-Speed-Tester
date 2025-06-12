@@ -333,6 +333,7 @@ body{
 
 .correct-char {
   color: green;
+  font-weight: bold;
   animation: correctPop 0.3s ease;
 }
 @keyframes shake {
@@ -357,4 +358,8 @@ body{
   animation: blink-animation 0.5s ease-in-out infinite;
   font-weight: bold;
   color: red;
+}
+
+.hide-char {
+  display: none;
 }

@@ -207,7 +207,7 @@ function comparetext() {
     }
     matter.innerHTML = newtext;
     if(inputtext.length===referencetext.length){
-      stop()
+      STOP()
     }
 }
 

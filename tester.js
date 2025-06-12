@@ -89,11 +89,15 @@ let endtime = 0;
 let correcttyped;
 let totaltyped;
 let Accuracy;
+let wpm;
+let score;
+let time;
 const changesize = 20;
 const windowSize = 165;
 const stepSize = 1;
 let currentStart;
 let referenceText;
+let correctWords;
 
 function updateTimerDisplay() {
   const mins = Math.floor(seconds / 60);
@@ -105,7 +109,7 @@ function SUBMIT() {
   fillpage.classList.add("hide");
   testpage.classList.remove("hide");
   let difficulty = document.getElementById("difficulty").value;
-  let time = parseInt(document.getElementById("time").value); 
+  time = parseInt(document.getElementById("time").value); 
   seconds = time * 60; 
   updateTimerDisplay();
   document.getElementById("modedisplay").innerText = difficulty;
@@ -113,10 +117,11 @@ function SUBMIT() {
   correcttyped = 0;
   totaltyped = 0;
   currentStart = 0;
-  referenceText = "hello i am vishnu , i am very good boy check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check checkvv";
+  correctWords = 0;
+  referenceText = "hello i am vieck c check check check check check check check check checkvv";
   element.disabled = false;
   endtime = 0;
-  initMatter();
+  initMatter(referenceText);
   if (interval) {
     clearInterval(interval);
     interval = null;
@@ -155,19 +160,42 @@ function STOP() {
   }
   endtime = seconds;
   element.disabled = true;
+  Accuracy = ((correcttyped/totaltyped)*100).toFixed(2);
+  wpm = Math.floor(correctWords/time);
+  score = wpm*Accuracy
 
   const timerEl = document.getElementById("timer");
-  timerEl.textContent = "Time Up";
-  Accuracy = (correcttyped/totaltyped)*100;
+  timerEl.textContent = "TimeUp";
   timerEl.classList.add("blink");
 
-  // After 2 seconds, stop blinking
   setTimeout(() => {
     timerEl.classList.remove("blink");
-    timerEl.textContent = `Accuracy : ${Accuracy.toFixed(2)} %`;
+    timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm}  , Score : ${score}`;
   }, 2000);
-  
-  
+}
+function finish() {
+    if (interval) {
+    clearInterval(interval);
+    interval = null;
+  }
+  endtime = seconds;
+  element.disabled = true;
+  Accuracy = ((correcttyped/totaltyped)*100).toFixed(2);
+  let finishedtime = time - (endtime/60);
+  wpm = Math.floor(correctWords/finishedtime);
+  score = wpm*Accuracy
+
+  const timerEl = document.getElementById("timer");
+  timerEl.textContent = "Finished";
+  timerEl.classList.add("blink");
+
+  setTimeout(() => {
+    timerEl.classList.remove("blink");
+    timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm} ,  Score : ${score}`;
+  }, 2000);
+}
+function timeup() {
+    
 }
 
 // Initial display
@@ -197,10 +225,10 @@ function selectmode(val){
 
 
 
-function initMatter() {
+function initMatter(val) {
   let html = "";
-  for (let i = 0; i < referenceText.length; i++) {
-    html += `<span class=" ${i >= windowSize ? 'hide-char' : ''}" id="char-${i}">${referenceText[i]}</span>`;
+  for (let i = 0; i < val.length; i++) {
+    html += `<span class=" ${i >= windowSize ? 'hide-char' : ''}" id="char-${i}">${val[i]}</span>`;
   }
   document.getElementById("matter").innerHTML = html;
 }
@@ -250,7 +278,18 @@ function colorCharacters(userInput) {
         }
     }
   }
+
+  const typedWords = userInput.trim().split(/\s+/);
+  const refWords = referenceText.trim().split(/\s+/);
+  correctWords = 0;
+
+  for (let i = 0; i < typedWords.length; i++) {
+    if (typedWords[i] === refWords[i]) {
+      correctWords++;
+    }
+  }
 }
+
 
 
 element.addEventListener("input", () => {
@@ -258,6 +297,10 @@ element.addEventListener("input", () => {
   const typed = element.value;
 
   colorCharacters(typed); // update colors
+
+  if (typed.length >= referenceText.length) {
+    finish();
+  }
   if (typed.length >= currentStart + changesize) {
     updateWindowForward(); // update visible range
   } else if (typed.length < currentStart+changesize && currentStart > 0) {

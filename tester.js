@@ -89,6 +89,11 @@ let endtime = 0;
 let correcttyped;
 let totaltyped;
 let Accuracy;
+const changesize = 20;
+const windowSize = 165;
+const stepSize = 1;
+let currentStart;
+let referenceText;
 
 function updateTimerDisplay() {
   const mins = Math.floor(seconds / 60);
@@ -99,18 +104,19 @@ function updateTimerDisplay() {
 function SUBMIT() {
   fillpage.classList.add("hide");
   testpage.classList.remove("hide");
-
   let difficulty = document.getElementById("difficulty").value;
   let time = parseInt(document.getElementById("time").value); 
   seconds = time * 60; 
   updateTimerDisplay();
   document.getElementById("modedisplay").innerText = difficulty;
-  matter.innerText = "hello i am vishnu , i am very good boy";
   element.value = "";
   correcttyped = 0;
   totaltyped = 0;
+  currentStart = 0;
+  referenceText = "hello i am vishnu , i am very good boy check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check check y check check check check check check check check check check check check check checkvv";
   element.disabled = false;
   endtime = 0;
+  initMatter();
   if (interval) {
     clearInterval(interval);
     interval = null;
@@ -158,24 +164,10 @@ function STOP() {
   // After 2 seconds, stop blinking
   setTimeout(() => {
     timerEl.classList.remove("blink");
-    timerEl.innerText = `Accuracy : ${Accuracy.toFixed(2)} %`;
+    timerEl.textContent = `Accuracy : ${Accuracy.toFixed(2)} %`;
   }, 2000);
-}
-
-function finish(){
-  if (interval) {
-    clearInterval(interval);
-    interval = null;
-  }
-  endtime=seconds;
-  element.disabled=true;
-  Accuracy = (correcttyped/totaltyped)*100;
-  const timerEl = document.getElementById("timer");
-  setTimeout(() => {
-    
-    timerEl.innerText = `Accuracy : ${Accuracy.toFixed(2)} %`;
-  }, 2000);
-
+  
+  
 }
 
 // Initial display
@@ -204,35 +196,75 @@ function selectmode(val){
 
 
 
-function comparetext() {
-    let referencetext = matter.innerText;
-    let inputtext = element.value;
-    let newtext = "";
-    correcttyped = 0;
-    for (let i = 0; i<referencetext.length;i++){
-        if (i<inputtext.length){
-            if (inputtext[i] === referencetext[i]){
-                newtext += `<span class="correct-char">${referencetext[i]}</span>`;
-                correcttyped++;
-            } else {
-                newtext += `<span class="wrong-char">${referencetext[i]}</span>`;
-            }
-        } else {
-            newtext += `<span>${referencetext[i]}</span>`;
-        }
-    }
-    matter.innerHTML = newtext;
-    if(inputtext.length===referencetext.length){
-      finish()
-    }
+
+function initMatter() {
+  let html = "";
+  for (let i = 0; i < referenceText.length; i++) {
+    html += `<span class=" ${i >= windowSize ? 'hide-char' : ''}" id="char-${i}">${referenceText[i]}</span>`;
+  }
+  document.getElementById("matter").innerHTML = html;
+}
+
+function updateWindowForward() {
+  for (let i = currentStart; i < currentStart + stepSize; i++) {
+    const charEl = document.getElementById(`char-${i}`);
+    if (charEl) charEl.classList.add("hide-char");
+  }
+  for (let i = currentStart + windowSize; i < currentStart + windowSize + stepSize; i++) {
+    const charEl = document.getElementById(`char-${i}`);
+    if (charEl) charEl.classList.remove("hide-char");
+  }
+  currentStart += stepSize;
+}
+
+function updateWindowBackward() {
+  for (let i = currentStart + windowSize - stepSize; i < currentStart + windowSize; i++) {
+    const charEl = document.getElementById(`char-${i}`);
+    if (charEl) charEl.classList.add("hide-char");
+  }
+  for (let i = currentStart - stepSize; i < currentStart; i++) {
+    const charEl = document.getElementById(`char-${i}`);
+    if (charEl) charEl.classList.remove("hide-char");
+  }
+  currentStart -= stepSize;
 }
 
 
 
-element.addEventListener("input", function(){
-    startTimer();
-    comparetext();
-})
+
+function colorCharacters(userInput) {
+  correcttyped = 0;
+  for (let i = 0; i < referenceText.length; i++) {
+    let expected = referenceText[i];
+    let typed = userInput[i];
+    let charSpan = document.getElementById(`char-${i}`);
+
+    if (!charSpan) continue;
+    charSpan.classList.remove("correct-char", "wrong-char");
+    if (i < userInput.length) {
+        if (typed === expected) {
+            charSpan.classList.add("correct-char");
+            correcttyped++
+        } else {
+            charSpan.classList.add("wrong-char");
+        }
+    }
+  }
+}
+
+
+element.addEventListener("input", () => {
+  startTimer();
+  const typed = element.value;
+
+  colorCharacters(typed); // update colors
+  if (typed.length >= currentStart + changesize) {
+    updateWindowForward(); // update visible range
+  } else if (typed.length < currentStart+changesize && currentStart > 0) {
+    updateWindowBackward();
+  }
+});
+
 element.addEventListener("keydown", function (event) {
     if (event.key.length === 1 || event.key === " ") {
         totaltyped++;

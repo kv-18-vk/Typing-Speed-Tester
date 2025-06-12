@@ -179,7 +179,8 @@ body{
 
 
 
-.typeworld {
+.typeworld,
+.practiceworld{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -190,7 +191,8 @@ body{
   gap: 20px;
 }
 
-#matter{
+#matter,
+#practicematter{
   background-color: ivory;
   border: 2px solid brown;
   padding: 15px;
@@ -202,12 +204,13 @@ body{
   font-size: x-large;
   line-height: 2;
 
-  user-select: none;
+   user-select: none;
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none;    /* Firefox */
   -ms-user-select: none;     /* IE/Edge */
 }
-#typing-space {
+#typing-space,
+#practice-space{
   background-color: ivory;
   border: 2px solid brown;
   color:blue;
@@ -221,7 +224,8 @@ body{
   line-height: 2;
 }
 
-#matter {
+#matter,
+#practicematter {
   text-align: left;
   overflow: visible;
   height: auto;

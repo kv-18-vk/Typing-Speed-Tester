@@ -162,6 +162,22 @@ function STOP() {
   }, 2000);
 }
 
+function finish(){
+  if (interval) {
+    clearInterval(interval);
+    interval = null;
+  }
+  endtime=seconds;
+  element.disabled=true;
+  Accuracy = (correcttyped/totaltyped)*100;
+  const timerEl = document.getElementById("timer");
+  setTimeout(() => {
+    
+    timerEl.innerText = `Accuracy : ${Accuracy.toFixed(2)} %`;
+  }, 2000);
+
+}
+
 // Initial display
 updateTimerDisplay();
 
@@ -207,7 +223,7 @@ function comparetext() {
     }
     matter.innerHTML = newtext;
     if(inputtext.length===referencetext.length){
-      stop()
+      finish()
     }
 }
 

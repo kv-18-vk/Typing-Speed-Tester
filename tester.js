@@ -85,6 +85,8 @@ const element = document.getElementById("typing-space");
 const matter = document.getElementById("matter");
 const element2 = document.querySelector("#practice-space");
 let seconds=0;
+let practiceSeconds = 0;
+let practiceInterval = null;
 let interval = null;
 let endtime = 0;
 let correcttyped;
@@ -196,12 +198,58 @@ function finish() {
     timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm} ,  Score : ${score}`;
   }, 2000);
 }
-function timeup() {
-    
+function Finishpractice() {
+  if (practiceInterval) {
+    clearInterval(practiceInterval);
+    practiceInterval = null;
+  }
+
+  element2.disabled = true;
+
+  let minutes = practiceSeconds / 60;
+  Accuracy = ((correcttyped / totaltyped) * 100).toFixed(2);
+  wpm = Math.floor(correctWords / minutes);
+  score = Math.round(wpm * Accuracy);
+
+  const timerEl = document.getElementById("stopclock");
+  timerEl.textContent = "Finished";
+  timerEl.classList.add("blink");
+
+  setTimeout(() => {
+    timerEl.classList.remove("blink");
+    timerEl.textContent = `Accuracy: ${Accuracy}%, WPM: ${wpm}, Score: ${score} , Time taken:-  ${Math.floor(minutes)} min : ${(practiceSeconds%60)} sec`;
+  }, 2000);
 }
 
-// Initial display
-updateTimerDisplay();
+
+function updatePracticeTimerDisplay() {
+  const mins = Math.floor(practiceSeconds / 60);
+  const secs = practiceSeconds % 60;
+  document.getElementById("stopclock").textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
+function startPracticeTimer() {
+  if (practiceInterval) return; 
+
+  practiceInterval = setInterval(() => {
+    practiceSeconds++;
+    updatePracticeTimerDisplay();
+  }, 1000);
+}
+function Resumepractice() {
+  if (!practiceInterval) {
+    startPracticeTimer();
+    element2.disabled = false;
+  }
+}
+function Break() {
+  if (practiceInterval) {
+    clearInterval(practiceInterval);
+    practiceInterval = null;
+    element2.disabled = true; 
+  }
+}
+
 
 
 // mode buttons 
@@ -229,6 +277,9 @@ function selectmode(val){
     correctWords = 0;
     referenceText = "hello i am vishnu naveen rodshan siva and we doing project based on our typing speed and accuracy, we are using jaavscript and html,csss.";
     initMatter(referenceText,"practicematter","pchar");
+    practiceSeconds = 0;
+    updatePracticeTimerDisplay();
+
   } 
 }
 
@@ -333,6 +384,7 @@ element.addEventListener("keydown", function (event) {
 
 
 element2.addEventListener("input", () => {
+  startPracticeTimer();
   const typed = element2.value;
 
   colorCharacters(typed,"pchar"); // update colors

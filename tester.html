@@ -93,7 +93,21 @@
     </div>
 
     <div class="practicepage hide page" id="Typing Practice">
-      <h1>Practice makes you PERFECT</h1>
+      <div class="top-controls">
+        <h1>Typing Practice</h1>
+        <h2>Practice makes you PERFECT </h2>
+        <div id="timer-controls">
+          <button class="break" onclick="Break()">have a break</button>
+          <div id="stopclock">00:00</div>
+          <button  class=finish onclick="Finishpractice()">Finish</button>
+        </div>
+      </div>
+      <div class="practiceworld">
+          <div id="practicematter"></div>
+          <textarea id="practice-space" placeholder="Start typing here..." disabled spellcheck="false"></textarea>
+      </div>
+      
+    </div>
     </div>
     <div class="certipage hide page" id="Certification">
       <h1>Take a Test for Certification</h1>

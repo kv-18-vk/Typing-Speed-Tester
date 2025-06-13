@@ -242,11 +242,18 @@ function Resumepractice() {
     element2.disabled = false;
   }
 }
+breakbtn=document.querySelector(".break")
 function Break() {
   if (practiceInterval) {
     clearInterval(practiceInterval);
     practiceInterval = null;
     element2.disabled = true; 
+    breakbtn.textContent="resume"
+  }
+  else if (!practiceInterval) {
+    startPracticeTimer();
+    element2.disabled = false;
+    breakbtn.textContent="pause"
   }
 }
 
@@ -388,6 +395,10 @@ element2.addEventListener("input", () => {
   const typed = element2.value;
 
   colorCharacters(typed,"pchar"); // update colors
+
+  if (typed.length >= referenceText.length) {
+    Finishpractice();
+  }
 
   if (typed.length >= currentStart + changesize) {
     updateWindowForward("pchar"); // update visible range

@@ -22,7 +22,9 @@ document.querySelector(".register").addEventListener("click", function () {
     return;
   }
 
+
   localStorage.setItem(username, password);
+
   alert("Registration successful! Please login.");
   registerPage.classList.add("hide");
   loginPage.classList.remove("hide");
@@ -219,18 +221,19 @@ function Finishpractice() {
     timerEl.classList.remove("blink");
     timerEl.textContent = `Accuracy: ${Accuracy}%, WPM: ${wpm}, Score: ${score} , Time taken:-  ${Math.floor(minutes)} min : ${(practiceSeconds%60)} sec`;
   }, 2000);
+  breakbtn.classList.add("hide");
 }
 
 function startPracticeTimer() {
   if (practiceInterval) return; 
-
+  breakbtn.classList.remove("hide");
   practiceInterval = setInterval(() => {
     practiceSeconds++;
     updateTimerDisplay("stopclock",practiceSeconds);
   }, 1000);
 }
 
-breakbtn=document.querySelector(".break")
+const breakbtn=document.querySelector(".break");
 function Break() {
   if (practiceInterval) {
     clearInterval(practiceInterval);
@@ -273,7 +276,9 @@ function selectmode(val){
     referenceText = "hello i am vishnu naveen rodshan siva and we doing project based on our typing speed and accuracy, we are using jaavscript and html,csss.";
     initMatter(referenceText,"practicematter","pchar");
     updateTimerDisplay("stopclock",practiceSeconds);
+    breakbtn.classList.add("hide");
   } 
+
 }
 
 

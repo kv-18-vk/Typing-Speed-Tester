@@ -102,10 +102,10 @@ let currentStart;
 let referenceText;
 let correctWords;
 
-function updateTimerDisplay() {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  document.getElementById("timer").textContent =`${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+function updateTimerDisplay(id,sec) {
+  const mins = Math.floor(sec / 60);
+  const secs = sec % 60;
+  document.getElementById(id).textContent =`${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
 function SUBMIT() {
@@ -114,7 +114,7 @@ function SUBMIT() {
   let difficulty = document.getElementById("difficulty").value;
   time = parseInt(document.getElementById("time").value); 
   seconds = time * 60; 
-  updateTimerDisplay();
+  updateTimerDisplay("timer",seconds);
   document.getElementById("modedisplay").innerText = difficulty;
   element.value = "";
   correcttyped = 0;
@@ -149,7 +149,7 @@ function startTimer() {
 
   interval = setInterval(() => {
     seconds--;
-    updateTimerDisplay();
+    updateTimerDisplay("timer",seconds);
 
     if (seconds <= 0) {
       STOP();
@@ -184,7 +184,7 @@ function finish() {
   }
   endtime = seconds;
   element.disabled = true;
-  Accuracy = ((correcttyped/totaltyped)*100).toFixed(2);
+  Accuracy = parseFloat(((correcttyped/totaltyped)*100).toFixed(2));
   let finishedtime = time - (endtime/60);
   wpm = Math.floor(correctWords/finishedtime);
   score = wpm*Accuracy
@@ -207,9 +207,9 @@ function Finishpractice() {
   element2.disabled = true;
 
   let minutes = practiceSeconds / 60;
-  Accuracy = ((correcttyped / totaltyped) * 100).toFixed(2);
+  Accuracy = parseFloat(((correcttyped / totaltyped) * 100).toFixed(2));
   wpm = Math.floor(correctWords / minutes);
-  score = Math.round(wpm * Accuracy);
+  score = wpm*Accuracy;
 
   const timerEl = document.getElementById("stopclock");
   timerEl.textContent = "Finished";
@@ -221,27 +221,15 @@ function Finishpractice() {
   }, 2000);
 }
 
-
-function updatePracticeTimerDisplay() {
-  const mins = Math.floor(practiceSeconds / 60);
-  const secs = practiceSeconds % 60;
-  document.getElementById("stopclock").textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-}
-
 function startPracticeTimer() {
   if (practiceInterval) return; 
 
   practiceInterval = setInterval(() => {
     practiceSeconds++;
-    updatePracticeTimerDisplay();
+    updateTimerDisplay("stopclock",practiceSeconds);
   }, 1000);
 }
-function Resumepractice() {
-  if (!practiceInterval) {
-    startPracticeTimer();
-    element2.disabled = false;
-  }
-}
+
 breakbtn=document.querySelector(".break")
 function Break() {
   if (practiceInterval) {
@@ -256,7 +244,6 @@ function Break() {
     breakbtn.textContent="pause"
   }
 }
-
 
 
 // mode buttons 
@@ -277,6 +264,7 @@ function selectmode(val){
 
   if (val.innerText.trim() === "Typing Practice") {
     element2.disabled = false;
+    practiceSeconds = 0;
     element2.value = "";
     correcttyped = 0;
     totaltyped = 0;
@@ -284,9 +272,7 @@ function selectmode(val){
     correctWords = 0;
     referenceText = "hello i am vishnu naveen rodshan siva and we doing project based on our typing speed and accuracy, we are using jaavscript and html,csss.";
     initMatter(referenceText,"practicematter","pchar");
-    practiceSeconds = 0;
-    updatePracticeTimerDisplay();
-
+    updateTimerDisplay("stopclock",practiceSeconds);
   } 
 }
 

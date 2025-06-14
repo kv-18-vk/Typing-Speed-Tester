@@ -275,7 +275,7 @@ function finish() {
 
   if (currentUser) {
     db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
-      time: time,
+      time: finishedtime,
       difficulty: difficulty,
       totaltyped: totaltyped,
       correcttyped: correcttyped,
@@ -357,7 +357,7 @@ function resetpractice() {
     currentStart = 0;
     correctWords = 0;
     const randomInt = Math.floor(Math.random() * 1) + 1;
-  db.collection("practice-paragraphs").doc(`practice-${randomInt}`).get()
+    db.collection("practice-paragraphs").doc(`practice-${randomInt}`).get()
     .then((doc) => {
         referenceText = doc.data().text;
         element2.disabled = false;
@@ -387,6 +387,9 @@ function selectmode(val){
   if (val.innerText.trim() === "Typing Practice") {
     resetpractice();
   } 
+  if (val.innerText.trim() !== "Your Stats") {
+    document.getElementById("stats-container").innerHTML = "";
+  }
 
 }
 
@@ -515,3 +518,61 @@ element2.addEventListener("keydown", function (event) {
         event.preventDefault();
     }
 });
+
+function loadStatsFor(level) {
+  if (!currentUser) return;
+
+  const container = document.getElementById("stats-container");
+  container.innerHTML = `<p>Loading ${level} test stats...</p>`;
+
+  db.collection(`users/${currentUser.email}/${level} tests`).get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        container.innerHTML = `<p>No ${level} tests taken yet. Try a typing test to see stats here.</p>`;
+        return;
+      }
+
+      let ttotaltyped = 0;
+      let tcorrecttyped = 0;
+      let totaltime = 0;
+      let tcorrectwords = 0;
+      let totalScore = 0;
+      let testCount = 0;
+      let highestwpm = 0;
+      let highestaccuracy = 0;
+      let highestscore = 0;
+
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        ttotaltyped += d.totaltyped;
+        tcorrecttyped += d.correcttyped;
+        totaltime += d.time;
+        totalScore += d.score;
+        testCount++;
+        tcorrectwords += d.wpm * d.time;
+        highestaccuracy = Math.max(highestaccuracy, d.accuracy);
+        highestwpm = Math.max(highestwpm, d.wpm);
+        highestscore = Math.max(highestscore, d.score);
+      });
+
+      const avgAccuracy = parseFloat(((tcorrecttyped / ttotaltyped) * 100).toFixed(2));
+      const avgWPM = Math.floor(tcorrectwords/ totaltime);
+      const avgScore = parseFloat((totalScore / testCount).toFixed(2));
+
+      container.innerHTML = `
+        <div>
+          <p>Total Tests: ${testCount}</p>
+          <p>Average Accuracy: ${avgAccuracy} %</p>
+          <p>Average WPM: ${avgWPM}</p>
+          <p>Average Score: ${avgScore}</p>
+          <p>Highest WPM: ${highestwpm}</p>
+          <p>Highest Accuracy: ${highestaccuracy} %</p>
+          <p>Highest Score: ${highestscore}</p>
+        </div>
+      `;
+    })
+    .catch(error => {
+      console.error(`Error fetching ${level} stats:`, error);
+      container.innerHTML = `<p style="color:red;">Failed to load ${level} stats.</p>`;
+    });
+}

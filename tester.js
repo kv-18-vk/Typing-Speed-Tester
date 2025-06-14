@@ -312,7 +312,19 @@ function Finishpractice() {
   }, 2000);
   breakbtn.classList.add("hide");
 }
-
+function resetpractice() {
+    element2.disabled = false;
+    practiceSeconds = 0;
+    element2.value = "";
+    correcttyped = 0;
+    totaltyped = 0;
+    currentStart = 0;
+    correctWords = 0;
+    referenceText = "hello i am vishnu naveen rodshan siva and we doing project based on our typing speed and accuracy, we are using jaavscript and html,csss.";
+    initMatter(referenceText,"practicematter","pchar");
+    updateTimerDisplay("stopclock",practiceSeconds);
+    breakbtn.classList.add("hide");
+}
 function startPracticeTimer() {
   if (practiceInterval) return; 
   breakbtn.classList.remove("hide");
@@ -355,17 +367,7 @@ function selectmode(val){
   val.classList.add("selectedmode")
 
   if (val.innerText.trim() === "Typing Practice") {
-    element2.disabled = false;
-    practiceSeconds = 0;
-    element2.value = "";
-    correcttyped = 0;
-    totaltyped = 0;
-    currentStart = 0;
-    correctWords = 0;
-    referenceText = "hello i am vishnu naveen rodshan siva and we doing project based on our typing speed and accuracy, we are using jaavscript and html,csss.";
-    initMatter(referenceText,"practicematter","pchar");
-    updateTimerDisplay("stopclock",practiceSeconds);
-    breakbtn.classList.add("hide");
+    resetpractice();
   } 
 
 }

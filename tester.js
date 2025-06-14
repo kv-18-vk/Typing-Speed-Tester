@@ -1,3 +1,32 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyAlt8DEsHBtgsw2Dvuqt41oebpezAXTOBI",
+  authDomain: "tutorial-700bd.firebaseapp.com",
+  databaseURL: "https://tutorial-700bd-default-rtdb.firebaseio.com",
+  projectId: "tutorial-700bd",
+  storageBucket: "tutorial-700bd.firebasestorage.app",
+  messagingSenderId: "1020008362522",
+  appId: "1:1020008362522:web:5bc97cd35094b169ca57a3"
+};
+
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Access Firebase Auth
+const auth = firebase.auth();
+const db = firebase.firestore();
+let currentUser = null;
+
+// Track current user
+auth.onAuthStateChanged(user => {
+  currentUser = user;
+  if (user) {
+    console.log("User signed in:", user.email);
+  } else {
+    console.log("No user signed in.");
+  }
+});
+
 let loginPage = document.querySelector(".login-form");
 let registerPage = document.querySelector(".register-form");
 
@@ -23,11 +52,23 @@ document.querySelector(".register").addEventListener("click", function () {
   }
 
 
-  localStorage.setItem(username, password);
+  auth.createUserWithEmailAndPassword(username,password)
+   .then((userCredential) => {
+      const user=userCredential.user
 
-  alert("Registration successful! Please login.");
-  registerPage.classList.add("hide");
-  loginPage.classList.remove("hide");
+      db.collection("users").doc(user.email).set({
+        uid : user.uid,
+        name: name,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      alert("Registration successful! Please login.");
+      registerPage.classList.add("hide");
+      loginPage.classList.remove("hide");
+    })
+    .catch((error) => {
+      alert("Error: " + error.message);
+    });
 });
 
 function bodychange(val) {
@@ -45,16 +86,16 @@ document.querySelector(".login").addEventListener("click", function () {
     return;
   }
 
-  const storedPassword = localStorage.getItem(username);
-
-  if (storedPassword === password) {
-    localStorage.setItem("currentUser", username);
-    bodychange("url(blue.jpg)")
-    document.querySelector(".container").classList.add("hide");
-    document.querySelector(".flex").classList.remove("hide");
-  } else {
-    alert("Your details do not match.");
-  }
+ auth. signInWithEmailAndPassword( username, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      bodychange("url(blue.jpg)");
+      document.querySelector(".container").classList.add("hide");
+      document.querySelector(".flex").classList.remove("hide");
+    })
+    .catch((error) => {
+      alert("Login failed: " + error.message);
+    });
 });
 
 document.querySelector(".registernew").addEventListener("click", function () {
@@ -67,11 +108,15 @@ document.querySelector(".log").addEventListener("click", function () {
 });
 
 document.querySelector("#logout").addEventListener("click", function() {
-  document.querySelector(".container").classList.remove("hide");
-  document.querySelector(".flex").classList.add("hide");
-  document.querySelector("#loginUsername").value ="";
-  document.querySelector("#loginPassword").value ="";
-  bodychange("url(typing.jpg")
+  auth.signOut().then(() => {
+    document.querySelector(".container").classList.remove("hide");
+    document.querySelector(".flex").classList.add("hide");
+    document.querySelector("#loginUsername").value = "";
+    document.querySelector("#loginPassword").value = "";
+    bodychange("url(typing.jpg)");
+  }).catch((error) => {
+    alert("Logout error: " + error.message);
+  });
 })
 
 
@@ -173,6 +218,23 @@ function STOP() {
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "TimeUp";
   timerEl.classList.add("blink");
+  
+  if (currentUser) {
+    db.collection(`users/${currentUser.email}/tests`).add({
+      totaltyped: totaltyped,
+      correcttyped: correcttyped,
+      accuracy: Accuracy,
+      wpm: wpm,
+      score: score,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+      console.log("Test result saved successfully");
+    })
+    .catch((error) => {
+      console.error("Error saving test result: ", error);
+    });
+  }
 
   setTimeout(() => {
     timerEl.classList.remove("blink");
@@ -194,6 +256,23 @@ function finish() {
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "Finished";
   timerEl.classList.add("blink");
+
+  if (currentUser) {
+    db.collection(`users/${currentUser.email}/tests`).add({
+      totaltyped: totaltyped,
+      correcttyped: correcttyped,
+      accuracy: Accuracy,
+      wpm: wpm,
+      score: score,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+      console.log("Test result saved successfully");
+    })
+    .catch((error) => {
+      console.error("Error saving test result: ", error);
+    });
+  }
 
   setTimeout(() => {
     timerEl.classList.remove("blink");

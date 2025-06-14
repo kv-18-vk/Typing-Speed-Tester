@@ -211,7 +211,7 @@ function STOP() {
   }
   endtime = seconds;
   element.disabled = true;
-  Accuracy = ((correcttyped/totaltyped)*100).toFixed(2);
+  Accuracy = parseFloat(((correcttyped/totaltyped)*100).toFixed(2));
   wpm = Math.floor(correctWords/time);
   score = wpm*Accuracy
 

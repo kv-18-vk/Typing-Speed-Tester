@@ -350,15 +350,19 @@ function Break() {
   }
 }
 function resetpractice() {
-    element2.disabled = false;
     practiceSeconds = 0;
     element2.value = "";
     correcttyped = 0;
     totaltyped = 0;
     currentStart = 0;
     correctWords = 0;
-    referenceText = "hello i am vishnu naveen rodshan siva and we doing project based on our typing speed and accuracy, we are using jaavscript and html,csss.";
-    initMatter(referenceText,"practicematter","pchar");
+    const randomInt = Math.floor(Math.random() * 1) + 1;
+  db.collection("practice-paragraphs").doc(`practice-${randomInt}`).get()
+    .then((doc) => {
+        referenceText = doc.data().text;
+        element2.disabled = false;
+        initMatter(referenceText,"practicematter","pchar");
+    })
     updateTimerDisplay("stopclock",practiceSeconds);
     breakbtn.classList.add("hide");
 }

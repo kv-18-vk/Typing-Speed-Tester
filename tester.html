@@ -75,7 +75,7 @@
         <option value="3" selected>3</option>
         <option value="5">5</option>
       </select>
-    <button onclick="SUBMIT()">Submit</button>
+      <button onclick="SUBMIT()">Submit</button>
     </div>
     <div class="testpage hide page">
       <div class="top-controls">
@@ -106,18 +106,26 @@
           <textarea id="practice-space" placeholder="Start typing here..." disabled spellcheck="false"></textarea>
       </div>
     </div>
+
     <div class="certipage hide page" id="Certification">
       <h1>Take a Test for Certification</h1>
     </div>
+    
     <div class="statpage hide page" id="Your Stats">
-      <h1>Your Stats are amazing</h1>
+      <h1>Your Stats</h1>
+      <div id="mode-buttons">
+        <button onclick="loadStatsFor('Easy')">Easy</button>
+        <button onclick="loadStatsFor('Medium')">Medium</button>
+        <button onclick="loadStatsFor('Hard')">Hard</button>
+      </div>
+      <div id="stats-container" style="margin-top: 20px;"></div>
     </div>
+
     <div class="leaderpage hide page" id="Leaderboard">
       <h1>You are Top </h1>
     </div>
-    
+
   </div>
-  
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>

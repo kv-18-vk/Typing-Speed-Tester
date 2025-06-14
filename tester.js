@@ -60,6 +60,9 @@ document.querySelector(".register").addEventListener("click", function () {
       db.collection("users").doc(user.email).set({
         uid : user.uid,
         name: name,
+        TotalEasyTests: 0,
+        TotalMediumTests: 0,
+        TotalHardTests: 0,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
 
@@ -173,7 +176,7 @@ function SUBMIT() {
   endtime = 0;
   db.collection("Typing-paragraphs").doc(difficulty).get()
     .then((doc) => {
-        referenceText = doc.data().text;
+        referenceText = doc.data().Text;
         element.disabled = false;
         initMatter(referenceText,"matter","char");
     })
@@ -242,6 +245,11 @@ function STOP() {
     .catch((error) => {
       console.error("Error saving test result: ", error);
     });
+
+    db.collection("users").doc(currentUser.email).update({
+      [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
+    });
+
   }
 
   setTimeout(() => {
@@ -282,6 +290,11 @@ function finish() {
     .catch((error) => {
       console.error("Error saving test result: ", error);
     });
+
+    db.collection("users").doc(currentUser.email).update({
+      [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
+    });
+
   }
 
   setTimeout(() => {
@@ -312,19 +325,7 @@ function Finishpractice() {
   }, 2000);
   breakbtn.classList.add("hide");
 }
-function resetpractice() {
-    element2.disabled = false;
-    practiceSeconds = 0;
-    element2.value = "";
-    correcttyped = 0;
-    totaltyped = 0;
-    currentStart = 0;
-    correctWords = 0;
-    referenceText = "hello i am vishnu naveen rodshan siva and we doing project based on our typing speed and accuracy, we are using jaavscript and html,csss.";
-    initMatter(referenceText,"practicematter","pchar");
-    updateTimerDisplay("stopclock",practiceSeconds);
-    breakbtn.classList.add("hide");
-}
+
 function startPracticeTimer() {
   if (practiceInterval) return; 
   breakbtn.classList.remove("hide");
@@ -347,6 +348,19 @@ function Break() {
     element2.disabled = false;
     breakbtn.textContent="pause"
   }
+}
+function resetpractice() {
+    element2.disabled = false;
+    practiceSeconds = 0;
+    element2.value = "";
+    correcttyped = 0;
+    totaltyped = 0;
+    currentStart = 0;
+    correctWords = 0;
+    referenceText = "hello i am vishnu naveen rodshan siva and we doing project based on our typing speed and accuracy, we are using jaavscript and html,csss.";
+    initMatter(referenceText,"practicematter","pchar");
+    updateTimerDisplay("stopclock",practiceSeconds);
+    breakbtn.classList.add("hide");
 }
 
 

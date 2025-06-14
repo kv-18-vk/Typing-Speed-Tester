@@ -1,3 +1,4 @@
+
 const firebaseConfig = {
   apiKey: "AIzaSyAlt8DEsHBtgsw2Dvuqt41oebpezAXTOBI",
   authDomain: "tutorial-700bd.firebaseapp.com",
@@ -139,6 +140,7 @@ let endtime = 0;
 let correcttyped;
 let totaltyped;
 let Accuracy;
+let difficulty;
 let wpm;
 let score;
 let time;
@@ -158,7 +160,7 @@ function updateTimerDisplay(id,sec) {
 function SUBMIT() {
   fillpage.classList.add("hide");
   testpage.classList.remove("hide");
-  let difficulty = document.getElementById("difficulty").value;
+  difficulty = document.getElementById("difficulty").value;
   time = parseInt(document.getElementById("time").value); 
   seconds = time * 60; 
   updateTimerDisplay("timer",seconds);
@@ -168,10 +170,14 @@ function SUBMIT() {
   totaltyped = 0;
   currentStart = 0;
   correctWords = 0;
-  referenceText = "Throughout history, humanity has been driven by an insatiable curiosity, a desire to explore the unknown, to sail beyond the horizon, and to chart territories never before seen. From the ancient voyages of Polynesians navigating by the stars, to the daring expeditions of the Age of Discovery, exploration has always played a vital role in the evolution of civilization.In the 15th century, figures like Vasco da Gama and Christopher Columbus changed the world map forever. They braved treacherous seas and uncertain paths, guided by rudimentary tools and an unshakable belief in something greater beyond the edge of the known world. Their discoveries were both wondrous and controversial, sparking centuries of trade, conflict, and cultural exchange.Fast forward to the 20th century — exploration didn’t stop at Earth. The Space Age brought forth a new frontier, with the launch of Sputnik, the first artificial satellite, in 1957. Just twelve years later, Neil Armstrong stepped onto the Moon and declared, “That’s one small step for man, one giant leap for mankind.” Humanity had gone beyond the planet that birthed it, venturing into the vacuum of space.Today, exploration has evolved in fascinating ways. We no longer rely solely on physical travel. The digital revolution allows us to explore virtually — zooming through satellite maps, diving into underwater ecosystems using remote submersibles, or learning about the past through virtual reality simulations. Information travels faster than ever, and with it, our capacity to understand and appreciate the world grows.Yet, there is still so much to discover. Oceans, which cover more than 70% of our planet, remain largely uncharted. Deep within jungles or beneath the ice of Antarctica, secrets lie hidden. New species, ancient fossils, and even entire ecosystems are still being found every year";
-  element.disabled = false;
   endtime = 0;
-  initMatter(referenceText,"matter","char");
+  db.collection("Typing-paragraphs").doc(difficulty).get()
+    .then((doc) => {
+        referenceText = doc.data().text;
+        element.disabled = false;
+        initMatter(referenceText,"matter","char");
+    })
+  
   if (interval) {
     clearInterval(interval);
     interval = null;
@@ -220,7 +226,9 @@ function STOP() {
   timerEl.classList.add("blink");
   
   if (currentUser) {
-    db.collection(`users/${currentUser.email}/tests`).add({
+    db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
+      time: time,
+      difficulty: difficulty,
       totaltyped: totaltyped,
       correcttyped: correcttyped,
       accuracy: Accuracy,
@@ -258,7 +266,9 @@ function finish() {
   timerEl.classList.add("blink");
 
   if (currentUser) {
-    db.collection(`users/${currentUser.email}/tests`).add({
+    db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
+      time: time,
+      difficulty: difficulty,
       totaltyped: totaltyped,
       correcttyped: correcttyped,
       accuracy: Accuracy,

@@ -675,3 +675,51 @@ function showPopup(data) {
     }
   });
 }
+
+
+ document.querySelector("#generatePdf").addEventListener("click", () => {
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
+  pdf.setFontSize(18);
+  pdf.text("Typing Test Report", 20, 20);
+  pdf.text(`User: ${currentUser.email}`,100, 20);
+  pdf.text("Easy Tests",20,30)
+  
+  
+  db.collection(`users/${currentUser.email}/Easy tests`)
+    .orderBy("timestamp", "desc")
+    .get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        summaryDiv.innerHTML = `<p>No ${level} tests taken yet.</p>`;
+        return;
+      }
+
+      let ttotaltyped = 0, tcorrecttyped = 0, totaltime = 0;
+      let tcorrectwords = 0, totalScore = 0;
+      let testCount = 0, highestwpm = 0, highestaccuracy = 0, highestscore = 0;
+      let y=40
+      let x=20
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        ttotaltyped += d.totaltyped;
+        tcorrecttyped += d.correcttyped;
+        totaltime += d.time;
+        totalScore += d.score;
+        testCount++;
+        tcorrectwords += d.wpm * d.time;
+        highestaccuracy = Math.max(highestaccuracy, d.accuracy);
+        highestwpm = Math.max(highestwpm, d.wpm);
+        highestscore = Math.max(highestscore, d.score);
+        pdf.text(`WPM: ${d.wpm}`, x, y);
+        pdf.text(`Accuracy: ${d.accuracy}%`, x+40, y );
+        pdf.text(`Score: ${d.score}`, x+120, y );
+        y += 10;
+        
+      
+      });
+      pdf.save("TypingTestReport.pdf");
+    });
+  
+ })
+ 

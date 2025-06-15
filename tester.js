@@ -468,6 +468,9 @@ function colorCharacters(userInput,x) {
 
 element.addEventListener("input", () => {
   startTimer();
+  const sound = document.getElementById('key-sound');
+  sound.currentTime = 0; // Rewind to start
+  sound.play();
   const typed = element.value;
 
   colorCharacters(typed,"char"); // update colors
@@ -495,9 +498,13 @@ element.addEventListener("keydown", function (event) {
 
 element2.addEventListener("input", () => {
   startPracticeTimer();
+  const sound = document.getElementById('key-sound');
+  sound.currentTime = 0; // Rewind to start
+  sound.play();
   const typed = element2.value;
 
   colorCharacters(typed,"pchar"); // update colors
+
 
   if (typed.length >= referenceText.length) {
     Finishpractice();
@@ -568,6 +575,7 @@ function loadStatsFor(level) {
           <p>Highest WPM: ${highestwpm}</p>
           <p>Highest Accuracy: ${highestaccuracy} %</p>
           <p>Highest Score: ${highestscore}</p>
+          <hr>
         </div>
       `;
     })

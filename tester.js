@@ -76,7 +76,8 @@ document.querySelector(".register").addEventListener("click", function () {
         totalScore: 0,
         highestAccuracy: 0,
         highestWPM: 0,
-        highestScore: 0
+        highestScore: 0,
+        DocType: "stats"
       };
       difficulties.forEach(diff => {
         db.collection(`users/${user.email}/${diff} tests`).doc("stats").set(Data);
@@ -245,30 +246,10 @@ function STOP() {
   timerEl.classList.add("blink");
   
   if (currentUser) {
-    db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
-      time: time,
-      difficulty: difficulty,
-      totaltyped: totaltyped,
-      correcttyped: correcttyped,
-      accuracy: Accuracy,
-      wpm: wpm,
-      score: score,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
-      console.log("Test result saved successfully");
-    })
-    .catch((error) => {
-      console.error("Error saving test result: ", error);
-    });
-
-    db.collection("users").doc(currentUser.email).update({
-      [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
-    });
+    addtesthistory(difficulty,time);
     updateStatsSummary(difficulty,time);
 
   }
-
   setTimeout(() => {
     timerEl.classList.remove("blink");
     timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm}  , Score : ${score}`;
@@ -291,26 +272,7 @@ function finish() {
   timerEl.classList.add("blink");
 
   if (currentUser) {
-    db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
-      time: finishedtime,
-      difficulty: difficulty,
-      totaltyped: totaltyped,
-      correcttyped: correcttyped,
-      accuracy: Accuracy,
-      wpm: wpm,
-      score: score,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
-      console.log("Test result saved successfully");
-    })
-    .catch((error) => {
-      console.error("Error saving test result: ", error);
-    });
-
-    db.collection("users").doc(currentUser.email).update({
-      [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
-    });
+    addtesthistory(difficulty,finishedtime);
     updateStatsSummary(difficulty,finishedtime);
   }
 
@@ -319,7 +281,22 @@ function finish() {
     timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm} ,  Score : ${score}`;
   }, 2000);
 }
-
+function addtesthistory(difficulty, time){
+  db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
+      time: time,
+      difficulty: difficulty,
+      totaltyped: totaltyped,
+      correcttyped: correcttyped,
+      accuracy: Accuracy,
+      wpm: wpm,
+      score: score,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      DocType: "test",
+    })
+    db.collection("users").doc(currentUser.email).update({
+      [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
+    });
+}
 function updateStatsSummary(difficulty,time) {
   const statsRef = db.collection(`users/${currentUser.email}/${difficulty} tests`).doc("stats");
   statsRef.get().then(doc => {
@@ -331,9 +308,9 @@ function updateStatsSummary(difficulty,time) {
       totalTime: firebase.firestore.FieldValue.increment(time),
       totalWords: firebase.firestore.FieldValue.increment(correctWords),
       totalScore: firebase.firestore.FieldValue.increment(score),
-      highestAccuracy: Math.max(Accuracy, data.highestAccuracy || 0),
-      highestWPM: Math.max(wpm, data.highestWPM || 0),
-      highestScore: Math.max(score, data.highestScore || 0)
+      highestAccuracy: Math.max(Accuracy, data.highestAccuracy),
+      highestWPM: Math.max(wpm, data.highestWPM),
+      highestScore: Math.max(score, data.highestScore)
     });
   });
 }
@@ -428,12 +405,6 @@ function selectmode(val){
   if (val.innerText.trim() === "Typing Practice") {
     resetpractice();
   } 
-  if (val.innerText.trim() !== "Your Stats") {
-    document.getElementById("stats-container").innerHTML = `
-        <div id="stats-summary"></div>
-        <div id="stats-history" class="history-scroll"></div>
-      `;
-  }
   if (val.innerText.trim() === "Your Stats") {
     loadStatsFor("Easy");
   }
@@ -571,34 +542,20 @@ function loadStatsFor(level) {
 
   const summaryDiv = document.getElementById("stats-summary");
   const historyDiv = document.getElementById("stats-history");
-  summaryDiv.innerHTML = "Loading stats...";
+  summaryDiv.innerHTML = `<p class="center-text">Loading ${level} mode stats...</p>`;
   historyDiv.innerHTML = "";
 
   db.collection(`users/${currentUser.email}/${level} tests`)
+    .where("DocType", "==", "test")
     .orderBy("timestamp", "desc")
     .get()
     .then(snapshot => {
       if (snapshot.empty) {
-        summaryDiv.innerHTML = `<p>No ${level} tests taken yet.</p>`;
+        summaryDiv.innerHTML = `<p class="center-text">No ${level} tests taken yet.</p>`;
         return;
       }
-
-      let ttotaltyped = 0, tcorrecttyped = 0, totaltime = 0;
-      let tcorrectwords = 0, totalScore = 0;
-      let testCount = 0, highestwpm = 0, highestaccuracy = 0, highestscore = 0;
-
       snapshot.forEach(doc => {
         const d = doc.data();
-        ttotaltyped += d.totaltyped;
-        tcorrecttyped += d.correcttyped;
-        totaltime += d.time;
-        totalScore += d.score;
-        testCount++;
-        tcorrectwords += d.wpm * d.time;
-        highestaccuracy = Math.max(highestaccuracy, d.accuracy);
-        highestwpm = Math.max(highestwpm, d.wpm);
-        highestscore = Math.max(highestscore, d.score);
-
         const card = document.createElement("div");
         card.className = "history-card";
         card.innerHTML = `
@@ -610,31 +567,40 @@ function loadStatsFor(level) {
         historyDiv.appendChild(card);
         card.addEventListener("click", () => showPopup(d));
       });
+      let testCount,avgAccuracy,avgWPM,avgScore,highestaccuracy,highestwpm,highestscore;
+      stats = db.collection(`users/${currentUser.email}/${level} tests`).doc("stats").get()
+      .then(doc => {
+        const d = doc.data();
+        avgAccuracy = parseFloat(((d.correctTyped / d.totalTyped) * 100).toFixed(2));
+        avgWPM = Math.floor(d.totalWords / d.totalTime);
+        avgScore = parseFloat((d.totalScore / d.totalTests).toFixed(2));
+        testCount = d.totalTests;
+        highestaccuracy = d.highestAccuracy;
+        highestwpm = d.highestWPM;
+        highestscore = d.highestScore;
 
-      const avgAccuracy = parseFloat(((tcorrecttyped / ttotaltyped) * 100).toFixed(2));
-      const avgWPM = Math.floor(tcorrectwords / totaltime);
-      const avgScore = parseFloat((totalScore / testCount).toFixed(2));
+        summaryDiv.innerHTML = `
+          <p class="center-text">Total Tests: ${testCount}</p>
+          <div class="avg-stats">
+            <p>Avg Accuracy: ${avgAccuracy}%</p>
+            <p>Avg WPM: ${avgWPM}</p>
+            <p>Avg Score: ${avgScore}</p>
+          </div>
+          <div class="highest-stats">
+            <p>Highest Accuracy: ${highestaccuracy}%</p>
+            <p>Highest WPM: ${highestwpm}</p>
+            <p>Highest Score: ${highestscore}</p>
+          </div>
+        `;
+      });
 
-      summaryDiv.innerHTML = `
-        <p class="center-text">Total Tests: ${testCount}</p>
-        <div class="avg-stats">
-          <p>Avg Accuracy: ${avgAccuracy}%</p>
-          <p>Avg WPM: ${avgWPM}</p>
-          <p>Avg Score: ${avgScore}</p>
-        </div>
-        <div class="highest-stats">
-          <p>Highest Accuracy: ${highestaccuracy}%</p>
-          <p>Highest WPM: ${highestwpm}</p>
-          <p>Highest Score: ${highestscore}</p>
-        </div>
-      `;
       if (historyDiv.children.length > 0) {
         historyDiv.scrollTo({ top: 0, behavior: 'smooth' });
       }
     })
     .catch(error => {
       console.error("Error loading stats:", error);
-      summaryDiv.innerHTML = `<p style="color:red;">Failed to load stats.</p>`;
+      summaryDiv.innerHTML = `<p class="center-text" style="color:red;">Failed to load stats.</p>`;
     });
 }
 function selectStatsMode(val, level) {

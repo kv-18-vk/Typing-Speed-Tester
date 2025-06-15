@@ -113,10 +113,10 @@
     
     <div class="statpage hide page" id="Your Stats">
       <h1>Your Stats</h1>
-      <div id="mode-buttons">
-        <button onclick="loadStatsFor('Easy')">Easy</button>
-        <button onclick="loadStatsFor('Medium')">Medium</button>
-        <button onclick="loadStatsFor('Hard')">Hard</button>
+      <div id="diff-bar">
+        <div class="diff-option selected-diff" onclick="selectStatsMode(this, 'Easy')">Easy</div>
+        <div class="diff-option" onclick="selectStatsMode(this, 'Medium')">Medium</div>
+        <div class="diff-option" onclick="selectStatsMode(this, 'Hard')">Hard</div>
       </div>
       <div id="stats-container">
         <div id="stats-summary"></div>

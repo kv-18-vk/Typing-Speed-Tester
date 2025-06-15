@@ -66,6 +66,22 @@ document.querySelector(".register").addEventListener("click", function () {
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
 
+      const difficulties = ["Easy", "Medium", "Hard"];
+      const Data = {
+        totalTests: 0,
+        totalTyped: 0,
+        correctTyped: 0,
+        totalTime: 0,
+        totalWords: 0,
+        totalScore: 0,
+        highestAccuracy: 0,
+        highestWPM: 0,
+        highestScore: 0
+      };
+      difficulties.forEach(diff => {
+        db.collection(`users/${user.email}/${diff} tests`).doc("stats").set(Data);
+      });
+
       alert("Registration successful! Please login.");
       registerPage.classList.add("hide");
       loginPage.classList.remove("hide");
@@ -249,6 +265,7 @@ function STOP() {
     db.collection("users").doc(currentUser.email).update({
       [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
     });
+    updateStatsSummary(difficulty,time);
 
   }
 
@@ -294,7 +311,7 @@ function finish() {
     db.collection("users").doc(currentUser.email).update({
       [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
     });
-
+    updateStatsSummary(difficulty,finishedtime);
   }
 
   setTimeout(() => {
@@ -302,6 +319,27 @@ function finish() {
     timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm} ,  Score : ${score}`;
   }, 2000);
 }
+
+function updateStatsSummary(difficulty,time) {
+  const statsRef = db.collection(`users/${currentUser.email}/${difficulty} tests`).doc("stats");
+  statsRef.get().then(doc => {
+    const data = doc.data();
+    statsRef.update({
+      totalTests: firebase.firestore.FieldValue.increment(1),
+      totalTyped: firebase.firestore.FieldValue.increment(totaltyped),
+      correctTyped: firebase.firestore.FieldValue.increment(correcttyped),
+      totalTime: firebase.firestore.FieldValue.increment(time),
+      totalWords: firebase.firestore.FieldValue.increment(correctWords),
+      totalScore: firebase.firestore.FieldValue.increment(score),
+      highestAccuracy: Math.max(Accuracy, data.highestAccuracy || 0),
+      highestWPM: Math.max(wpm, data.highestWPM || 0),
+      highestScore: Math.max(score, data.highestScore || 0)
+    });
+  });
+}
+
+
+
 function Finishpractice() {
   if (practiceInterval) {
     clearInterval(practiceInterval);
@@ -324,11 +362,13 @@ function Finishpractice() {
     timerEl.textContent = `Accuracy: ${Accuracy}%, WPM: ${wpm}, Score: ${score} , Time taken:-  ${Math.floor(minutes)} min : ${(practiceSeconds%60)} sec`;
   }, 2000);
   breakbtn.classList.add("hide");
+  document.querySelector(".finish").classList.add("hide");
 }
 
 function startPracticeTimer() {
   if (practiceInterval) return; 
   breakbtn.classList.remove("hide");
+  document.querySelector(".finish").classList.remove("hide");
   practiceInterval = setInterval(() => {
     practiceSeconds++;
     updateTimerDisplay("stopclock",practiceSeconds);
@@ -365,6 +405,7 @@ function resetpractice() {
     })
     updateTimerDisplay("stopclock",practiceSeconds);
     breakbtn.classList.add("hide");
+    document.querySelector(".finish").classList.add("hide");
 }
 
 
@@ -392,6 +433,9 @@ function selectmode(val){
         <div id="stats-summary"></div>
         <div id="stats-history" class="history-scroll"></div>
       `;
+  }
+  if (val.innerText.trim() === "Your Stats") {
+    loadStatsFor("Easy");
   }
 
 }
@@ -558,12 +602,13 @@ function loadStatsFor(level) {
         const card = document.createElement("div");
         card.className = "history-card";
         card.innerHTML = `
-          <span>WPM: ${d.wpm}</span>
-          <span>Accuracy: ${d.accuracy}%</span>
-          <span>Score: ${d.score}</span>
-          <span>${new Date(d.timestamp?.toDate()).toLocaleString()}</span>
+          <div><strong>WPM:</strong> ${d.wpm}</div>
+          <div><strong>Accuracy:</strong> ${d.accuracy}%</div>
+          <div><strong>Score:</strong> ${d.score}</div>
+          <div><strong>Time:</strong> ${new Date(d.timestamp?.toDate()).toLocaleString()}</div>
         `;
         historyDiv.appendChild(card);
+        card.addEventListener("click", () => showPopup(d));
       });
 
       const avgAccuracy = parseFloat(((tcorrecttyped / ttotaltyped) * 100).toFixed(2));
@@ -571,17 +616,62 @@ function loadStatsFor(level) {
       const avgScore = parseFloat((totalScore / testCount).toFixed(2));
 
       summaryDiv.innerHTML = `
-        <p>Total Tests: ${testCount}</p>
-        <p>Avg Accuracy: ${avgAccuracy}%</p>
-        <p>Avg WPM: ${avgWPM}</p>
-        <p>Avg Score: ${avgScore}</p>
-        <p>Highest Accuracy: ${highestaccuracy}%</p>
-        <p>Highest WPM: ${highestwpm}</p>
-        <p>Highest Score: ${highestscore}</p>
+        <p class="center-text">Total Tests: ${testCount}</p>
+        <div class="avg-stats">
+          <p>Avg Accuracy: ${avgAccuracy}%</p>
+          <p>Avg WPM: ${avgWPM}</p>
+          <p>Avg Score: ${avgScore}</p>
+        </div>
+        <div class="highest-stats">
+          <p>Highest Accuracy: ${highestaccuracy}%</p>
+          <p>Highest WPM: ${highestwpm}</p>
+          <p>Highest Score: ${highestscore}</p>
+        </div>
       `;
+      if (historyDiv.children.length > 0) {
+        historyDiv.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     })
     .catch(error => {
       console.error("Error loading stats:", error);
       summaryDiv.innerHTML = `<p style="color:red;">Failed to load stats.</p>`;
     });
+}
+function selectStatsMode(val, level) {
+  document.querySelectorAll(".diff-option").forEach(option => {
+    option.classList.remove("selected-diff");
+  });
+  val.classList.add("selected-diff");
+
+  loadStatsFor(level);
+}
+
+function showPopup(data) {
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
+
+  const popup = document.createElement("div");
+  popup.className = "popup-card";
+  popup.innerHTML = `
+    <h3>Test Details</h3>
+    <p><strong>WPM:</strong> ${data.wpm}</p>
+    <p><strong>Accuracy:</strong> ${data.accuracy}%</p>
+    <p><strong>Score:</strong> ${data.score}</p>
+    <p><strong>Time:</strong> ${data.time} min</p>
+    <p><strong>Total Typed:</strong> ${data.totaltyped}</p>
+    <p><strong>Correct Typed:</strong> ${data.correcttyped}</p>
+    <p><strong>Date:</strong> ${new Date(data.timestamp?.toDate()).toLocaleString()}</p>
+  `;
+
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+
+  popup.classList.add("popup-show");
+  overlay.classList.add("popup-fade");
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlay.remove();
+    }
+  });
 }

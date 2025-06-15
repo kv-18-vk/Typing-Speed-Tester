@@ -222,7 +222,7 @@ function STOP() {
   element.disabled = true;
   Accuracy = parseFloat(((correcttyped/totaltyped)*100).toFixed(2));
   wpm = Math.floor(correctWords/time);
-  score = wpm*Accuracy
+  score = parseFloat(wpm*Accuracy.toFixed(2));
 
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "TimeUp";
@@ -267,7 +267,7 @@ function finish() {
   Accuracy = parseFloat(((correcttyped/totaltyped)*100).toFixed(2));
   let finishedtime = time - (endtime/60);
   wpm = Math.floor(correctWords/finishedtime);
-  score = wpm*Accuracy
+  score = parseFloat(wpm*Accuracy.toFixed(2));
 
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "Finished";
@@ -388,7 +388,10 @@ function selectmode(val){
     resetpractice();
   } 
   if (val.innerText.trim() !== "Your Stats") {
-    document.getElementById("stats-container").innerHTML = "";
+    document.getElementById("stats-container").innerHTML = `
+        <div id="stats-summary"></div>
+        <div id="stats-history" class="history-scroll"></div>
+      `;
   }
 
 }
@@ -468,9 +471,6 @@ function colorCharacters(userInput,x) {
 
 element.addEventListener("input", () => {
   startTimer();
-  const sound = document.getElementById('key-sound');
-  sound.currentTime = 0; // Rewind to start
-  sound.play();
   const typed = element.value;
 
   colorCharacters(typed,"char"); // update colors
@@ -498,13 +498,9 @@ element.addEventListener("keydown", function (event) {
 
 element2.addEventListener("input", () => {
   startPracticeTimer();
-  const sound = document.getElementById('key-sound');
-  sound.currentTime = 0; // Rewind to start
-  sound.play();
   const typed = element2.value;
 
   colorCharacters(typed,"pchar"); // update colors
-
 
   if (typed.length >= referenceText.length) {
     Finishpractice();
@@ -529,25 +525,23 @@ element2.addEventListener("keydown", function (event) {
 function loadStatsFor(level) {
   if (!currentUser) return;
 
-  const container = document.getElementById("stats-container");
-  container.innerHTML = `<p>Loading ${level} test stats...</p>`;
+  const summaryDiv = document.getElementById("stats-summary");
+  const historyDiv = document.getElementById("stats-history");
+  summaryDiv.innerHTML = "Loading stats...";
+  historyDiv.innerHTML = "";
 
-  db.collection(`users/${currentUser.email}/${level} tests`).get()
+  db.collection(`users/${currentUser.email}/${level} tests`)
+    .orderBy("timestamp", "desc")
+    .get()
     .then(snapshot => {
       if (snapshot.empty) {
-        container.innerHTML = `<p>No ${level} tests taken yet. Try a typing test to see stats here.</p>`;
+        summaryDiv.innerHTML = `<p>No ${level} tests taken yet.</p>`;
         return;
       }
 
-      let ttotaltyped = 0;
-      let tcorrecttyped = 0;
-      let totaltime = 0;
-      let tcorrectwords = 0;
-      let totalScore = 0;
-      let testCount = 0;
-      let highestwpm = 0;
-      let highestaccuracy = 0;
-      let highestscore = 0;
+      let ttotaltyped = 0, tcorrecttyped = 0, totaltime = 0;
+      let tcorrectwords = 0, totalScore = 0;
+      let testCount = 0, highestwpm = 0, highestaccuracy = 0, highestscore = 0;
 
       snapshot.forEach(doc => {
         const d = doc.data();
@@ -560,27 +554,34 @@ function loadStatsFor(level) {
         highestaccuracy = Math.max(highestaccuracy, d.accuracy);
         highestwpm = Math.max(highestwpm, d.wpm);
         highestscore = Math.max(highestscore, d.score);
+
+        const card = document.createElement("div");
+        card.className = "history-card";
+        card.innerHTML = `
+          <span>WPM: ${d.wpm}</span>
+          <span>Accuracy: ${d.accuracy}%</span>
+          <span>Score: ${d.score}</span>
+          <span>${new Date(d.timestamp?.toDate()).toLocaleString()}</span>
+        `;
+        historyDiv.appendChild(card);
       });
 
       const avgAccuracy = parseFloat(((tcorrecttyped / ttotaltyped) * 100).toFixed(2));
-      const avgWPM = Math.floor(tcorrectwords/ totaltime);
+      const avgWPM = Math.floor(tcorrectwords / totaltime);
       const avgScore = parseFloat((totalScore / testCount).toFixed(2));
 
-      container.innerHTML = `
-        <div>
-          <p>Total Tests: ${testCount}</p>
-          <p>Average Accuracy: ${avgAccuracy} %</p>
-          <p>Average WPM: ${avgWPM}</p>
-          <p>Average Score: ${avgScore}</p>
-          <p>Highest WPM: ${highestwpm}</p>
-          <p>Highest Accuracy: ${highestaccuracy} %</p>
-          <p>Highest Score: ${highestscore}</p>
-          <hr>
-        </div>
+      summaryDiv.innerHTML = `
+        <p>Total Tests: ${testCount}</p>
+        <p>Avg Accuracy: ${avgAccuracy}%</p>
+        <p>Avg WPM: ${avgWPM}</p>
+        <p>Avg Score: ${avgScore}</p>
+        <p>Highest Accuracy: ${highestaccuracy}%</p>
+        <p>Highest WPM: ${highestwpm}</p>
+        <p>Highest Score: ${highestscore}</p>
       `;
     })
     .catch(error => {
-      console.error(`Error fetching ${level} stats:`, error);
-      container.innerHTML = `<p style="color:red;">Failed to load ${level} stats.</p>`;
+      console.error("Error loading stats:", error);
+      summaryDiv.innerHTML = `<p style="color:red;">Failed to load stats.</p>`;
     });
 }

@@ -118,13 +118,17 @@
         <button onclick="loadStatsFor('Medium')">Medium</button>
         <button onclick="loadStatsFor('Hard')">Hard</button>
       </div>
-      <div id="stats-container" style="margin-top: 20px;"></div>
+      <div id="stats-container">
+        <div id="stats-summary"></div>
+        <div id="stats-history" class="history-scroll"></div>
+      </div>
+
     </div>
 
     <div class="leaderpage hide page" id="Leaderboard">
       <h1>You are Top </h1>
     </div>
-   <audio id="key-sound" src="sound-3.mp3"></audio>
+
   </div>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>

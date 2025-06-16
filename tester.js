@@ -483,11 +483,11 @@ function selectmode(val){
     resetpractice();
   } 
   if (val.innerText.trim() === "Your Stats") {
-    loadStatsFor("Easy");
+    selectStatsMode(document.querySelector("#statsrefresh"), "Easy");
   }
   if (val.innerText.trim() === "Leaderboard") {
-    leaderboardfor("Easy");
-  }
+    selectBoardMode(document.querySelector("#boardrefresh"), "Easy");
+  }}
 
 }
 

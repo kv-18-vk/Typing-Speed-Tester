@@ -1,4 +1,5 @@
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyAlt8DEsHBtgsw2Dvuqt41oebpezAXTOBI",
   authDomain: "tutorial-700bd.firebaseapp.com",
@@ -76,13 +77,12 @@ document.querySelector(".register").addEventListener("click", function () {
         totalScore: 0,
         highestAccuracy: 0,
         highestWPM: 0,
-        highestScore: 0,
-        DocType: "stats"
+        highestScore: 0
       };
       difficulties.forEach(diff => {
         db.collection(`users/${user.email}/${diff} tests`).doc("stats").set(Data);
       });
-
+      db.collection(`users/${user.email}/Certifications`).doc("stats").set(Data);
       alert("Registration successful! Please login.");
       registerPage.classList.add("hide");
       loginPage.classList.remove("hide");
@@ -152,6 +152,7 @@ const testpage = document.querySelector(".testpage");
 const element = document.getElementById("typing-space");
 const matter = document.getElementById("matter");
 const element2 = document.querySelector("#practice-space");
+const element3=document.querySelector("#cert-space")
 let seconds=0;
 let practiceSeconds = 0;
 let practiceInterval = null;
@@ -246,10 +247,30 @@ function STOP() {
   timerEl.classList.add("blink");
   
   if (currentUser) {
-    addtesthistory(difficulty,time);
+    db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
+      time: time,
+      difficulty: difficulty,
+      totaltyped: totaltyped,
+      correcttyped: correcttyped,
+      accuracy: Accuracy,
+      wpm: wpm,
+      score: score,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+      console.log("Test result saved successfully");
+    })
+    .catch((error) => {
+      console.error("Error saving test result: ", error);
+    });
+
+    db.collection("users").doc(currentUser.email).update({
+      [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
+    });
     updateStatsSummary(difficulty,time);
 
   }
+
   setTimeout(() => {
     timerEl.classList.remove("blink");
     timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm}  , Score : ${score}`;
@@ -272,7 +293,26 @@ function finish() {
   timerEl.classList.add("blink");
 
   if (currentUser) {
-    addtesthistory(difficulty,finishedtime);
+    db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
+      time: finishedtime,
+      difficulty: difficulty,
+      totaltyped: totaltyped,
+      correcttyped: correcttyped,
+      accuracy: Accuracy,
+      wpm: wpm,
+      score: score,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+      console.log("Test result saved successfully");
+    })
+    .catch((error) => {
+      console.error("Error saving test result: ", error);
+    });
+
+    db.collection("users").doc(currentUser.email).update({
+      [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
+    });
     updateStatsSummary(difficulty,finishedtime);
   }
 
@@ -281,22 +321,130 @@ function finish() {
     timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm} ,  Score : ${score}`;
   }, 2000);
 }
-function addtesthistory(difficulty, time){
-  db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
-      time: time,
+
+
+
+//certification timer
+let certInterval = null;
+let certSeconds = 60; 
+let certEndTime;
+let totalTyped = 0;
+let correctTyped = 0;
+let certcorrectWords = 0;
+let certTime =1 ; // in minutes
+
+
+function updateTimerDisplay(id, seconds) {
+  const el = document.getElementById(id);
+  const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const secs = String(seconds % 60).padStart(2, '0');
+  el.textContent = `${mins}:${secs}`;
+}
+
+function startcertTimer() {
+  if (certInterval || certSeconds <= 0) return;
+
+  certInterval = setInterval(() => {
+    certSeconds--;
+    updateTimerDisplay("cert-timer", certSeconds);
+
+    if (certSeconds <= 0) {
+      stopCertification();
+    }
+  }, 1000);
+}
+
+function stopCertification() {
+  if (certInterval) {
+    clearInterval(certInterval);
+    certInterval = null;
+  }
+
+  certEndTime = certSeconds;
+  const element = document.getElementById("cert-space");
+  element.disabled = true;
+
+  const accuracy = parseFloat(((correctTyped / totalTyped) * 100).toFixed(2)) || 0;
+  const wpm = Math.floor(correctWords / certTime) || 0;
+  const score = parseFloat((wpm * accuracy).toFixed(2));
+
+  const timerEl = document.getElementById("cert-timer");
+  timerEl.textContent = "Time Up";
+  timerEl.classList.add("blink");
+
+  if (currentUser) {
+    db.collection(`users/${currentUser.email}/Certifications`).add({
+      time: certTime,
       difficulty: difficulty,
-      totaltyped: totaltyped,
-      correcttyped: correcttyped,
-      accuracy: Accuracy,
+      totalTyped: totalTyped,
+      correctTyped: correctTyped,
+      accuracy: accuracy,
       wpm: wpm,
       score: score,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      DocType: "test",
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
     })
+    .then(() => console.log("Certification result saved"))
+    .catch((err) => console.error("Save error:", err));
+
     db.collection("users").doc(currentUser.email).update({
-      [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
+      [`Total Certifications`]: firebase.firestore.FieldValue.increment(1)
     });
+
+    updateStatsSummary(difficulty, certTime);
+  }
+
+  setTimeout(() => {
+    timerEl.classList.remove("blink");
+    timerEl.textContent = `Accuracy: ${accuracy}% | WPM: ${wpm} | Score: ${score}`;
+  }, 2000);
 }
+
+function finishCertification() {
+  if (certInterval) {
+    clearInterval(certInterval);
+    certInterval = null;
+  }
+
+  certEndTime = certSeconds;
+  const element = document.getElementById("cert-space");
+  element.disabled = true;
+
+  const elapsed = certTime - certEndTime / 60;
+  const accuracy = parseFloat(((correctTyped / totalTyped) * 100).toFixed(2)) || 0;
+  const wpm = Math.floor(correctWords / elapsed) || 0;
+  const score = parseFloat((wpm * accuracy).toFixed(2));
+
+  const timerEl = document.getElementById("cert-timer");
+  timerEl.textContent = "Finished";
+  timerEl.classList.add("blink");
+
+  if (currentUser) {
+    db.collection(`users/${currentUser.email}/Certifications`).add({
+      time: elapsed,
+      difficulty: difficulty,
+      totalTyped: totalTyped,
+      correctTyped: correctTyped,
+      accuracy: accuracy,
+      wpm: wpm,
+      score: score,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => console.log("Certification result saved"))
+    .catch((err) => console.error("Save error:", err));
+
+    db.collection("users").doc(currentUser.email).update({
+      [`Total Certifications`]: firebase.firestore.FieldValue.increment(1)
+    });
+
+    updateStatsSummary(Certification, elapsed);
+  }
+
+  setTimeout(() => {
+    timerEl.classList.remove("blink");
+    timerEl.textContent = `Accuracy: ${accuracy}% | WPM: ${wpm} | Score: ${score}`;
+  }, 2000);
+}
+
 function updateStatsSummary(difficulty,time) {
   const statsRef = db.collection(`users/${currentUser.email}/${difficulty} tests`).doc("stats");
   statsRef.get().then(doc => {
@@ -308,9 +456,9 @@ function updateStatsSummary(difficulty,time) {
       totalTime: firebase.firestore.FieldValue.increment(time),
       totalWords: firebase.firestore.FieldValue.increment(correctWords),
       totalScore: firebase.firestore.FieldValue.increment(score),
-      highestAccuracy: Math.max(Accuracy, data.highestAccuracy),
-      highestWPM: Math.max(wpm, data.highestWPM),
-      highestScore: Math.max(score, data.highestScore)
+      highestAccuracy: Math.max(Accuracy, data.highestAccuracy || 0),
+      highestWPM: Math.max(wpm, data.highestWPM || 0),
+      highestScore: Math.max(score, data.highestScore || 0)
     });
   });
 }
@@ -385,6 +533,27 @@ function resetpractice() {
     document.querySelector(".finish").classList.add("hide");
 }
 
+function resetcert() {
+    
+    element3.value = "";
+    certInterval = null;
+certSeconds = 60; 
+ certEndTime;
+ totalTyped = 0;
+ correctTyped = 0;
+ certcorrectWords = 0;
+ certTime =1 ;
+    //const randomInt = Math.floor(Math.random() * 1) + 1;
+    db.collection("Certification-paragraphs").doc(`certificate`).get()
+    .then((doc) => {
+        referenceText = doc.data().text;
+        element3.disabled = false;
+        initMatter(referenceText,"cert-matter","certchar");
+    })
+    updateTimerDisplay("cert-timer",certSeconds);
+    
+}
+
 
 // mode buttons 
 const modes = document.querySelectorAll(".mode")
@@ -405,6 +574,12 @@ function selectmode(val){
   if (val.innerText.trim() === "Typing Practice") {
     resetpractice();
   } 
+  if (val.innerText.trim() !== "Your Stats") {
+    document.getElementById("stats-container").innerHTML = `
+        <div id="stats-summary"></div>
+        <div id="stats-history" class="history-scroll"></div>
+      `;
+  }
   if (val.innerText.trim() === "Your Stats") {
     loadStatsFor("Easy");
   }
@@ -537,25 +712,66 @@ element2.addEventListener("keydown", function (event) {
     }
 });
 
+
+element3.addEventListener("input", () => {
+  startcertTimer();
+  const typed = element3.value;
+
+  colorCharacters(typed,"certchar"); // update colors
+
+  if (typed.length >= referenceText.length) {
+    finishCertification();
+  }
+
+  if (typed.length >= currentStart + changesize) {
+    updateWindowForward("certchar"); // update visible range
+  } else if (typed.length < currentStart+changesize && currentStart > 0) {
+    updateWindowBackward("certchar");
+  }
+});
+
+element3.addEventListener("keydown", function (event) {
+    if (event.key.length === 1 || event.key === " ") {
+        totaltyped++;
+    } 
+    if (event.key === "Enter"){
+        event.preventDefault();
+    }
+});
+
 function loadStatsFor(level) {
   if (!currentUser) return;
 
   const summaryDiv = document.getElementById("stats-summary");
   const historyDiv = document.getElementById("stats-history");
-  summaryDiv.innerHTML = `<p class="center-text">Loading ${level} mode stats...</p>`;
+  summaryDiv.innerHTML = "Loading stats...";
   historyDiv.innerHTML = "";
 
   db.collection(`users/${currentUser.email}/${level} tests`)
-    .where("DocType", "==", "test")
     .orderBy("timestamp", "desc")
     .get()
     .then(snapshot => {
       if (snapshot.empty) {
-        summaryDiv.innerHTML = `<p class="center-text">No ${level} tests taken yet.</p>`;
+        summaryDiv.innerHTML = `<p>No ${level} tests taken yet.</p>`;
         return;
       }
+
+      let ttotaltyped = 0, tcorrecttyped = 0, totaltime = 0;
+      let tcorrectwords = 0, totalScore = 0;
+      let testCount = 0, highestwpm = 0, highestaccuracy = 0, highestscore = 0;
+
       snapshot.forEach(doc => {
         const d = doc.data();
+        ttotaltyped += d.totaltyped;
+        tcorrecttyped += d.correcttyped;
+        totaltime += d.time;
+        totalScore += d.score;
+        testCount++;
+        tcorrectwords += d.wpm * d.time;
+        highestaccuracy = Math.max(highestaccuracy, d.accuracy);
+        highestwpm = Math.max(highestwpm, d.wpm);
+        highestscore = Math.max(highestscore, d.score);
+
         const card = document.createElement("div");
         card.className = "history-card";
         card.innerHTML = `
@@ -567,40 +783,31 @@ function loadStatsFor(level) {
         historyDiv.appendChild(card);
         card.addEventListener("click", () => showPopup(d));
       });
-      let testCount,avgAccuracy,avgWPM,avgScore,highestaccuracy,highestwpm,highestscore;
-      stats = db.collection(`users/${currentUser.email}/${level} tests`).doc("stats").get()
-      .then(doc => {
-        const d = doc.data();
-        avgAccuracy = parseFloat(((d.correctTyped / d.totalTyped) * 100).toFixed(2));
-        avgWPM = Math.floor(d.totalWords / d.totalTime);
-        avgScore = parseFloat((d.totalScore / d.totalTests).toFixed(2));
-        testCount = d.totalTests;
-        highestaccuracy = d.highestAccuracy;
-        highestwpm = d.highestWPM;
-        highestscore = d.highestScore;
 
-        summaryDiv.innerHTML = `
-          <p class="center-text">Total Tests: ${testCount}</p>
-          <div class="avg-stats">
-            <p>Avg Accuracy: ${avgAccuracy}%</p>
-            <p>Avg WPM: ${avgWPM}</p>
-            <p>Avg Score: ${avgScore}</p>
-          </div>
-          <div class="highest-stats">
-            <p>Highest Accuracy: ${highestaccuracy}%</p>
-            <p>Highest WPM: ${highestwpm}</p>
-            <p>Highest Score: ${highestscore}</p>
-          </div>
-        `;
-      });
+      const avgAccuracy = parseFloat(((tcorrecttyped / ttotaltyped) * 100).toFixed(2));
+      const avgWPM = Math.floor(tcorrectwords / totaltime);
+      const avgScore = parseFloat((totalScore / testCount).toFixed(2));
 
+      summaryDiv.innerHTML = `
+        <p class="center-text">Total Tests: ${testCount}</p>
+        <div class="avg-stats">
+          <p>Avg Accuracy: ${avgAccuracy}%</p>
+          <p>Avg WPM: ${avgWPM}</p>
+          <p>Avg Score: ${avgScore}</p>
+        </div>
+        <div class="highest-stats">
+          <p>Highest Accuracy: ${highestaccuracy}%</p>
+          <p>Highest WPM: ${highestwpm}</p>
+          <p>Highest Score: ${highestscore}</p>
+        </div>
+      `;
       if (historyDiv.children.length > 0) {
         historyDiv.scrollTo({ top: 0, behavior: 'smooth' });
       }
     })
     .catch(error => {
       console.error("Error loading stats:", error);
-      summaryDiv.innerHTML = `<p class="center-text" style="color:red;">Failed to load stats.</p>`;
+      summaryDiv.innerHTML = `<p style="color:red;">Failed to load stats.</p>`;
     });
 }
 function selectStatsMode(val, level) {

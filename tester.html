@@ -108,20 +108,7 @@
     </div>
 
     <div class="certipage hide page" id="Certification">
-      <div class="top-controls">
-        <h1>Certification Test</h1>
-        <div id="timer-controls">
-          <div id="cert-timer">00:00</div>
-        </div>
-      </div>
-
-      <div class="cert-world">
-        <div id="cert-matter"></div>
-        <textarea id="cert-space" placeholder="Enter your response here..." disabled spellcheck="false"></textarea>
-      </div>
-
-      <button onclick="endCertification()">End Test</button>
-
+      <h1>Take a Test for Certification</h1>
     </div>
     
     <div class="statpage hide page" id="Your Stats">
@@ -133,8 +120,8 @@
       </div>
       <div id="stats-container">
         <div id="stats-summary"></div>
+        <p class="center-text" id="history-heading"></p>
         <div id="stats-history" class="history-scroll"></div>
-        <button id="generatePdf">Download PDF</button>
       </div>
 
     </div>
@@ -144,8 +131,6 @@
     </div>
 
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>

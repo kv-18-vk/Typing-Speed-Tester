@@ -267,6 +267,38 @@ button.finish:hover {
   word-wrap: break-word;
 }
 
+.scorecard,
+.practicescorecard {
+  background: #f0f0f0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+
+.stats ,
+.practicestats{
+  background-color:blanchedalmond;
+  margin: 20px 0;
+  font-size: 1.1rem;
+  line-height: 2;
+}
+
+
+.restart ,
+.practicerestart{
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.restart:hover,
+.practicerestart:hover {
+  background-color: #45a049;
+}
 
 
 .mode:nth-child(1) {
@@ -427,6 +459,7 @@ button.finish:hover {
 }
 
 
+.lvl-option,
 .diff-option {
   flex: 1; 
   padding: 12px 0;
@@ -441,10 +474,12 @@ button.finish:hover {
 }
 
 
+.lvl-option,
 .diff-option:hover {
   background-color: #f0f0f0;
 }
 
+.selected-lvl,
 .selected-diff {
   background: linear-gradient(135deg, #FFD700, #FFA500);
   color: white;
@@ -498,6 +533,37 @@ button.finish:hover {
   align-items: center;
 }
 
+.quote-text {
+  font-style: italic;
+  color: #fff;
+  font-size:larger;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+.leaderboard-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: yellow;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: slideFade 0.3s ease-in-out;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.leaderpage{
+  flex-direction: column;
+  height: 100%;
+}
+.leaderpage h1{
+  font-size: xx-large;
+}
+
+.leaderboard-scroll,
 .history-scroll {
   flex: 1;
   max-height: 400px;
@@ -515,16 +581,19 @@ button.finish:hover {
   -ms-overflow-style: none;        /* IE/Edge */
 }
 
+.leaderboard-scroll::-webkit-scrollbar,
 .history-scroll::-webkit-scrollbar {
   width: 0 !important;            /* Chrome, Safari */
   height: 0 !important;
   display: none;                  
 }
 
+.leaderboard-scroll,
 .history-scroll {
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
+.leaderboard-card,
 .history-card {
   display: flex;
   align-items: center;
@@ -592,43 +661,4 @@ button.finish:hover {
 .popup-card p {
   margin: 6px 0;
   font-size: 1rem;
-}
-
-
-.scorecard,
-.practicescorecard {
-  background: #f0f0f0;
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
-  
-  margin: 50px auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-
-.stats ,
-.practicestats{
-  background-color:blanchedalmond;
-  margin: 20px 0;
-  font-size: 1.1rem;
-  line-height: 2;
-}
-
-
-.restart ,
-.practicerestart{
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  background-color: #4caf50;
-  color: white;
-  cursor: pointer;
-}
-
-.restart:hover,
-.practicerestart:hover {
-  background-color: #45a049;
 }

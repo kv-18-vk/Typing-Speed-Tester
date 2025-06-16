@@ -252,8 +252,24 @@ function STOP() {
   }
   setTimeout(() => {
     timerEl.classList.remove("blink");
-    timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm}  , Score : ${score}`;
+   
   }, 2000);
+  const scorecard=document.querySelector(".scorecard")
+  scorecard.classList.remove("hide");
+  testpage.classList.add("hide");
+
+
+  const report = document.querySelector(".stats");
+  report.innerHTML = `
+    Time: ${time} min<br>
+    Difficulty: ${difficulty}<br>
+    Total Typed Characters: ${totaltyped}<br>
+    Correct Typed Characters: ${correcttyped}<br>
+    Accuracy: ${Accuracy}%<br>
+    WPM: ${wpm}<br>
+    Score: ${score}<br>
+    Timestamp: ${new Date().toLocaleString()}
+  `;
 }
 function finish() {
     if (interval) {
@@ -278,9 +294,32 @@ function finish() {
 
   setTimeout(() => {
     timerEl.classList.remove("blink");
-    timerEl.textContent = `Accuracy : ${Accuracy} %  ,  WPM : ${wpm} ,  Score : ${score}`;
+   
   }, 2000);
+  const scorecard=document.querySelector(".scorecard")
+  scorecard.classList.remove("hide");
+  testpage.classList.add("hide");
+  
+  const report = document.querySelector(".stats");
+  report.innerHTML = `
+    Time: ${time} min<br>
+    Difficulty: ${difficulty}<br>
+    Total Typed Characters: ${totaltyped}<br>
+    Correct Typed Characters: ${correcttyped}<br>
+    Accuracy: ${Accuracy}%<br>
+    WPM: ${wpm}<br>
+    Score: ${score}<br>
+    Timestamp: ${new Date().toLocaleString()}
+  `;
 }
+
+const scorecard=document.querySelector(".scorecard")
+
+function restartTest(){
+  scorecard.classList.add("hide");
+  fillpage.classList.remove("hide");
+}
+
 function addtesthistory(difficulty, time){
   db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
       time: time,
@@ -315,6 +354,8 @@ function updateStatsSummary(difficulty,time) {
   });
 }
 
+ const scorecardpractice = document.querySelector(".practicescorecard");
+  const practicepage = document.querySelector(".practicepage");
 
 
 function Finishpractice() {
@@ -336,12 +377,31 @@ function Finishpractice() {
 
   setTimeout(() => {
     timerEl.classList.remove("blink");
-    timerEl.textContent = `Accuracy: ${Accuracy}%, WPM: ${wpm}, Score: ${score} , Time taken:-  ${Math.floor(minutes)} min : ${(practiceSeconds%60)} sec`;
   }, 2000);
   breakbtn.classList.add("hide");
   document.querySelector(".finish").classList.add("hide");
-}
+  
+ 
+    practicepage.classList.add("hide");
+    scorecardpractice.classList.remove("hide");
 
+    const report = document.querySelector(".practicestats");
+    report.innerHTML = `
+      Time: ${minutes} min<br>
+      Type: Practice<br>
+      Total Typed Characters: ${totaltyped}<br>
+      Correct Typed Characters: ${correcttyped}<br>
+      Accuracy: ${Accuracy}%<br>
+      WPM: ${wpm}<br>
+      Score: ${score}<br>
+      Timestamp: ${new Date().toLocaleString()}
+    `;
+}
+function restartPractice(){
+  scorecardpractice.classList.add("hide");
+    practicepage.classList.remove("hide");
+    resetpractice();
+}
 function startPracticeTimer() {
   if (practiceInterval) return; 
   breakbtn.classList.remove("hide");

@@ -593,3 +593,42 @@ button.finish:hover {
   margin: 6px 0;
   font-size: 1rem;
 }
+
+
+.scorecard,
+.practicescorecard {
+  background: #f0f0f0;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  
+  margin: 50px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+
+.stats ,
+.practicestats{
+  background-color:blanchedalmond;
+  margin: 20px 0;
+  font-size: 1.1rem;
+  line-height: 2;
+}
+
+
+.restart ,
+.practicerestart{
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.restart:hover,
+.practicerestart:hover {
+  background-color: #45a049;
+}

@@ -67,7 +67,7 @@ document.querySelector(".register").addEventListener("click", function () {
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
 
-      const difficulties = ["Easy", "Medium", "Hard"];
+      const difficulties = ["Easy", "Medium", "Hard","Certification"];
       const Data = {
         totalTests: 0,
         totalTyped: 0,
@@ -82,7 +82,7 @@ document.querySelector(".register").addEventListener("click", function () {
       difficulties.forEach(diff => {
         db.collection(`users/${user.email}/${diff} tests`).doc("stats").set(Data);
       });
-      db.collection(`users/${user.email}/Certifications`).doc("stats").set(Data);
+      
       alert("Registration successful! Please login.");
       registerPage.classList.add("hide");
       loginPage.classList.remove("hide");
@@ -361,8 +361,8 @@ function stopCertification() {
   }
 
   certEndTime = certSeconds;
-  const element = document.getElementById("cert-space");
-  element.disabled = true;
+  
+  element3.disabled = true;
 
   const accuracy = parseFloat(((correctTyped / totalTyped) * 100).toFixed(2)) || 0;
   const wpm = Math.floor(correctWords / certTime) || 0;
@@ -373,7 +373,7 @@ function stopCertification() {
   timerEl.classList.add("blink");
 
   if (currentUser) {
-    db.collection(`users/${currentUser.email}/Certifications`).add({
+    db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
       time: certTime,
       difficulty: difficulty,
       totalTyped: totalTyped,
@@ -406,8 +406,8 @@ function finishCertification() {
   }
 
   certEndTime = certSeconds;
-  const element = document.getElementById("cert-space");
-  element.disabled = true;
+  ;
+  element3.disabled = true;
 
   const elapsed = certTime - certEndTime / 60;
   const accuracy = parseFloat(((correctTyped / totalTyped) * 100).toFixed(2)) || 0;
@@ -573,6 +573,9 @@ function selectmode(val){
 
   if (val.innerText.trim() === "Typing Practice") {
     resetpractice();
+  } 
+  if (val.innerText.trim() === "Certification") {
+    resetcert();
   } 
   if (val.innerText.trim() !== "Your Stats") {
     document.getElementById("stats-container").innerHTML = `

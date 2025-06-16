@@ -214,8 +214,7 @@ button.finish:hover {
 
 
 .typeworld,
-.practiceworld,
-.certworld{
+.practiceworld{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -227,8 +226,7 @@ button.finish:hover {
 }
 
 #matter,
-#practicematter,
-#cert-matter{
+#practicematter{
   background-color: ivory;
   border: 2px solid brown;
   padding: 15px;
@@ -246,8 +244,7 @@ button.finish:hover {
   -ms-user-select: none;     /* IE/Edge */
 }
 #typing-space,
-#practice-space,
-#cert-space{
+#practice-space{
   background-color: ivory;
   border: 2px solid brown;
   color:blue;
@@ -262,8 +259,7 @@ button.finish:hover {
 }
 
 #matter,
-#practicematter,
-#cert-matter {
+#practicematter {
   text-align: left;
   overflow: visible;
   height: auto;
@@ -425,7 +421,7 @@ button.finish:hover {
   border: 2px solid #333;
   border-radius: 30px;
   overflow: hidden;
-  width: 60%; 
+  width: 80%; 
   background: white;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }

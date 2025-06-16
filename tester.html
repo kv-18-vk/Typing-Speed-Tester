@@ -94,10 +94,8 @@
     <div class="scorecard hide page">
         <h1>Test Results</h1>
         <div class="stats"></div>
-        <button onclick="restartTest()" class="restart">Restart Test</button>
+        <button onclick="restartTest()" class="restart">Take another Test</button>
     </div>
-
-
 
     <div class="practicepage hide page" id="Typing Practice">
       <div class="top-controls">
@@ -113,16 +111,15 @@
           <textarea id="practice-space" placeholder="Start typing here..." disabled spellcheck="false"></textarea>
       </div>
     </div>
+    <div class="practicescorecard hide page">
+        <h1>Test Results</h1>
+        <div class="practicestats"></div>
+        <button onclick="restartPractice()" class="practicerestart">Practice Again</button>
+    </div>
 
     <div class="certipage hide page" id="Certification">
       <h1>Take a Test for Certification</h1>
     </div>
-   <div class="practicescorecard hide page">
-        <h1>Test Results</h1>
-        <div class="practicestats"></div>
-        <button onclick="restartPractice()" class="practicerestart">Restart Practice</button>
-    </div>
-
     
     <div class="statpage hide page" id="Your Stats">
       <h1>Your Stats</h1>
@@ -140,10 +137,22 @@
     </div>
 
     <div class="leaderpage hide page" id="Leaderboard">
-      <h1>You are Top </h1>
+      <h1 class="center-text">Leaderboard</h1>
+      <p class="center-text quote-text">Champions aren’t born — they’re typed.</p>
+      <div id="diff-bar">
+        <div class="lvl-option selected-lvl" onclick="selectBoardMode(this,`Easy`)">Easy</div>
+        <div class="lvl-option" onclick="selectBoardMode(this,`Medium`)">Medium</div>
+        <div class="lvl-option" onclick="selectBoardMode(this,`Hard`)" >Hard</div>
+      </div>
+      <div class="leaderboard-head">
+        <div><strong>Name</strong></div>
+        <div><strong>Highest Score</strong></div>
+      </div>
+      <div id="board" class="leaderboard-scroll"></div>
     </div>
 
   </div>
+
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>

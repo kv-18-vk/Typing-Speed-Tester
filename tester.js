@@ -52,7 +52,6 @@ document.querySelector(".register").addEventListener("click", function () {
     return;
   }
 
-
   auth.createUserWithEmailAndPassword(username,password)
    .then((userCredential) => {
       const user=userCredential.user
@@ -81,6 +80,18 @@ document.querySelector(".register").addEventListener("click", function () {
       };
       difficulties.forEach(diff => {
         db.collection(`users/${user.email}/${diff} tests`).doc("stats").set(Data);
+        db.collection('Leaderboard').doc(`${user.email}_${diff}`).set({
+          Name: name,
+          Joined: firebase.firestore.FieldValue.serverTimestamp(),
+          Difficulty: diff,
+          AvgAccuracy: 0,
+          AvgWPM: 0,
+          AvgScore: 0,
+          TotalTests: 0,
+          HighestAccuracy: 0,
+          HighestWPM: 0,
+          HighestScore: 0
+        });
       });
 
       alert("Registration successful! Please login.");
@@ -89,7 +100,7 @@ document.querySelector(".register").addEventListener("click", function () {
     })
     .catch((error) => {
       alert("Error: " + error.message);
-    });
+    })
 });
 
 function bodychange(val) {
@@ -145,8 +156,9 @@ document.querySelector("#logout").addEventListener("click", function() {
 
 
 
-
-
+const scorecard=document.querySelector(".scorecard");
+const scorecardpractice = document.querySelector(".practicescorecard");
+const practicepage = document.querySelector(".practicepage");
 const fillpage = document.querySelector(".fillpage");
 const testpage = document.querySelector(".testpage");
 const element = document.getElementById("typing-space");
@@ -239,7 +251,7 @@ function STOP() {
   element.disabled = true;
   Accuracy = parseFloat(((correcttyped/totaltyped)*100).toFixed(2));
   wpm = Math.floor(correctWords/time);
-  score = parseFloat(wpm*Accuracy.toFixed(2));
+  score = parseFloat((wpm*Accuracy).toFixed(2));
 
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "TimeUp";
@@ -252,24 +264,22 @@ function STOP() {
   }
   setTimeout(() => {
     timerEl.classList.remove("blink");
-   
+    scorecard.classList.remove("hide");
+    testpage.classList.add("hide");
+
+
+    const report = document.querySelector(".stats");
+    report.innerHTML = `
+      Time: ${time} min<br>
+      Difficulty: ${difficulty}<br>
+      Total Typed Characters: ${totaltyped}<br>
+      Correct Typed Characters: ${correcttyped}<br>
+      Accuracy: ${Accuracy}%<br>
+      WPM: ${wpm}<br>
+      Score: ${score}<br>
+      Timestamp: ${new Date().toLocaleString()}
+    `;
   }, 2000);
-  const scorecard=document.querySelector(".scorecard")
-  scorecard.classList.remove("hide");
-  testpage.classList.add("hide");
-
-
-  const report = document.querySelector(".stats");
-  report.innerHTML = `
-    Time: ${time} min<br>
-    Difficulty: ${difficulty}<br>
-    Total Typed Characters: ${totaltyped}<br>
-    Correct Typed Characters: ${correcttyped}<br>
-    Accuracy: ${Accuracy}%<br>
-    WPM: ${wpm}<br>
-    Score: ${score}<br>
-    Timestamp: ${new Date().toLocaleString()}
-  `;
 }
 function finish() {
     if (interval) {
@@ -281,7 +291,7 @@ function finish() {
   Accuracy = parseFloat(((correcttyped/totaltyped)*100).toFixed(2));
   let finishedtime = time - (endtime/60);
   wpm = Math.floor(correctWords/finishedtime);
-  score = parseFloat(wpm*Accuracy.toFixed(2));
+  score = parseFloat((wpm*Accuracy).toFixed(2));
 
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "Finished";
@@ -294,32 +304,22 @@ function finish() {
 
   setTimeout(() => {
     timerEl.classList.remove("blink");
-   
-  }, 2000);
-  const scorecard=document.querySelector(".scorecard")
-  scorecard.classList.remove("hide");
-  testpage.classList.add("hide");
+    scorecard.classList.remove("hide");
+    testpage.classList.add("hide");
   
-  const report = document.querySelector(".stats");
-  report.innerHTML = `
-    Time: ${time} min<br>
-    Difficulty: ${difficulty}<br>
-    Total Typed Characters: ${totaltyped}<br>
-    Correct Typed Characters: ${correcttyped}<br>
-    Accuracy: ${Accuracy}%<br>
-    WPM: ${wpm}<br>
-    Score: ${score}<br>
-    Timestamp: ${new Date().toLocaleString()}
-  `;
+    const report = document.querySelector(".stats");
+      report.innerHTML = `
+      Time: ${parseFloat(finishedtime.toFixed(2))} min<br>
+      Difficulty: ${difficulty}<br>
+      Total Typed Characters: ${totaltyped}<br>
+      Correct Typed Characters: ${correcttyped}<br>
+      Accuracy: ${Accuracy}%<br>
+      WPM: ${wpm}<br>
+      Score: ${score}<br>
+      Timestamp: ${new Date().toLocaleString()}
+    `;
+  }, 2000);
 }
-
-const scorecard=document.querySelector(".scorecard")
-
-function restartTest(){
-  scorecard.classList.add("hide");
-  fillpage.classList.remove("hide");
-}
-
 function addtesthistory(difficulty, time){
   db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
       time: time,
@@ -336,11 +336,12 @@ function addtesthistory(difficulty, time){
       [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
     });
 }
-function updateStatsSummary(difficulty,time) {
+function updateStatsSummary(difficulty, time) {
   const statsRef = db.collection(`users/${currentUser.email}/${difficulty} tests`).doc("stats");
+
   statsRef.get().then(doc => {
     const data = doc.data();
-    statsRef.update({
+    const updates = {
       totalTests: firebase.firestore.FieldValue.increment(1),
       totalTyped: firebase.firestore.FieldValue.increment(totaltyped),
       correctTyped: firebase.firestore.FieldValue.increment(correcttyped),
@@ -350,12 +351,29 @@ function updateStatsSummary(difficulty,time) {
       highestAccuracy: Math.max(Accuracy, data.highestAccuracy),
       highestWPM: Math.max(wpm, data.highestWPM),
       highestScore: Math.max(score, data.highestScore)
+    };
+
+    statsRef.update(updates).then(() => {
+      statsRef.get().then(updatedDoc => {
+        const d = updatedDoc.data();
+        db.collection('Leaderboard').doc(`${currentUser.email}_${difficulty}`).update({
+          AvgAccuracy: parseFloat(((d.correctTyped / d.totalTyped) * 100).toFixed(2)),
+          AvgWPM: Math.floor(d.totalWords / d.totalTime),
+          AvgScore: parseFloat((d.totalScore / d.totalTests).toFixed(2)),
+          TotalTests: d.totalTests,
+          HighestAccuracy: d.highestAccuracy,
+          HighestWPM: d.highestWPM,
+          HighestScore: d.highestScore
+        });
+      });
     });
   });
 }
 
- const scorecardpractice = document.querySelector(".practicescorecard");
-  const practicepage = document.querySelector(".practicepage");
+function restartTest(){
+  scorecard.classList.add("hide");
+  fillpage.classList.remove("hide");
+}
 
 
 function Finishpractice() {
@@ -377,17 +395,12 @@ function Finishpractice() {
 
   setTimeout(() => {
     timerEl.classList.remove("blink");
-  }, 2000);
-  breakbtn.classList.add("hide");
-  document.querySelector(".finish").classList.add("hide");
-  
- 
     practicepage.classList.add("hide");
     scorecardpractice.classList.remove("hide");
 
     const report = document.querySelector(".practicestats");
     report.innerHTML = `
-      Time: ${minutes} min<br>
+      Time: ${parseFloat(minutes.toFixed(2))} min<br>
       Type: Practice<br>
       Total Typed Characters: ${totaltyped}<br>
       Correct Typed Characters: ${correcttyped}<br>
@@ -396,12 +409,11 @@ function Finishpractice() {
       Score: ${score}<br>
       Timestamp: ${new Date().toLocaleString()}
     `;
+  }, 2000);
+  breakbtn.classList.add("hide");
+  document.querySelector(".finish").classList.add("hide");
 }
-function restartPractice(){
-  scorecardpractice.classList.add("hide");
-    practicepage.classList.remove("hide");
-    resetpractice();
-}
+
 function startPracticeTimer() {
   if (practiceInterval) return; 
   breakbtn.classList.remove("hide");
@@ -425,6 +437,11 @@ function Break() {
     element2.disabled = false;
     breakbtn.textContent="pause"
   }
+}
+function restartPractice(){
+  scorecardpractice.classList.add("hide");
+  practicepage.classList.remove("hide");
+  resetpractice();
 }
 function resetpractice() {
     practiceSeconds = 0;
@@ -467,6 +484,9 @@ function selectmode(val){
   } 
   if (val.innerText.trim() === "Your Stats") {
     loadStatsFor("Easy");
+  }
+  if (val.innerText.trim() === "Leaderboard") {
+    leaderboardfor("Easy");
   }
 
 }
@@ -690,6 +710,86 @@ function showPopup(data) {
     <p><strong>Total Typed:</strong> ${data.totaltyped}</p>
     <p><strong>Correct Typed:</strong> ${data.correcttyped}</p>
     <p><strong>Date:</strong> ${new Date(data.timestamp?.toDate()).toLocaleString()}</p>
+  `;
+
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+
+  popup.classList.add("popup-show");
+  overlay.classList.add("popup-fade");
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlay.remove();
+    }
+  });
+}
+
+function leaderboardfor(level){
+  if(!currentUser) return;
+  const board = document.getElementById("board");
+  board.innerHTML = "";
+  const userdoc = db.collection('Leaderboard').doc(`${currentUser.email}_${level}`);
+  userdoc.get().then(doc => {
+    const data = doc.data();
+    if(data.TotalTests === 0) {
+      board.innerHTML = `
+        <p class="center-text">You have not taken any ${level} tests yet.</p>
+        <p class="center-text">Please take a test to appear on the leaderboard.</p>
+      `;
+      return;
+    }
+  })
+
+
+  db.collection('Leaderboard').where("Difficulty", "==", level)
+    .orderBy(`HighestScore`, "desc")
+    .get()
+    .then(snapshot => {
+      let rank=1;
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if(data.TotalTests === 0) return;
+        const card = document.createElement("div");
+        card.className = "leaderboard-card";
+        card.innerHTML = `
+          <div><strong>${rank}. ${data.Name}</strong></div>
+          <div><strong>${data.HighestScore}</strong></div>
+        `;
+        board.appendChild(card);
+        card.addEventListener("click", () => { BoardPopup(data);});
+      });
+    })
+    .catch(error => {
+      console.error("Error loading leaderboard:", error);
+      board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
+    })
+}
+function selectBoardMode(val, level) {
+  document.querySelectorAll(".lvl-option").forEach(option => {
+    option.classList.remove("selected-lvl");
+  });
+  val.classList.add("selected-lvl");
+
+  leaderboardfor(level);
+}
+
+function BoardPopup(data) {
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
+
+  const popup = document.createElement("div");
+  popup.className = "popup-card";
+  popup.innerHTML = `
+    <h3><strong>${data.Name}</strong></h3>
+    <p><strong>Date Joined:</strong> ${new Date(data.Joined?.toDate()).toLocaleString()}</p>
+    <p>Total Tests: ${data.TotalTests}</p>
+    <p>Highest Accuracy: ${data.HighestAccuracy}%</p>
+    <p>Highest WPM: ${data.HighestWPM}</p>
+    <p>Highest Score: ${data.HighestScore}</p>
+    <p>AvgWPM: ${data.AvgWPM}</p>
+    <p>AvgAccuracy: ${data.AvgAccuracy}%</p>
+    <p>AvgScore: ${data.AvgScore}</p>
   `;
 
   overlay.appendChild(popup);

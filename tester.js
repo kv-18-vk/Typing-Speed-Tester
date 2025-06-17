@@ -121,9 +121,16 @@ document.querySelector(".login").addEventListener("click", function () {
  auth. signInWithEmailAndPassword( username, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      bodychange("url(blue.jpg)");
       document.querySelector(".container").classList.add("hide");
       document.querySelector(".flex").classList.remove("hide");
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.add("hide");
+      });
+      document.querySelectorAll(".mode").forEach(mode => {
+        mode.classList.remove("selectedmode");
+      });
+      document.querySelector(".fillpage").classList.remove("hide");
+      document.querySelector(".modebox button").classList.add("selectedmode");
     })
     .catch((error) => {
       alert("Login failed: " + error.message);
@@ -141,11 +148,18 @@ document.querySelector(".log").addEventListener("click", function () {
 
 document.querySelector("#logout").addEventListener("click", function() {
   auth.signOut().then(() => {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+    if (practiceInterval) {
+      clearInterval(practiceInterval);
+      practiceInterval = null;
+    }
     document.querySelector(".container").classList.remove("hide");
     document.querySelector(".flex").classList.add("hide");
     document.querySelector("#loginUsername").value = "";
     document.querySelector("#loginPassword").value = "";
-    bodychange("url(typing.jpg)");
   }).catch((error) => {
     alert("Logout error: " + error.message);
   });
@@ -192,6 +206,7 @@ function updateTimerDisplay(id,sec) {
 function SUBMIT() {
   fillpage.classList.add("hide");
   testpage.classList.remove("hide");
+  document.getElementById("cancel").classList.remove("hide");
   difficulty = document.getElementById("difficulty").value;
   time = parseInt(document.getElementById("time").value); 
   seconds = time * 60; 
@@ -252,7 +267,7 @@ function STOP() {
   Accuracy = parseFloat(((correcttyped/totaltyped)*100).toFixed(2));
   wpm = Math.floor(correctWords/time);
   score = parseFloat((wpm*Accuracy).toFixed(2));
-
+  document.getElementById("cancel").classList.add("hide");
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "TimeUp";
   timerEl.classList.add("blink");
@@ -292,7 +307,7 @@ function finish() {
   let finishedtime = time - (endtime/60);
   wpm = Math.floor(correctWords/finishedtime);
   score = parseFloat((wpm*Accuracy).toFixed(2));
-
+  document.getElementById("cancel").classList.add("hide");
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "Finished";
   timerEl.classList.add("blink");
@@ -314,6 +329,7 @@ function finish() {
       Total Typed Characters: ${totaltyped}<br>
       Correct Typed Characters: ${correcttyped}<br>
       Accuracy: ${Accuracy}%<br>
+      Correct Words Typed: ${correctWords}<br>
       WPM: ${wpm}<br>
       Score: ${score}<br>
       Timestamp: ${new Date().toLocaleString()}
@@ -401,10 +417,10 @@ function Finishpractice() {
     const report = document.querySelector(".practicestats");
     report.innerHTML = `
       Time: ${parseFloat(minutes.toFixed(2))} min<br>
-      Type: Practice<br>
       Total Typed Characters: ${totaltyped}<br>
       Correct Typed Characters: ${correcttyped}<br>
       Accuracy: ${Accuracy}%<br>
+      Correct Words Typed: ${correctWords}<br>
       WPM: ${wpm}<br>
       Score: ${score}<br>
       Timestamp: ${new Date().toLocaleString()}
@@ -475,20 +491,30 @@ for(const mode of modes){
 }
 
 function selectmode(val){
+  if (interval){
+    clearInterval(interval);
+    interval = null;
+  }
+  if (practiceInterval) {
+    clearInterval(practiceInterval);
+    practiceInterval = null;
+  }
   let page = document.getElementById(val.innerText.trim())
   page.classList.remove("hide")
   val.classList.add("selectedmode")
-
   if (val.innerText.trim() === "Typing Practice") {
     resetpractice();
-  } 
+  }
   if (val.innerText.trim() === "Your Stats") {
     selectStatsMode(document.querySelector("#statsrefresh"), "Easy");
   }
   if (val.innerText.trim() === "Leaderboard") {
     selectBoardMode(document.querySelector("#boardrefresh"), "Easy");
-  }}
-
+  }
+  if (val.innerText.trim() === "Certification") {
+    loadcertificate();
+  }
+}
 
 
 // keyboard event --- timer 
@@ -803,73 +829,46 @@ function BoardPopup(data) {
     }
   });
 }
- 
 
+function loadcertificate() {
+  db.collection("Leaderboard").doc(`${currentUser.email}_Hard`).get()
+  .then(doc => {
+    const data = doc.data();
+    if(data.TotalTests === 0) {
+      document.querySelector("#Certification h1").innerText = "You have not taken any Hard tests yet. Take a test to get a certificate.";
+      document.querySelector(".cert-btn").classList.add("hide");
+      return;
+    }
+    else{
+      document.querySelector("#Certification h1").innerText = `We are providing certificates to our users with their Average Stats of Hard mode tests.`;
+      document.querySelector(".cert-btn").classList.remove("hide");
+      document.querySelector("#cert-name").innerText = data.Name;
+      document.querySelector("#cert-accuracy").innerText = `Accuracy: ${data.AvgAccuracy}%`;
+      document.querySelector("#cert-wpm").innerText = `WPM: ${data.AvgWPM}`;
+    }
 
+  })
+}
 
+function downloadCertificatePDF() {
+  const element = document.getElementById("certificate-div");
+  window.scrollTo(0, 0); // Prevent scroll from adding white space
 
+  const opt = {
+    margin: 0,
+    filename: currentUser.email + '-certificate.pdf',
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: {
+      scale: 3,
+      useCORS: true,
+      scrollY: 0
+    },
+    jsPDF: {
+      unit: 'px',
+      format: [600, 425],  // match actual certificate size
+      orientation: 'landscape'
+    }
+  };
 
-document.querySelector("#generatePdf").addEventListener("click", () => {
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF();
-  pdf.setFontSize(18);
-  pdf.text("Typing Test Report", 20, 20);
-  pdf.text(`User: ${currentUser.email}`,100, 20);
-  pdf.text("Easy Tests",20,30)
-  
-  
-  db.collection(`users/${currentUser.email}/Easy tests`)
-    .orderBy("timestamp", "desc")
-    .get()
-    .then(snapshot => {
-      if (snapshot.empty) {
-        summaryDiv.innerHTML = `<p>No ${level} tests taken yet.</p>`;
-        return;
-      }
-
-      let ttotaltyped = 0, tcorrecttyped = 0, totaltime = 0;
-      let tcorrectwords = 0, totalScore = 0;
-      let testCount = 0, highestwpm = 0, highestaccuracy = 0, highestscore = 0;
-      let y=40
-      let x=20
-      snapshot.forEach(doc => {
-        const d = doc.data();
-        ttotaltyped += d.totaltyped;
-        tcorrecttyped += d.correcttyped;
-        totaltime += d.time;
-        totalScore += d.score;
-        testCount++;
-        tcorrectwords += d.wpm * d.time;
-        highestaccuracy = Math.max(highestaccuracy, d.accuracy);
-        highestwpm = Math.max(highestwpm, d.wpm);
-        highestscore = Math.max(highestscore, d.score);
-        pdf.setFontSize(10)
-        pdf.text(`WPM: ${d.wpm}`, x, y);
-        pdf.text(`Accuracy: ${d.accuracy}%`, x+40, y );
-        pdf.text(`Score: ${d.score}`, x+120, y );
-        y += 10;
-        
-      
-      });
-      pdf.save("TypingTestReport.pdf");
-    });
-  
- })
-
-
- document.querySelector("#generatecertificate").addEventListener("click", function () {
-  const { jsPDF } = window.jspdf;
-  const certificate = new jsPDF({
-    orientation: 'landscape',
-    units: 'mm',
-    format: 'a4'
-  });
-  
-  
-  
-
-  certificate.addImage(imgdata, 'PNG', 0, 0, 297, 210); 
-  
-  certificate.text(currentUser.email, 100, 100);
-  certificate.save("certificate.pdf");
-});
+  html2pdf().set(opt).from(element).save();
+}

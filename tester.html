@@ -79,8 +79,10 @@
     </div>
     <div class="testpage hide page">
       <div class="top-controls">
-        <h1>Typing Test</h1>
-        <div id="modedisplay">Difficulty: Medium</div>
+        <div id="test-header">
+          <h1>Typing Test</h1>
+          <div id="modedisplay">Difficulty: Medium</div>
+        </div>
         <div id="timer-controls">
           <div id="timer">00:00</div>
         </div>
@@ -89,7 +91,7 @@
           <div id="matter"></div>
           <textarea id="typing-space" placeholder="Start typing here..." disabled spellcheck="false"></textarea>
       </div>
-      <button onclick="CANCEL()">Cancel</button>
+      <button onclick="CANCEL()"" id="cancel">Cancel</button>
     </div>
     <div class="scorecard hide page">
         <h1>Test Results</h1>
@@ -112,20 +114,26 @@
       </div>
     </div>
     <div class="practicescorecard hide page">
-        <h1>Test Results</h1>
+        <h1>Practice Results</h1>
         <div class="practicestats"></div>
         <button onclick="restartPractice()" class="practicerestart">Practice Again</button>
     </div>
 
     <div class="certipage hide page" id="Certification">
-      <h1>Take a Test for Certification</h1>
-       <button id="generatecertificate">Download Certificate</button>
+      <h1></h1>
+      <div id="certificate-div" class="certificate-wrapper">
+        <img src="certificate.png" class="certificate-img" />
+        <div class="cert-name" id="cert-name"></div>
+        <div class="cert-wpm" id="cert-wpm"></div>
+        <div class="cert-accuracy" id="cert-accuracy"></div>
+      </div>
+      <button class="cert-btn" onclick="downloadCertificatePDF()">Generate Certificate</button>
     </div>
     
     <div class="statpage hide page" id="Your Stats">
       <h1>Your Stats</h1>
       <div id="diff-bar">
-        <div class="diff-option selected-diff" onclick="selectStatsMode(this, 'Easy')">Easy</div>
+        <div class="diff-option selected-diff" id="statsrefresh" onclick="selectStatsMode(this, 'Easy')">Easy</div>
         <div class="diff-option" onclick="selectStatsMode(this, 'Medium')">Medium</div>
         <div class="diff-option" onclick="selectStatsMode(this, 'Hard')">Hard</div>
       </div>
@@ -133,7 +141,6 @@
         <div id="stats-summary"></div>
         <p class="center-text" id="history-heading"></p>
         <div id="stats-history" class="history-scroll"></div>
-        <button id="generatePdf">Download PDF</button>
       </div>
 
     </div>
@@ -142,7 +149,7 @@
       <h1 class="center-text">Leaderboard</h1>
       <p class="center-text quote-text">Champions aren’t born — they’re typed.</p>
       <div id="diff-bar">
-        <div class="lvl-option selected-lvl" onclick="selectBoardMode(this,`Easy`)">Easy</div>
+        <div class="lvl-option selected-lvl" id="boardrefresh" onclick="selectBoardMode(this,`Easy`)">Easy</div>
         <div class="lvl-option" onclick="selectBoardMode(this,`Medium`)">Medium</div>
         <div class="lvl-option" onclick="selectBoardMode(this,`Hard`)" >Hard</div>
       </div>
@@ -158,6 +165,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="tester.js"></script>
 </body>
 </html>

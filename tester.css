@@ -751,29 +751,30 @@ button.finish:hover {
 
 .cert-name {
   position: absolute;
-  top: 47%;
+  top: 35%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.3rem;
+  font-weight: bolder;
   color: #2d3436;
 }
 
 .cert-wpm,
 .cert-accuracy {
   position: absolute;
-  top: 39%;
-  font-size: 0.9rem;
+  top: 62%;
+  font-size: 1.15rem;
+  font-weight: bold;
   color: #2d3436;
 }
 
 .cert-wpm {
-  left: 28%;
+  left: 35%;
   transform: translateX(-50%);
 }
 
 .cert-accuracy {
-  left: 72%;
+  left: 62%;
   transform: translateX(-50%);
 }
 

@@ -753,19 +753,22 @@ function showPopup(data) {
 function leaderboardfor(level){
   if(!currentUser) return;
   const board = document.getElementById("board");
-  const boardmessage=document.getElementById("board-message")
-  
+  const boardmsg = document.getElementById("board-message");
   board.innerHTML = "";
   const userdoc = db.collection('Leaderboard').doc(`${currentUser.email}_${level}`);
-  
-    userdoc.get().then(doc => {
+  userdoc.get().then(doc => {
     const data = doc.data();
     if(data.TotalTests === 0) {
-      boardmessage.innerHTML = `
-      <p class="center-text">You have not taken any ${level} tests yet.</p>
-      <p class="center-text">Please take a test to appear on the leaderboard.</p>
-    `;
-    db.collection('Leaderboard').where("Difficulty", "==", level)
+      boardmsg.innerHTML = `
+        <p class="center-text">You have not taken any ${level} tests yet.</p>
+        <p class="center-text">Please take a test to appear on the leaderboard.</p>
+      `;
+      return;
+    }
+  })
+
+
+  db.collection('Leaderboard').where("Difficulty", "==", level)
     .orderBy(`HighestScore`, "desc")
     .get()
     .then(snapshot => {
@@ -780,48 +783,15 @@ function leaderboardfor(level){
           <div><strong>${data.HighestScore}</strong></div>
         `;
         board.appendChild(card);
+        rank++;
         card.addEventListener("click", () => { BoardPopup(data);});
       });
-      })
+    })
     .catch(error => {
       console.error("Error loading leaderboard:", error);
       board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
     })
-    return;
-    }
-    
-      db.collection('Leaderboard').where("Difficulty", "==", level)
-    .orderBy(`HighestScore`, "desc")
-    .get()
-    .then(snapshot => {
-      let rank=1;
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        if(data.TotalTests === 0) return;
-        const card = document.createElement("div");
-        card.className = "leaderboard-card";
-        card.innerHTML = `
-          <div><strong>${rank}. ${data.Name}</strong></div>
-          <div><strong>${data.HighestScore}</strong></div>
-        `;
-        board.appendChild(card);
-        card.addEventListener("click", () => { BoardPopup(data);});
-      });
-      })
-    .catch(error => {
-      console.error("Error loading leaderboard:", error);
-      board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
-    })
-    }
-  )
-  
 }
-
-
-
-  
-    
-
 function selectBoardMode(val, level) {
   document.querySelectorAll(".lvl-option").forEach(option => {
     option.classList.remove("selected-lvl");
@@ -867,12 +837,14 @@ function loadcertificate() {
   .then(doc => {
     const data = doc.data();
     if(data.TotalTests === 0) {
-      document.querySelector("#Certification h1").innerText = "You have not taken any Hard tests yet. Take a test to get a certificate.";
+      document.querySelector("#Certification h1").innerText = "You have not taken any HARD mode tests yet.";
       document.querySelector(".cert-btn").classList.add("hide");
-      return;
+      document.querySelector("#cert-name").innerText = data.Name;
+      document.querySelector("#cert-accuracy").innerText = ``;
+      document.querySelector("#cert-wpm").innerText = ``;
     }
     else{
-      document.querySelector("#Certification p").innerText = `We are providing certificates to our users with their Average Stats of Hard mode tests.`;
+      document.querySelector("#Certification h1").innerText = "";
       document.querySelector(".cert-btn").classList.remove("hide");
       document.querySelector("#cert-name").innerText = data.Name;
       document.querySelector("#cert-accuracy").innerText = `Accuracy: ${data.AvgAccuracy}%`;
@@ -897,7 +869,7 @@ function downloadCertificatePDF() {
     },
     jsPDF: {
       unit: 'px',
-      format: [600, 425],  // match actual certificate size
+      format: [620, 445],  // match actual certificate size
       orientation: 'landscape'
     }
   };

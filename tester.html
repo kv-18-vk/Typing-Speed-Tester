@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="tester.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Charm&display=swap" rel="stylesheet">
   <title>Typing Tester</title>
 </head>
 <body>
@@ -57,7 +58,7 @@
       <button class="mode">Certification</button>
       <button class="mode">Your Stats</button>
       <button class="mode">Leaderboard</button>
-      <button onclick="logout()" id="logout">LogOut</button>
+      <button id="logout">LogOut</button>
     </div>
 
     <div class="fillpage page" id="Typing Test">
@@ -120,7 +121,8 @@
     </div>
 
     <div class="certipage hide page" id="Certification">
-      <P class="certificate-text"></P>
+      <h1 class="blink"></h1>
+      <p id="certificate-text">We are providing certificates to our users with their Average Stats of Hard mode tests.</p>
       <div id="certificate-div" class="certificate-wrapper">
         <img src="certificate.png" class="certificate-img" />
         <div class="cert-name" id="cert-name"></div>
@@ -153,7 +155,7 @@
         <div class="lvl-option" onclick="selectBoardMode(this,`Medium`)">Medium</div>
         <div class="lvl-option" onclick="selectBoardMode(this,`Hard`)" >Hard</div>
       </div>
-       <div id="board-message"></div>
+      <div id="board-message"></div>
       <div class="leaderboard-head">
         <div><strong>Name</strong></div>
         <div><strong>Highest Score</strong></div>

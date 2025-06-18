@@ -340,7 +340,7 @@ button.finish:hover {
   background: linear-gradient(135deg, #A8F1FF, #6FE6FC);
 }
 .mode:nth-child(2) {
-  background: linear-gradient(135deg, #A8F1FF, #6FE6FC);
+  background: linear-gradient(315deg,#F3A26D,#FB9E3A);
 }
 .mode:nth-child(3) {
   background: linear-gradient(135deg, #bd68ca, #ce99d7);
@@ -608,7 +608,6 @@ button.finish:hover {
   color: #2d3436;
 }
 
-
 .leaderpage h1 {
   font-size: 2.2rem;
   color: #2d3436;
@@ -721,7 +720,15 @@ button.finish:hover {
   height: 100%;
  
 }
-
+.certificate-text{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
 .certificate-wrapper {
   width: 600px;
   height: 425px;
@@ -737,6 +744,7 @@ button.finish:hover {
   height: 100%;
   display: block;
   object-fit: cover;
+  padding: 10px;
 }
 
 .cert-name {

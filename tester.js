@@ -753,21 +753,18 @@ function showPopup(data) {
 function leaderboardfor(level){
   if(!currentUser) return;
   const board = document.getElementById("board");
+  
   board.innerHTML = "";
   const userdoc = db.collection('Leaderboard').doc(`${currentUser.email}_${level}`);
-  userdoc.get().then(doc => {
+  
+    userdoc.get().then(doc => {
     const data = doc.data();
     if(data.TotalTests === 0) {
       board.innerHTML = `
         <p class="center-text">You have not taken any ${level} tests yet.</p>
         <p class="center-text">Please take a test to appear on the leaderboard.</p>
       `;
-      return;
-    }
-  })
-
-
-  db.collection('Leaderboard').where("Difficulty", "==", level)
+      db.collection('Leaderboard').where("Difficulty", "==", level)
     .orderBy(`HighestScore`, "desc")
     .get()
     .then(snapshot => {
@@ -789,7 +786,38 @@ function leaderboardfor(level){
       console.error("Error loading leaderboard:", error);
       board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
     })
+    }
+    else{
+      db.collection('Leaderboard').where("Difficulty", "==", level)
+    .orderBy(`HighestScore`, "desc")
+    .get()
+    .then(snapshot => {
+      let rank=1;
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if(data.TotalTests === 0) return;
+        const card = document.createElement("div");
+        card.className = "leaderboard-card";
+        card.innerHTML = `
+          <div><strong>${rank}. ${data.Name}</strong></div>
+          <div><strong>${data.HighestScore}</strong></div>
+        `;
+        board.appendChild(card);
+        card.addEventListener("click", () => { BoardPopup(data);});
+      });
+      })
+    .catch(error => {
+      console.error("Error loading leaderboard:", error);
+      board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
+    })
+    }
+  })
+  
 }
+
+  
+    
+
 function selectBoardMode(val, level) {
   document.querySelectorAll(".lvl-option").forEach(option => {
     option.classList.remove("selected-lvl");
@@ -840,7 +868,7 @@ function loadcertificate() {
       return;
     }
     else{
-      document.querySelector("#Certification h1").innerText = `We are providing certificates to our users with their Average Stats of Hard mode tests.`;
+      document.querySelector("#Certification p").innerText = `We are providing certificates to our users with their Average Stats of Hard mode tests.`;
       document.querySelector(".cert-btn").classList.remove("hide");
       document.querySelector("#cert-name").innerText = data.Name;
       document.querySelector("#cert-accuracy").innerText = `Accuracy: ${data.AvgAccuracy}%`;

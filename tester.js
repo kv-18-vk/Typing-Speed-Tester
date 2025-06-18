@@ -847,8 +847,8 @@ function loadcertificate() {
       document.querySelector("#Certification h1").innerText = "";
       document.querySelector(".cert-btn").classList.remove("hide");
       document.querySelector("#cert-name").innerText = data.Name;
-      document.querySelector("#cert-accuracy").innerText = `Accuracy: ${data.AvgAccuracy}%`;
-      document.querySelector("#cert-wpm").innerText = `WPM: ${data.AvgWPM}`;
+      document.querySelector("#cert-accuracy").innerText = `${data.AvgAccuracy}%`;
+      document.querySelector("#cert-wpm").innerText = `${data.AvgWPM}`;
     }
 
   })

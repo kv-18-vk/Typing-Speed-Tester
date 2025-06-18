@@ -754,6 +754,7 @@ function leaderboardfor(level){
   if(!currentUser) return;
   const board = document.getElementById("board");
   const boardmsg = document.getElementById("board-message");
+  boardmsg.innerHTML = "";
   board.innerHTML = "";
   const userdoc = db.collection('Leaderboard').doc(`${currentUser.email}_${level}`);
   userdoc.get().then(doc => {
@@ -763,7 +764,6 @@ function leaderboardfor(level){
         <p class="center-text">You have not taken any ${level} tests yet.</p>
         <p class="center-text">Please take a test to appear on the leaderboard.</p>
       `;
-      return;
     }
   })
 

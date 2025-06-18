@@ -753,6 +753,7 @@ function showPopup(data) {
 function leaderboardfor(level){
   if(!currentUser) return;
   const board = document.getElementById("board");
+  const boardmessage=document.getElementById("board-message")
   
   board.innerHTML = "";
   const userdoc = db.collection('Leaderboard').doc(`${currentUser.email}_${level}`);
@@ -760,10 +761,10 @@ function leaderboardfor(level){
     userdoc.get().then(doc => {
     const data = doc.data();
     if(data.TotalTests === 0) {
-      board.innerHTML = `
-        <p class="center-text">You have not taken any ${level} tests yet.</p>
-        <p class="center-text">Please take a test to appear on the leaderboard.</p>
-      `;
+      boardmessage.innerHTML = `
+      <p class="center-text">You have not taken any ${level} tests yet.</p>
+      <p class="center-text">Please take a test to appear on the leaderboard.</p>
+    `;
       db.collection('Leaderboard').where("Difficulty", "==", level)
     .orderBy(`HighestScore`, "desc")
     .get()

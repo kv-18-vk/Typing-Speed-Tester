@@ -608,6 +608,7 @@ button.finish:hover {
   color: #2d3436;
 }
 
+
 .leaderpage h1 {
   font-size: 2.2rem;
   color: #2d3436;
@@ -720,10 +721,10 @@ button.finish:hover {
   height: 100%;
  
 }
-.certificate-text{
+#certificate-text{
   position: absolute;
-  top: 0;
-  width: 100%;
+  top: 30px;
+  width: 90%;
   text-align: center;
   padding: 10px;
   font-size: 18px;
@@ -733,7 +734,8 @@ button.finish:hover {
   width: 600px;
   height: 425px;
   margin: 0 auto;
-  padding: 0;
+  padding: 10px;
+  background: white;
   position: relative;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   overflow: hidden;
@@ -744,7 +746,7 @@ button.finish:hover {
   height: 100%;
   display: block;
   object-fit: cover;
-  padding: 10px;
+  padding-bottom: 10px;
 }
 
 .cert-name {
@@ -752,7 +754,7 @@ button.finish:hover {
   top: 47%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #2d3436;
 }
@@ -761,8 +763,7 @@ button.finish:hover {
 .cert-accuracy {
   position: absolute;
   top: 39%;
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 0.9rem;
   color: #2d3436;
 }
 
@@ -774,6 +775,12 @@ button.finish:hover {
 .cert-accuracy {
   left: 72%;
   transform: translateX(-50%);
+}
+
+.cert-accuracy,
+.cert-name,
+.cert-wpm {
+  font-family: 'Charm',cursive;
 }
 
 .cert-btn {

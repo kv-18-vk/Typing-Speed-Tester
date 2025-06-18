@@ -787,6 +787,7 @@ function leaderboardfor(level){
       console.error("Error loading leaderboard:", error);
       board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
     })
+    return;
     }
     else{
       db.collection('Leaderboard').where("Difficulty", "==", level)

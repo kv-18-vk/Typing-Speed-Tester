@@ -765,6 +765,28 @@ function leaderboardfor(level){
       <p class="center-text">You have not taken any ${level} tests yet.</p>
       <p class="center-text">Please take a test to appear on the leaderboard.</p>
     `;
+    db.collection('Leaderboard').where("Difficulty", "==", level)
+    .orderBy(`HighestScore`, "desc")
+    .get()
+    .then(snapshot => {
+      let rank=1;
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if(data.TotalTests === 0) return;
+        const card = document.createElement("div");
+        card.className = "leaderboard-card";
+        card.innerHTML = `
+          <div><strong>${rank}. ${data.Name}</strong></div>
+          <div><strong>${data.HighestScore}</strong></div>
+        `;
+        board.appendChild(card);
+        card.addEventListener("click", () => { BoardPopup(data);});
+      });
+      })
+    .catch(error => {
+      console.error("Error loading leaderboard:", error);
+      board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
+    })
     return;
     }
     

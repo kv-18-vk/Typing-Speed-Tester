@@ -3,6 +3,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .login-form,
@@ -11,7 +14,10 @@
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  width: 350px;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .container input {
@@ -53,4 +59,71 @@
   text-align: center;
   margin-top: 15px;
   color: #636e72;
+}
+
+
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .login-form,
+  .register-form {
+    padding: 25px;
+    max-width: 300px;
+  }
+  .register-form{
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .container h3 {
+    font-size: 1.3rem;
+  }
+  
+  .container input {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+  
+  .container button {
+    padding: 11px;
+    font-size: 0.95rem;
+  }
+  
+  .container p {
+    font-size: 0.9rem;
+  }
+}
+
+
+@media (min-width: 601px) and (max-width: 992px) {
+  .login-form {
+    max-width: 400px;
+    padding: 35px;
+  }
+  
+  .register-form {
+    max-width: 400px;
+    padding: 35px;
+    max-height: 90vh; 
+    overflow-y: auto; 
+  }
+
+  .container h3 {
+    font-size: 1.5rem;
+  }
+  
+  .container input {
+    padding: 14px;
+    font-size: 1.1rem;
+  }
+  
+  .container button {
+    padding: 14px;
+    font-size: 1.1rem;
+  }
+  
+  .container p {
+    font-size: 1.05rem;
+  }
 }

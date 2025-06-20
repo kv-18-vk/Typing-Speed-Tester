@@ -97,7 +97,6 @@ button.finish:hover {
 .practicescorecard {
   background: linear-gradient(135deg, #fff8e1, #ffecb3);
   padding: 30px;
-  width: 70%;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
@@ -130,4 +129,84 @@ button.finish:hover {
 .practicerestart:hover {
   background: linear-gradient(135deg, #27ae60, #2ecc71);
   transform: translateY(-2px);
+}
+
+@media (max-width: 600px){
+  .practicepage h1{
+    font-size: small;
+  }
+  button.break,
+  button.finish{
+    font-size: 0.5rem;
+  }
+  #stopclock{
+    font-size: 0.5em;
+    padding: 4px 10px;
+    margin-top: 5px;
+  }
+  .practiceworld{
+    width: 100%;
+    margin-top: 0px;
+  }
+  #practicematter{
+    font-size: 0.9rem;
+    min-height: 120px;
+    max-height: 150px;
+    min-width: 300px;
+    line-height: 1.3;
+    padding:10px;
+  }
+  #practice-space{
+    font-size: 0.7rem;
+    min-height: 100px;
+    min-width: 300px;
+    line-height: 1.3;
+    padding:10px;
+  }
+  .practicescorecard h1{
+    font-size: 1.1rem;
+  }
+  .practicestats{
+    font-size: 0.9rem;
+  }
+  .practicerestart{
+    font-size: 0.8rem;
+    padding: 8px 15px;
+  }
+}
+
+@media (min-width:601px) and (max-width:992px){
+  .practicepage h1{
+    font-size: x-large;
+    margin-bottom: 5px;
+  }
+  .practiceworld{
+    margin-top: 50px;
+  }
+  #practicematter{
+    min-width: 450px;
+    max-height: 160px;
+    min-height: 120px;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    padding:12px;
+  }
+  #practice-space{
+    min-height: 180px;
+    min-width: 450px;
+    font-size: 1.2rem;
+    padding:12px;
+  }
+  button.break,
+  button.finish{
+    font-size: 0.7rem;
+  }
+  #stopclock{
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    margin-bottom: 5px;
+  }
+  .practicerestart{
+    font-size: 0.8rem;
+  }
 }

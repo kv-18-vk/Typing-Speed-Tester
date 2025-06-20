@@ -189,6 +189,7 @@ const stepSize = 1;
 let currentStart;
 let referenceText;
 let correctWords;
+let backspace = true;
 
 function updateTimerDisplay(id,sec) {
   const mins = Math.floor(sec / 60);
@@ -210,6 +211,7 @@ function SUBMIT() {
   totaltyped = 0;
   currentStart = 0;
   correctWords = 0;
+  backspace = true;
   endtime = 0;
   db.collection("Typing-paragraphs").doc(difficulty).get()
     .then((doc) => {
@@ -457,6 +459,7 @@ function resetpractice() {
     element2.value = "";
     correcttyped = 0;
     totaltyped = 0;
+    backspace = true;
     currentStart = 0;
     correctWords = 0;
     const randomInt = Math.floor(Math.random() * 1) + 1;
@@ -551,7 +554,6 @@ function updateWindowBackward(x) {
 
 
 function colorCharacters(userInput,x) {
-  correcttyped = 0;
   for (let i = 0; i < referenceText.length; i++) {
     let expected = referenceText[i];
     let typed = userInput[i];
@@ -562,7 +564,6 @@ function colorCharacters(userInput,x) {
     if (i < userInput.length) {
         if (typed === expected) {
             charSpan.classList.add("correct-char");
-            correcttyped++
         } else {
             charSpan.classList.add("wrong-char");
         }
@@ -582,12 +583,10 @@ function colorCharacters(userInput,x) {
 
 
 
-element.addEventListener("input", () => {
+element.addEventListener("input", (e) => {
   startTimer();
   const typed = element.value;
-
   colorCharacters(typed,"char"); // update colors
-
   if (typed.length >= referenceText.length) {
     finish();
   }
@@ -596,43 +595,42 @@ element.addEventListener("input", () => {
   } else if (typed.length < currentStart+changesize && currentStart > 0) {
     updateWindowBackward("char");
   }
+  if(backspace && typed[typed.length-1] === referenceText[typed.length-1]){correcttyped++;}
 });
 
-element.addEventListener("keydown", function (event) {
-    if (event.key.length === 1 || event.key === " ") {
-        totaltyped++;
-    } 
-    if (event.key === "Enter"){
-        event.preventDefault();
+element.addEventListener("keydown", function (e) {
+    if (e.key === "Enter"){
+        e.preventDefault();
     }
+    if (e.key === "Backspace"){backspace = false;}
+    else{backspace = true;}
+    if(e.key.length === 1 || e.key === " "){totaltyped++;}
 });
 
 
 
-element2.addEventListener("input", () => {
+element2.addEventListener("input", (e) => {
   startPracticeTimer();
   const typed = element2.value;
-
   colorCharacters(typed,"pchar"); // update colors
-
   if (typed.length >= referenceText.length) {
     Finishpractice();
   }
-
   if (typed.length >= currentStart + changesize) {
     updateWindowForward("pchar"); // update visible range
   } else if (typed.length < currentStart+changesize && currentStart > 0) {
     updateWindowBackward("pchar");
   }
+  if(backspace && typed[typed.length-1] === referenceText[typed.length-1]){correcttyped++;}
 });
 
-element2.addEventListener("keydown", function (event) {
-    if (event.key.length === 1 || event.key === " ") {
-        totaltyped++;
-    } 
-    if (event.key === "Enter"){
-        event.preventDefault();
+element2.addEventListener("keydown", function (e) {
+    if (e.key === "Enter"){
+        e.preventDefault();
     }
+    if (e.key === "Backspace"){backspace = false;}
+    else{backspace = true;}
+    if(e.key.length === 1 || e.key === " "){totaltyped++;}
 });
 
 function loadStatsFor(level) {
@@ -899,8 +897,3 @@ function downloadCertificatePDF() {
    resetstyle(certwpmstyles,certwpm)
   });
 }
-
-
-
-
-

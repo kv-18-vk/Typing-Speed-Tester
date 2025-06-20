@@ -18,12 +18,16 @@
   <div class="container">
     <div class="login-form">
       <h3>Login</h3>
-      <label for="loginUsername">Username</label><br>
-      <input id="loginUsername" placeholder="Username"><br>
-
+      <label for="loginUsername">Email</label><br>
+      <div class="input-container">
+        <i class="fas fa-envelope"></i>
+        <input id="loginUsername" placeholder="Email"><br>
+      </div>
       <label for="loginPassword">Password</label><br>
-      <input id="loginPassword" type="password" placeholder="Password"><br>
-
+      <div class="input-container">
+        <i class="fas fa-lock"></i>
+        <input id="loginPassword" type="password" placeholder="Password"><br>
+      </div>
       <button class="login">Login</button><br><br>
 
       <p>Need to create a new account?</p>
@@ -33,17 +37,25 @@
       <h3>Register</h3>
       <form id="registerForm">
         <label for="regName">Name</label><br>
-        <input id="regName" name="name" placeholder="Name" required><br>
-
-        <label for="regUsername">Username</label><br>
-        <input id="regUsername" name="username" placeholder="Username" required><br>
-
+        <div class="input-container">
+          <i class="fas fa-user"></i>
+          <input id="regName" name="name" placeholder="Name" required><br>
+        </div>
+        <label for="regUsername">Email</label><br>
+        <div class="input-container">
+          <i class="fas fa-envelope"></i>
+          <input id="regUsername" name="Email" placeholder="Email" required><br>
+        </div>
         <label for="regPassword">Password</label><br>
-        <input id="regPassword" name="password" type="password" placeholder="Password" required><br>
-
+        <div class="input-container">
+          <i class="fas fa-lock"></i>
+          <input id="regPassword" name="password" type="password" placeholder="Password" required><br>
+        </div>
         <label for="regConfirmPassword">Confirm Password</label><br>
-        <input id="regConfirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password" required><br><br>
-
+        <div class="input-container">
+          <i class="fas fa-lock"></i>
+          <input id="regConfirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password" required><br>
+        </div>
         <button type="button" class="register">Register</button>
 
         <p>Already have an account?</p>

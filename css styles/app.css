@@ -68,7 +68,7 @@ html, body {
 }
 
 .selectedmode {
-  transform: scale(1.05);
+  transform: scale(1.2);
   box-shadow: 0 0 0 3px white, 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -80,20 +80,46 @@ html, body {
   gap: 20px;
   padding: 100px 40px 40px 40px;
   box-sizing: border-box;
-  min-height: 100vh;
+  min-height: 150vh;
   position: relative;
   align-items: center;
   overflow-y: auto;
   flex: 1;
 }
 
-
+@media (max-width: 600px){
+  .flex{
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .modebox{
+    flex-direction: row;
+    width:100%;
+    min-height: 5vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .mode{
+    font-size:0.9rem;
+    border-radius: 0px;
+    padding: 40px;
+    max-width: 150px;
+  }
+  #logout{
+    font-size: 0.8rem;
+    margin-bottom: 35px;
+    border-radius: 0;
+    padding: 35px;
+  }
+  .page{
+    width: 100%;
+    flex:1;
+  }
+}
 
 .hide {
   display: none;
 }
-
-
 
 /* Fixed top controls */
 .top-controls {
@@ -109,6 +135,14 @@ html, body {
   border-bottom-right-radius: 12px;
   background: linear-gradient(315deg, #e0f7fa, #6FE6FC);
   z-index: 10;
+}
+@media (max-width: 600px){
+  .top-controls{
+    position:none;
+    width:100%;
+    margin: 75px;
+    padding: 9px 12px;
+  }
 }
 
 
@@ -238,7 +272,6 @@ html, body {
 .popup-card p strong {
   color: #2d3436;
 }
-
 /* Animations */
 @keyframes slideFade {
   from {
@@ -249,5 +282,44 @@ html, body {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+
+@media (max-width:600px){
+  .popup-card{
+    width:80%;
+    padding:15px;
+  }
+  .popup-card h3{
+    font-size: 1.1rem;
+  }
+  .popup-card p{
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 992px) {
+.top-controls {
+  position: fixed;
+  top: 0;
+  width: calc(79% - 40px);
+  height: 15%;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background: linear-gradient(315deg, #e0f7fa, #6FE6FC);
+  z-index: 10;
+}
+.mode{
+  font-size: 0.9rem;
+}
+#logout{
+  font-size: 0.8rem;
+}
+
 }
 

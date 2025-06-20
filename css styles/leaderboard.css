@@ -32,10 +32,6 @@
   color: #636e72;
   font-size: 1.1rem;
 }
-.selected-lvl{
-  background: linear-gradient(135deg, #3498db, #2980b9);
-  color: white;
-}
 .lvl-option {
   flex: 1;
   padding: 12px 0;
@@ -45,15 +41,25 @@
   font-weight: bold;
   color: #2d3436;
   transition: all 0.3s ease;
-  user-select: none;
   font-size: 1.1rem;
 }
 .lvl-option:hover {
   background-color: #f5f6fa;
 }
+.selected-lvl{
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+}
 .leaderpage h1 {
   font-size: 2.2rem;
   color: #2d3436;
+}
+.board-center-text {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: #2d3436;
+  margin-bottom: 5px;
 }
 .leaderboard-head {
   display: flex;
@@ -73,7 +79,7 @@
 }
 .leaderboard-scroll {
   flex: 1;
-  max-height: 400px;
+  max-height: 380px;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -114,4 +120,65 @@
 .icon-trophy2 {
   color: gold;
   margin-left: 10px;
+}
+
+@media (max-width: 600px){
+  .leaderpage h1{
+    font-size: 1.2rem;
+    margin-bottom: 0px;
+  }
+  .board-center-text{
+    font-size: xx-small;
+  }
+  .quote-text{
+    font-size: 0.8rem;
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+  .lvl-option{
+    font-size: 0.7rem;
+  }
+  #lvl-bar{
+    width: 100%;
+  }
+  .leaderboard-head,
+  .leaderboard-card{
+    font-size: 0.6rem;
+  }
+  .leaderboard-scroll{
+    max-height: 320px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 992px) {
+  #lvl-bar{
+    width: 90%;
+  }
+  .leaderpage h1 {
+    margin-top: 0; 
+    margin-bottom: 0; 
+  }
+  .quote-text {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .quote-text {
+    font-style: italic;
+    color: #636e72;
+    font-size: 0.9rem;
+  }
+  .lvl-option {
+    font-size: 0.9rem;
+    padding: 9px 0;
+  }
+  .board-center-text{
+    font-size: small;
+  }
+  .leaderboard-head,
+  .leaderboard-card {
+    font-size: 0.8rem;
+  }
+  .leaderboard-scroll{
+    max-height: 360px;
+  }
 }

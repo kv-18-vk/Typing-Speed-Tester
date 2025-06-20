@@ -47,11 +47,6 @@ document.querySelector(".register").addEventListener("click", function () {
     return;
   }
 
-  if (localStorage.getItem(username)) {
-    alert("Username already exists. Please choose another.");
-    return;
-  }
-
   auth.createUserWithEmailAndPassword(email,password)
    .then((userCredential) => {
       const user=userCredential.user

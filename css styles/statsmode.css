@@ -55,7 +55,7 @@
   height: calc(100% - 100px);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 3px;
   justify-content: flex-start;
   max-height: none;
   overflow: hidden;

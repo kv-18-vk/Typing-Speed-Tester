@@ -893,7 +893,7 @@ function downloadCertificatePDF() {
   html2pdf().set(opt).from(element).save().then(()=>{
    function resetstyle(val,id){
      if(val){
-      id.setAttribute("style",id);
+      id.setAttribute("style",val);
     } else{
       id.removeAttribute("style");
     }

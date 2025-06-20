@@ -685,7 +685,7 @@ function loadStatsFor(level) {
         highestscore = d.highestScore;
 
         summaryDiv.innerHTML = `
-          <p class="center-text">Total Tests: ${testCount}</p>
+          <p class="stats-center-text">Total Tests: ${testCount}</p>
           <div class="avg-stats">
             <p>Avg Accuracy: ${avgAccuracy}%</p>
             <p>Avg WPM: ${avgWPM}</p>
@@ -759,8 +759,8 @@ function leaderboardfor(level){
     const data = doc.data();
     if(data.TotalTests === 0) {
       boardmsg.innerHTML = `
-        <p class="center-text">You have not taken any ${level} tests yet.</p>
-        <p class="center-text">Please take a test to appear on the leaderboard.</p>
+        <p class="board-center-text">You have not taken any ${level} tests yet.</p>
+        <p class="board-center-text">Please take a test to appear on the leaderboard.</p>
       `;
     }
   })
@@ -858,7 +858,21 @@ function loadcertificate() {
 
 function downloadCertificatePDF() {
   const element = document.getElementById("certificate-div");
+  const certname = document.getElementById("cert-name");
+  const certaccu = document.getElementById("cert-accuracy");
+  const certwpm  = document.getElementById("cert-wpm");
+
   window.scrollTo(0, 0); // Prevent scroll from adding white space
+  wrapperstyles = element.getAttribute("style");
+  certnamestyles = certname.getAttribute("style");
+  certaccustyles = certaccu.getAttribute("style");
+  certwpmstyles = certwpm.getAttribute("style");
+  element.style.width = "600px";
+  element.style.height = "425px";
+  element.style.padding = "10px";
+  certname.style.fontSize = "1.3rem";
+  certaccu.style.fontSize = "1.15rem";
+  certwpm.style.fontSize = "1.15rem";
 
   const opt = {
     margin: 0,
@@ -876,7 +890,19 @@ function downloadCertificatePDF() {
     }
   };
 
-  html2pdf().set(opt).from(element).save();
+  html2pdf().set(opt).from(element).save().then(()=>{
+   function resetstyle(val,id){
+     if(val){
+      id.setAttribute("style",id);
+    } else{
+      id.removeAttribute("style");
+    }
+   }
+   resetstyle(wrapperstyles,element);
+   resetstyle(certnamestyles,certname);
+   resetstyle(certaccustyles,certaccu)
+   resetstyle(certwpmstyles,certwpm)
+  });
 }
 
 

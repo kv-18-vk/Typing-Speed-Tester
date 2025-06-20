@@ -33,11 +33,11 @@ let registerPage = document.querySelector(".register-form");
 
 document.querySelector(".register").addEventListener("click", function () {
   const name = document.querySelector("#regName").value;
-  const username = document.querySelector("#regUsername").value;
+  const email = document.querySelector("#regUsername").value;
   const password = document.querySelector("#regPassword").value;
   const confirmPassword = document.querySelector("#regConfirmPassword").value;
 
-  if (!name || !username || !password || !confirmPassword) {
+  if (!name || !email || !password || !confirmPassword) {
     alert("Please fill all the details.");
     return;
   }
@@ -52,7 +52,7 @@ document.querySelector(".register").addEventListener("click", function () {
     return;
   }
 
-  auth.createUserWithEmailAndPassword(username,password)
+  auth.createUserWithEmailAndPassword(email,password)
    .then((userCredential) => {
       const user=userCredential.user
 
@@ -108,15 +108,15 @@ document.querySelector(".register").addEventListener("click", function () {
 });
 
 document.querySelector(".login").addEventListener("click", function () {
-  const username = document.querySelector("#loginUsername").value.trim();
+  const email = document.querySelector("#loginUsername").value.trim();
   const password = document.querySelector("#loginPassword").value;
 
-  if (!username || !password) {
+  if (!email || !password) {
     alert("Please enter the details.");
     return;
   }
 
- auth. signInWithEmailAndPassword( username, password)
+ auth. signInWithEmailAndPassword( email, password)
     .then((userCredential) => {
       const user = userCredential.user;
       document.querySelector(".container").classList.add("hide");

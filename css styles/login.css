@@ -20,17 +20,6 @@
   box-sizing: border-box;
 }
 
-.container input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0 20px 0;
-  border: 2px solid #dfe6e9;
-  border-radius: 8px;
-  box-sizing: border-box;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
 .container input:focus {
   border-color: #74b9ff;
   outline: none;
@@ -60,6 +49,31 @@
   margin-top: 15px;
   color: #636e72;
 }
+.input-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.input-container i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 12px;
+  padding-left: 40px;
+  border: 2px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
 
 
 @media (max-width: 600px) {
@@ -80,9 +94,15 @@
     font-size: 1.3rem;
   }
   
-  .container input {
-    padding: 10px;
-    font-size: 0.95rem;
+  .input-container{
+    padding: 5px;
+    font-size: 0.90rem;
+  }
+  .input-container i{
+    left: 15px;
+  }
+  .input-container input{
+    padding-left: 30px;
   }
   
   .container button {
@@ -113,9 +133,16 @@
     font-size: 1.5rem;
   }
   
-  .container input {
-    padding: 14px;
-    font-size: 1.1rem;
+  .input-container {
+    padding: 8px;
+    font-size: 1rem;
+  }
+  .input-container input{
+    margin-left: 0px;
+    padding-left: 35px;
+  }
+  .input-container i{
+    left: 20px;
   }
   
   .container button {

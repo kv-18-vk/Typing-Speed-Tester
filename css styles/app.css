@@ -141,6 +141,7 @@ html, body {
   user-select: none;
   -webkit-touch-callout: none; /* iOS long-press menu */
 }
+
 @media (max-width: 600px){
   .top-controls{
     position:none;
@@ -247,7 +248,6 @@ html, body {
   opacity: 1;
 }
 .popup-card {
-  background: white;
   border: none;
   border-radius: 12px;
   padding: 25px;
@@ -258,6 +258,10 @@ html, body {
   opacity: 0;
   transition: all 0.3s ease;
 }
+.white-popup-card{background: white;}
+.gold-popup-card{background: linear-gradient(145deg, #fffacd, #ffd700, #ffec8b);}
+.silver-popup-card{background: linear-gradient(145deg, #f0f0f0,#c0c0c0, #dcdcdc);}
+.bronze-popup-card{background: linear-gradient(145deg, #ffe0b2, #cd7f32, #e6a76d);}
 .popup-show {
   transform: scale(1);
   opacity: 1;

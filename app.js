@@ -656,10 +656,6 @@ element2.addEventListener("input", (e) => {
   el.addEventListener("contextmenu",(e)=>{
     e.preventDefault();
   })
-  el.addEventListener("touchstart",(e)=>{
-    e.preventDefault();
-  })
-  el.addEventListener("long-press", e => e.preventDefault());
 })
 function loadStatsFor(level) {
   if (!currentUser) return;

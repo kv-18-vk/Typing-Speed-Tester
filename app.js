@@ -157,6 +157,24 @@ document.querySelector("#logout").addEventListener("click", function() {
     alert("Logout error: " + error.message);
   });
 })
+document.querySelectorAll(".toggle-password").forEach((toggleIcon) => {
+  toggleIcon.addEventListener("click", () => {
+    const inputSelector = toggleIcon.getAttribute("toggle");
+    const input = document.querySelector(inputSelector);
+
+    if (input.type === "password") {
+      input.type = "text";
+      toggleIcon.classList.remove("fa-eye");
+      toggleIcon.classList.add("fa-eye-slash");
+    } else {
+      input.type = "password";
+      toggleIcon.classList.remove("fa-eye-slash");
+      toggleIcon.classList.add("fa-eye");
+    }
+  });
+});
+
+
 
 const timeicon = '<i class="fas fa-clock icon-time"></i>';
 const speedicon = '<i class="fas fa-bolt icon-speed"></i>';
@@ -190,6 +208,7 @@ let currentStart;
 let referenceText;
 let correctWords;
 let backspace = true;
+let previouslength = 0;
 
 function updateTimerDisplay(id,sec) {
   const mins = Math.floor(sec / 60);
@@ -210,6 +229,7 @@ function SUBMIT() {
   correcttyped = 0;
   totaltyped = 0;
   currentStart = 0;
+  previouslength = 0;
   correctWords = 0;
   backspace = true;
   endtime = 0;
@@ -459,7 +479,7 @@ function resetpractice() {
     element2.value = "";
     correcttyped = 0;
     totaltyped = 0;
-    backspace = true;
+    previouslength = 0;
     currentStart = 0;
     correctWords = 0;
     const randomInt = Math.floor(Math.random() * 1) + 1;
@@ -595,18 +615,14 @@ element.addEventListener("input", (e) => {
   } else if (typed.length < currentStart+changesize && currentStart > 0) {
     updateWindowBackward("char");
   }
-  if(backspace && typed[typed.length-1] === referenceText[typed.length-1]){correcttyped++;}
-});
-
-element.addEventListener("keydown", function (e) {
-    if (e.key === "Enter"){
-        e.preventDefault();
+  if(typed.length > previouslength){
+    totaltyped++;
+    if(typed[typed.length-1]==referenceText[typed.length-1]){
+      correcttyped++;
     }
-    if (e.key === "Backspace"){backspace = false;}
-    else{backspace = true;}
-    if(e.key.length === 1 || e.key === " "){totaltyped++;}
+  }
+  previouslength = typed.length;
 });
-
 
 
 element2.addEventListener("input", (e) => {
@@ -621,18 +637,30 @@ element2.addEventListener("input", (e) => {
   } else if (typed.length < currentStart+changesize && currentStart > 0) {
     updateWindowBackward("pchar");
   }
-  if(backspace && typed[typed.length-1] === referenceText[typed.length-1]){correcttyped++;}
-});
-
-element2.addEventListener("keydown", function (e) {
-    if (e.key === "Enter"){
-        e.preventDefault();
+  if(typed.length > previouslength){
+    totaltyped++;
+    if(typed[typed.length-1]==referenceText[typed.length-1]){
+      correcttyped++;
     }
-    if (e.key === "Backspace"){backspace = false;}
-    else{backspace = true;}
-    if(e.key.length === 1 || e.key === " "){totaltyped++;}
+  }
+  previouslength = typed.length;
 });
 
+[element,element2].forEach(el=>{
+  el.addEventListener("keydown",(e)=>{
+    if(e.key === "Enter"){e.preventDefault();}
+  })
+  el.addEventListener("paste",(e)=>{
+    e.preventDefault();
+  })
+  el.addEventListener("contextmenu",(e)=>{
+    e.preventDefault();
+  })
+  el.addEventListener("touchstart",(e)=>{
+    e.preventDefault();
+  })
+  el.addEventListener("long-press", e => e.preventDefault());
+})
 function loadStatsFor(level) {
   if (!currentUser) return;
 

@@ -431,7 +431,7 @@ function Finishpractice() {
 
     const report = document.querySelector(".practicestats");
     report.innerHTML = `
-      Time: ${parseFloat(minutes.toFixed(2))} min<br>
+      Time:  ${Math.floor(minutes)} min : ${practiceSeconds%60} sec<br>
       Total Typed Characters: ${totaltyped}<br>
       Correct Typed Characters: ${correcttyped}<br>
       Accuracy: ${Accuracy}%<br>

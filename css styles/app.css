@@ -136,6 +136,11 @@ html, body {
   background: linear-gradient(315deg, #e0f7fa, #6FE6FC);
   z-index: 10;
 }
+.noclipboard {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none; /* iOS long-press menu */
+}
 @media (max-width: 600px){
   .top-controls{
     position:none;

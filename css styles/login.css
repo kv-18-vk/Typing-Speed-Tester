@@ -58,7 +58,6 @@
 .input-container i {
   position: absolute;
   top: 50%;
-  left: 12px;
   transform: translateY(-50%);
   color: #999;
   font-size: 1rem;
@@ -69,11 +68,34 @@
   width: 100%;
   padding: 12px;
   padding-left: 40px;
+  padding-right: 40px;
   border: 2px solid #dfe6e9;
   border-radius: 8px;
   font-size: 1rem;
   box-sizing: border-box;
 }
+.input-container i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #999;
+  pointer-events: none;
+}
+
+.input-container i.fa-lock,
+.input-container i.fa-envelope,
+.input-container i.fa-user {
+  left: 12px;
+  pointer-events: none;
+}
+
+.input-container i.toggle-password {
+  right: 12px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
 
 
 @media (max-width: 600px) {
@@ -98,8 +120,13 @@
     padding: 5px;
     font-size: 0.90rem;
   }
-  .input-container i{
+  .input-container i.fa-lock,
+  .input-container i.fa-envelope,
+  .input-container i.fa-user {
     left: 15px;
+  }
+  .input-container i.toggle-password{
+    right: 15px;
   }
   .input-container input{
     padding-left: 30px;
@@ -141,8 +168,13 @@
     margin-left: 0px;
     padding-left: 35px;
   }
-  .input-container i{
+  .input-container i.fa-lock,
+  .input-container i.fa-envelope,
+  .input-container i.fa-user {
     left: 20px;
+  }
+  .input-container i.toggle-password{
+    right: 15px;
   }
   
   .container button {

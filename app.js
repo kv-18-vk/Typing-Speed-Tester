@@ -740,7 +740,7 @@ function showPopup(data) {
   overlay.className = "popup-overlay";
 
   const popup = document.createElement("div");
-  popup.className = "popup-card";
+  popup.className = "popup-card white-popup-card";
   popup.innerHTML = `
     <h3>Test Details</h3>
     <p><strong>WPM:</strong> ${data.wpm}</p>
@@ -796,14 +796,24 @@ function leaderboardfor(level){
                : rank === 3 ? '<i class="fas fa-medal" style="color: #cd7f32;"></i>'
                : '';
         const card = document.createElement("div");
+        card.id = rank;
         card.className = "leaderboard-card";
         card.innerHTML = `
           <div><strong>${medalIcon} ${rank}. ${data.Name}</strong></div>
           <div><strong>${data.HighestScore}</strong></div>
         `;
         board.appendChild(card);
+        if (rank === 1) {
+          card.classList.add("gold-card");
+        }
+        else if (rank === 2) {
+          card.classList.add("silver-card");
+        }
+        else if (rank === 3) {
+          card.classList.add("bronze-card");
+        }
+        card.addEventListener("click", () => { BoardPopup(data,card.id);});
         rank++;
-        card.addEventListener("click", () => { BoardPopup(data);});
       });
     })
     .catch(error => {
@@ -820,12 +830,24 @@ function selectBoardMode(val, level) {
   leaderboardfor(level);
 }
 
-function BoardPopup(data) {
+function BoardPopup(data,id) {
   const overlay = document.createElement("div");
   overlay.className = "popup-overlay";
 
   const popup = document.createElement("div");
-  popup.className = "popup-card";
+
+  if(id === "1"){
+    popup.className = "popup-card gold-popup-card";
+  }
+  else if(id === "2"){
+    popup.className = "popup-card silver-popup-card";
+  }
+  else if(id === "3"){
+    popup.className = "popup-card bronze-popup-card";
+  }
+  else{
+    popup.className = "popup-card white-popup-card";
+  }
   popup.innerHTML = `
     <h3><strong>${data.Name}</strong></h3>
     <p><strong>Date Joined:</strong> ${new Date(data.Joined?.toDate()).toLocaleString()}</p>

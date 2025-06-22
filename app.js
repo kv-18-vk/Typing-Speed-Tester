@@ -740,7 +740,7 @@ function showPopup(data) {
   overlay.className = "popup-overlay";
 
   const popup = document.createElement("div");
-  popup.className = "popup-card white-popup-card";
+  popup.className = "popup-card";
   popup.innerHTML = `
     <h3>Test Details</h3>
     <p><strong>WPM:</strong> ${data.wpm}</p>
@@ -846,18 +846,18 @@ function BoardPopup(data,id) {
     popup.className = "popup-card bronze-popup-card";
   }
   else{
-    popup.className = "popup-card white-popup-card";
+    popup.className = "popup-card";
   }
   popup.innerHTML = `
     <h3><strong>${data.Name}</strong></h3>
     <p><strong>Date Joined:</strong> ${new Date(data.Joined?.toDate()).toLocaleString()}</p>
-    <p>Total Tests: ${data.TotalTests}</p>
-    <p>Highest Accuracy: ${data.HighestAccuracy}%</p>
-    <p>Highest WPM: ${data.HighestWPM}</p>
-    <p>Highest Score: ${data.HighestScore}</p>
-    <p>AvgWPM: ${data.AvgWPM}</p>
-    <p>AvgAccuracy: ${data.AvgAccuracy}%</p>
-    <p>AvgScore: ${data.AvgScore}</p>
+    <p><strong>Total Tests:</strong> ${data.TotalTests}</p>
+    <p><strong>Highest Accuracy:</strong> ${data.HighestAccuracy}%</p>
+    <p><strong>Highest WPM:</strong> ${data.HighestWPM}</p>
+    <p><strong>Highest Score:</strong> ${data.HighestScore}</p>
+    <p><strong>AvgWPM:</strong> ${data.AvgWPM}</p>
+    <p><strong>AvgAccuracy:</strong> ${data.AvgAccuracy}%</p>
+    <p><strong>AvgScore:</strong> ${data.AvgScore}</p>
   `;
 
   overlay.appendChild(popup);

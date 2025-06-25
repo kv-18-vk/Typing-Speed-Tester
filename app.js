@@ -658,6 +658,16 @@ element2.addEventListener("input", (e) => {
   el.addEventListener("contextmenu",(e)=>{
     e.preventDefault();
   })
+  el.addEventListener("click",()=>{
+    el.selectionStart = el.value.length;
+    el.selectionEnd = el.value.length;
+  })
+  el.addEventListener("keydown",()=>{
+    setTimeout(()=>{
+      el.selectionStart = el.value.length;
+      el.selectionEnd = el.value.length;
+    },0);
+  })
 })
 function loadStatsFor(level) {
   if (!currentUser) return;

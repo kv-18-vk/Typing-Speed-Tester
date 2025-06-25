@@ -233,13 +233,13 @@ function SUBMIT() {
   correctWords = 0;
   backspace = true;
   endtime = 0;
-  db.collection("Typing-paragraphs").doc(difficulty).get()
+  const randomInt = Math.floor(Math.random() * 5) + 1;
+  db.collection("Typing-paragraphs").doc(`${difficulty}-${randomInt}`).get()
     .then((doc) => {
         referenceText = doc.data().Text;
         element.disabled = false;
         initMatter(referenceText,"matter","char");
     })
-  
   if (interval) {
     clearInterval(interval);
     interval = null;
@@ -286,7 +286,7 @@ function STOP() {
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "TimeUp";
   timerEl.classList.add("blink");
-  
+  document.getElementById("video-loader").classList.remove("hide");
   if (currentUser) {
     addtesthistory(difficulty,time);
     updateStatsSummary(difficulty,time);
@@ -296,7 +296,6 @@ function STOP() {
     timerEl.classList.remove("blink");
     scorecard.classList.remove("hide");
     testpage.classList.add("hide");
-
 
     const report = document.querySelector(".stats");
     report.innerHTML = `
@@ -309,7 +308,8 @@ function STOP() {
       Score: ${score}<br>
       Timestamp: ${new Date().toLocaleString()}
     `;
-  }, 2000);
+    document.getElementById("video-loader").classList.add("hide");
+  }, 6000);
 }
 function finish() {
     if (interval) {
@@ -326,7 +326,7 @@ function finish() {
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "Finished";
   timerEl.classList.add("blink");
-
+  document.getElementById("video-loader").classList.remove("hide");
   if (currentUser) {
     addtesthistory(difficulty,finishedtime);
     updateStatsSummary(difficulty,finishedtime);
@@ -349,7 +349,8 @@ function finish() {
       Score: ${score}<br>
       Timestamp: ${new Date().toLocaleString()}
     `;
-  }, 2000);
+    document.getElementById("video-loader").classList.add("hide");
+  }, 6000);
 }
 function addtesthistory(difficulty, time){
   db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
@@ -423,6 +424,7 @@ function Finishpractice() {
   const timerEl = document.getElementById("stopclock");
   timerEl.textContent = "Finished";
   timerEl.classList.add("blink");
+  document.getElementById("video-loader").classList.remove("hide");
 
   setTimeout(() => {
     timerEl.classList.remove("blink");
@@ -440,7 +442,8 @@ function Finishpractice() {
       Score: ${score}<br>
       Timestamp: ${new Date().toLocaleString()}
     `;
-  }, 2000);
+    document.getElementById("video-loader").classList.add("hide");
+  }, 6000);
   breakbtn.classList.add("hide");
   document.querySelector(".finish").classList.add("hide");
 }
@@ -482,8 +485,8 @@ function resetpractice() {
     previouslength = 0;
     currentStart = 0;
     correctWords = 0;
-    const randomInt = Math.floor(Math.random() * 1) + 1;
-    db.collection("practice-paragraphs").doc(`practice-${randomInt}`).get()
+    const randomInt = Math.floor(Math.random() * 5) + 1;
+    db.collection("practice-paragraphs").doc(`Practice-${randomInt}`).get()
     .then((doc) => {
         referenceText = doc.data().text;
         element2.disabled = false;
@@ -601,7 +604,7 @@ function colorCharacters(userInput,x) {
   }
 }
 
-
+const click = new Audio("sounds/error-short.wav");
 
 element.addEventListener("input", (e) => {
   startTimer();
@@ -619,11 +622,10 @@ element.addEventListener("input", (e) => {
     totaltyped++;
     if(typed[typed.length-1]==referenceText[typed.length-1]){
       correcttyped++;
-    }
+    }else{click.play();}
   }
   previouslength = typed.length;
 });
-
 
 element2.addEventListener("input", (e) => {
   startPracticeTimer();
@@ -641,7 +643,7 @@ element2.addEventListener("input", (e) => {
     totaltyped++;
     if(typed[typed.length-1]==referenceText[typed.length-1]){
       correcttyped++;
-    }
+    }else{click.play();}
   }
   previouslength = typed.length;
 });
@@ -768,58 +770,61 @@ function showPopup(data) {
 function leaderboardfor(level){
   if(!currentUser) return;
   const board = document.getElementById("board");
+  document.getElementById("userrank").innerText = "";
   const boardmsg = document.getElementById("board-message");
   boardmsg.innerHTML = "";
   board.innerHTML = "";
   const userdoc = db.collection('Leaderboard').doc(`${currentUser.email}_${level}`);
-  userdoc.get().then(doc => {
-    const data = doc.data();
-    if(data.TotalTests === 0) {
+  userdoc.get().then(userdoc => {
+    const userdata = userdoc.data();
+    if(userdata.TotalTests === 0) {
       boardmsg.innerHTML = `
         <p class="board-center-text">You have not taken any ${level} tests yet.</p>
         <p class="board-center-text">Please take a test to appear on the leaderboard.</p>
       `;
     }
+    db.collection('Leaderboard').where("Difficulty", "==", level)
+      .orderBy(`HighestScore`, "desc")
+      .get()
+      .then(snapshot => {
+        let rank=1;
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          if(data.TotalTests === 0) return;
+          const medalIcon = rank === 1 ? '<i class="fas fa-medal" style="color: gold;"></i>'
+                : rank === 2 ? '<i class="fas fa-medal" style="color: silver;"></i>'
+                : rank === 3 ? '<i class="fas fa-medal" style="color: #cd7f32;"></i>'
+                : '';
+          const card = document.createElement("div");
+          card.id = rank;
+          card.className = "leaderboard-card";
+          card.innerHTML = `
+            <div><strong>${medalIcon} ${rank}. ${data.Name}</strong></div>
+            <div><strong>${data.HighestScore}</strong></div>
+          `;
+          board.appendChild(card);
+          if (rank === 1) {
+            card.classList.add("gold-card");
+          }
+          else if (rank === 2) {
+            card.classList.add("silver-card");
+          }
+          else if (rank === 3) {
+            card.classList.add("bronze-card");
+          }
+          card.addEventListener("click", () => { BoardPopup(data,card.id);});
+          
+          if (userdoc.id === doc.id){
+            document.getElementById("userrank").innerText = `Your Rank: ${rank}`;
+          }
+          rank++;
+        })
+      })
+      .catch(error => {
+        console.error("Error loading leaderboard:", error);
+        board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
+      })
   })
-
-
-  db.collection('Leaderboard').where("Difficulty", "==", level)
-    .orderBy(`HighestScore`, "desc")
-    .get()
-    .then(snapshot => {
-      let rank=1;
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        if(data.TotalTests === 0) return;
-        const medalIcon = rank === 1 ? '<i class="fas fa-medal" style="color: gold;"></i>'
-               : rank === 2 ? '<i class="fas fa-medal" style="color: silver;"></i>'
-               : rank === 3 ? '<i class="fas fa-medal" style="color: #cd7f32;"></i>'
-               : '';
-        const card = document.createElement("div");
-        card.id = rank;
-        card.className = "leaderboard-card";
-        card.innerHTML = `
-          <div><strong>${medalIcon} ${rank}. ${data.Name}</strong></div>
-          <div><strong>${data.HighestScore}</strong></div>
-        `;
-        board.appendChild(card);
-        if (rank === 1) {
-          card.classList.add("gold-card");
-        }
-        else if (rank === 2) {
-          card.classList.add("silver-card");
-        }
-        else if (rank === 3) {
-          card.classList.add("bronze-card");
-        }
-        card.addEventListener("click", () => { BoardPopup(data,card.id);});
-        rank++;
-      });
-    })
-    .catch(error => {
-      console.error("Error loading leaderboard:", error);
-      board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
-    })
 }
 function selectBoardMode(val, level) {
   document.querySelectorAll(".lvl-option").forEach(option => {

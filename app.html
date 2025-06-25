@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="css styles/leaderboard.css" />
   <link href="https://fonts.googleapis.com/css2?family=Charm&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <title>Typing Tester</title>
+  <title>Typing Speed Tester</title>
 </head>
 <body>
   <div class="container">
@@ -172,14 +172,19 @@
         <div class="lvl-option" onclick="selectBoardMode(this,`Hard`)" >Hard</div>
       </div>
       <div id="board-message"></div>
-      <div class="leaderboard-head">
+      <div class="leaderboard-head" id="leaderboard-head">
         <div><strong>Name</strong></div>
-        <div><strong>Highest Score</strong></div>
+        <div id="userrank"></div>
+        <div id="highscore"><strong>Highest Score</strong></div>
       </div>
       <div id="board" class="leaderboard-scroll"></div>
     </div>
-
   </div>
+
+  <div id="video-loader" class="hide">
+    <img src="loadinglogo.gif" id="loader-video">
+  </div>
+
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>

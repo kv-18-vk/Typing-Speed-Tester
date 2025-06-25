@@ -604,7 +604,7 @@ function colorCharacters(userInput,x) {
   }
 }
 
-const click = new Audio("sounds/error-short.wav");
+const wrong = new Audio("sounds/wrong.mp3");
 
 element.addEventListener("input", (e) => {
   startTimer();
@@ -622,7 +622,7 @@ element.addEventListener("input", (e) => {
     totaltyped++;
     if(typed[typed.length-1]==referenceText[typed.length-1]){
       correcttyped++;
-    }else{click.play();}
+    }else{wrong.play();}
   }
   previouslength = typed.length;
 });
@@ -643,7 +643,7 @@ element2.addEventListener("input", (e) => {
     totaltyped++;
     if(typed[typed.length-1]==referenceText[typed.length-1]){
       correcttyped++;
-    }else{click.play();}
+    }else{wrong.play();}
   }
   previouslength = typed.length;
 });

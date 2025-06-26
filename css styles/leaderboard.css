@@ -129,7 +129,10 @@
   background: linear-gradient(145deg, #ffe0b2, #cd7f32, #e6a76d);
   border-color: #e6a76d;
 }
-
+.cardtext{
+  display:flex;
+  justify-content: space-between;
+}
 .icon-trophy1 {
   color: gold;
   margin-right: 10px;

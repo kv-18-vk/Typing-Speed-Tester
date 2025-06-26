@@ -259,6 +259,8 @@ function CANCEL() {
   matter.innerhtml="";
 }
 
+const countdown = new Audio("sounds/5seconds.mp3");
+
 function startTimer() {
   if (interval || seconds <= 0) return;
 
@@ -269,6 +271,9 @@ function startTimer() {
     if (seconds <= 0) {
       STOP();
     }
+    if (seconds == 5){
+      countdown.play();
+    }
   }, 1000);
 }
 
@@ -277,6 +282,8 @@ function STOP() {
     clearInterval(interval);
     interval = null;
   }
+  countdown.pause(); 
+  countdown.currentTime = 0;
   endtime = seconds;
   element.disabled = true;
   Accuracy = parseFloat(((correcttyped/totaltyped)*100).toFixed(2));
@@ -286,7 +293,7 @@ function STOP() {
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "TimeUp";
   timerEl.classList.add("blink");
-  document.getElementById("video-loader").classList.remove("hide");
+  document.getElementById("loader").classList.remove("hide");
   if (currentUser) {
     addtesthistory(difficulty,time);
     updateStatsSummary(difficulty,time);
@@ -308,7 +315,7 @@ function STOP() {
       Score: ${score}<br>
       Timestamp: ${new Date().toLocaleString()}
     `;
-    document.getElementById("video-loader").classList.add("hide");
+    document.getElementById("loader").classList.add("hide");
   }, 6000);
 }
 function finish() {
@@ -316,6 +323,8 @@ function finish() {
     clearInterval(interval);
     interval = null;
   }
+  countdown.pause();
+  countdown.currentTime = 0;
   endtime = seconds;
   element.disabled = true;
   Accuracy = parseFloat(((correcttyped/totaltyped)*100).toFixed(2));
@@ -326,7 +335,7 @@ function finish() {
   const timerEl = document.getElementById("timer");
   timerEl.textContent = "Finished";
   timerEl.classList.add("blink");
-  document.getElementById("video-loader").classList.remove("hide");
+  document.getElementById("loader").classList.remove("hide");
   if (currentUser) {
     addtesthistory(difficulty,finishedtime);
     updateStatsSummary(difficulty,finishedtime);
@@ -349,7 +358,7 @@ function finish() {
       Score: ${score}<br>
       Timestamp: ${new Date().toLocaleString()}
     `;
-    document.getElementById("video-loader").classList.add("hide");
+    document.getElementById("loader").classList.add("hide");
   }, 6000);
 }
 function addtesthistory(difficulty, time){
@@ -424,7 +433,7 @@ function Finishpractice() {
   const timerEl = document.getElementById("stopclock");
   timerEl.textContent = "Finished";
   timerEl.classList.add("blink");
-  document.getElementById("video-loader").classList.remove("hide");
+  document.getElementById("loader").classList.remove("hide");
 
   setTimeout(() => {
     timerEl.classList.remove("blink");
@@ -442,7 +451,7 @@ function Finishpractice() {
       Score: ${score}<br>
       Timestamp: ${new Date().toLocaleString()}
     `;
-    document.getElementById("video-loader").classList.add("hide");
+    document.getElementById("loader").classList.add("hide");
   }, 6000);
   breakbtn.classList.add("hide");
   document.querySelector(".finish").classList.add("hide");
@@ -605,7 +614,7 @@ function colorCharacters(userInput,x) {
 }
 
 const wrong = new Audio("sounds/wrong.mp3");
-
+const typing = new Audio("sounds/typing_click_fast.wav");
 element.addEventListener("input", (e) => {
   startTimer();
   const typed = element.value;
@@ -620,6 +629,7 @@ element.addEventListener("input", (e) => {
   }
   if(typed.length > previouslength){
     totaltyped++;
+    typing.play();
     if(typed[typed.length-1]==referenceText[typed.length-1]){
       correcttyped++;
     }else{wrong.play();}
@@ -641,6 +651,7 @@ element2.addEventListener("input", (e) => {
   }
   if(typed.length > previouslength){
     totaltyped++;
+    typing.play();
     if(typed[typed.length-1]==referenceText[typed.length-1]){
       correcttyped++;
     }else{wrong.play();}
@@ -669,6 +680,7 @@ element2.addEventListener("input", (e) => {
     },0);
   })
 })
+
 function loadStatsFor(level) {
   if (!currentUser) return;
 
@@ -867,12 +879,19 @@ function BoardPopup(data,id) {
     <h3><strong>${data.Name}</strong></h3>
     <p><strong>Date Joined:</strong> ${new Date(data.Joined?.toDate()).toLocaleString()}</p>
     <p><strong>Total Tests:</strong> ${data.TotalTests}</p>
-    <p><strong>Highest Accuracy:</strong> ${data.HighestAccuracy}%</p>
-    <p><strong>Highest WPM:</strong> ${data.HighestWPM}</p>
-    <p><strong>Highest Score:</strong> ${data.HighestScore}</p>
-    <p><strong>AvgWPM:</strong> ${data.AvgWPM}</p>
-    <p><strong>AvgAccuracy:</strong> ${data.AvgAccuracy}%</p>
-    <p><strong>AvgScore:</strong> ${data.AvgScore}</p>
+    <br>
+    <div class="cardtext">
+      <p><strong>Highest WPM:</strong> ${data.HighestWPM}</p>
+      <p><strong>AvgWPM:</strong> ${data.AvgWPM}</p>
+    </div>
+    <div class="cardtext">
+      <p><strong>Highest Score:</strong> ${data.HighestScore}</p>
+      <p><strong>AvgScore:</strong> ${data.AvgScore}</p>
+    </div>
+    <div class="cardtext">
+      <p><strong>Highest Accuracy:</strong> ${data.HighestAccuracy}%</p>
+      <p><strong>AvgAccuracy:</strong> ${data.AvgAccuracy}%</p>
+    </div>
   `;
 
   overlay.appendChild(popup);

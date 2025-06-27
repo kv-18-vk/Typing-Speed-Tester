@@ -25,7 +25,6 @@ auth.onAuthStateChanged(user => {
     console.log("User signed in:", user.email);
   } else {
     console.log("No user signed in.");
-    window.location.href = "index.html";
   }
 });
 
@@ -39,6 +38,7 @@ document.querySelector(".logout").addEventListener("click", function() {
       clearInterval(practiceInterval);
       practiceInterval = null;
     }
+    window.location.href = "index.html";
   }).catch((error) => {
     alert("Logout error: " + error.message);
   });

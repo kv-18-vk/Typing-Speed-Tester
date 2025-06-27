@@ -246,7 +246,7 @@ function finish() {
   }, 6000);
 }
 function addtesthistory(difficulty, time){
-  db.collection(`users/${currentUser.email}/${difficulty} tests`).add({
+  db.collection(`users/${currentUser.uid}/${difficulty} tests`).add({
       time: time,
       difficulty: difficulty,
       totaltyped: totaltyped,
@@ -257,12 +257,12 @@ function addtesthistory(difficulty, time){
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       DocType: "test",
     })
-    db.collection("users").doc(currentUser.email).update({
+    db.collection("users").doc(currentUser.uid).update({
       [`Total${difficulty}Tests`]: firebase.firestore.FieldValue.increment(1)
     });
 }
 function updateStatsSummary(difficulty, time) {
-  const statsRef = db.collection(`users/${currentUser.email}/${difficulty} tests`).doc("stats");
+  const statsRef = db.collection(`users/${currentUser.uid}/${difficulty} tests`).doc("stats");
 
   statsRef.get().then(doc => {
     const data = doc.data();
@@ -281,7 +281,7 @@ function updateStatsSummary(difficulty, time) {
     statsRef.update(updates).then(() => {
       statsRef.get().then(updatedDoc => {
         const d = updatedDoc.data();
-        db.collection('Leaderboard').doc(`${currentUser.email}_${difficulty}`).update({
+        db.collection('Leaderboard').doc(`${currentUser.uid}_${difficulty}`).update({
           AvgAccuracy: parseFloat(((d.correctTyped / d.totalTyped) * 100).toFixed(2)),
           AvgWPM: Math.floor(d.totalWords / d.totalTime),
           AvgScore: parseFloat((d.totalScore / d.totalTests).toFixed(2)),
@@ -560,7 +560,7 @@ function loadStatsFor(level) {
   historyDiv.innerHTML = "";
   document.getElementById("history-heading").innerHTML = `<p>Loading history...</p>`;
 
-  db.collection(`users/${currentUser.email}/${level} tests`)
+  db.collection(`users/${currentUser.uid}/${level} tests`)
     .where("DocType", "==", "test")
     .orderBy("timestamp", "desc")
     .get()
@@ -584,7 +584,7 @@ function loadStatsFor(level) {
         card.addEventListener("click", () => showPopup(d));
       });
       let testCount,avgAccuracy,avgWPM,avgScore,highestaccuracy,highestwpm,highestscore;
-      stats = db.collection(`users/${currentUser.email}/${level} tests`).doc("stats").get()
+      stats = db.collection(`users/${currentUser.uid}/${level} tests`).doc("stats").get()
       .then(doc => {
         const d = doc.data();
         avgAccuracy = parseFloat(((d.correctTyped / d.totalTyped) * 100).toFixed(2));
@@ -666,7 +666,7 @@ function leaderboardfor(level){
   const boardmsg = document.getElementById("board-message");
   boardmsg.innerHTML = "";
   board.innerHTML = "";
-  const userdoc = db.collection('Leaderboard').doc(`${currentUser.email}_${level}`);
+  const userdoc = db.collection('Leaderboard').doc(`${currentUser.uid}_${level}`);
   userdoc.get().then(userdoc => {
     const userdata = userdoc.data();
     if(userdata.TotalTests === 0) {
@@ -778,7 +778,7 @@ function BoardPopup(data,id) {
 }
 
 function loadcertificate() {
-  db.collection("Leaderboard").doc(`${currentUser.email}_Hard`).get()
+  db.collection("Leaderboard").doc(`${currentUser.uid}_Hard`).get()
   .then(doc => {
     const data = doc.data();
     if(data.TotalTests === 0) {

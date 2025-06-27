@@ -51,8 +51,8 @@ document.querySelector(".register").addEventListener("click", function () {
    .then((userCredential) => {
       const user=userCredential.user
 
-      db.collection("users").doc(user.email).set({
-        uid : user.uid,
+      db.collection("users").doc(user.uid).set({
+        email : user.email,
         name: name,
         TotalEasyTests: 0,
         TotalMediumTests: 0,
@@ -74,9 +74,10 @@ document.querySelector(".register").addEventListener("click", function () {
         DocType: "stats"
       };
       difficulties.forEach(diff => {
-        db.collection(`users/${user.email}/${diff} tests`).doc("stats").set(Data);
-        db.collection('Leaderboard').doc(`${user.email}_${diff}`).set({
+        db.collection(`users/${user.uid}/${diff} tests`).doc("stats").set(Data);
+        db.collection('Leaderboard').doc(`${user.uid}_${diff}`).set({
           Name: name,
+          Email: user.email,
           Joined: firebase.firestore.FieldValue.serverTimestamp(),
           Difficulty: diff,
           AvgAccuracy: 0,

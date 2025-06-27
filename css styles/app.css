@@ -16,7 +16,12 @@ html, body {
   display: flex;
   height: 100vh;
 }
-
+#modeMenu{
+  display:none;
+}
+.menu-toggle{
+  display:none;
+}
 .modebox {
   width: 21%;
   height: 100%;
@@ -47,7 +52,7 @@ html, body {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-#logout {
+.logout {
   width: 40%;
   font-size: 0.9rem;
   background: red;
@@ -61,7 +66,7 @@ html, body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#logout:hover {
+.logout:hover {
   background: #ff6b81;
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -88,42 +93,86 @@ html, body {
 }
 
 @media (max-width: 600px){
-  .flex{
+  .flex {
     flex-direction: column;
     min-height: 100vh;
   }
-  .modebox{
-    flex-direction: row;
-    width:100%;
-    min-height: 5vh;
-    overflow-x: auto;
-    overflow-y: hidden;
+  .modebox {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    flex-direction: column;
+    min-height: auto; 
+    display: none;
+    overflow: hidden; 
+    transition: max-height 0.3s ease;
+    z-index: 100;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
-  .mode{
-    font-size:0.9rem;
-    border-radius: 0px;
-    padding: 40px;
-    max-width: 150px;
+  .modebox.menu-open {
+    max-height: 50vh; 
+    overflow-y: auto; 
+    display: flex;
   }
-  #logout{
-    font-size: 0.8rem;
-    margin-bottom: 35px;
-    border-radius: 0;
-    padding: 35px;
+  .mode {
+    font-size: 0.9rem; 
+    border-radius: 20px;
+    padding: 5px 10px; 
+    max-width: none; 
+    margin-bottom: 10px;
+    width: 80%;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
   }
-  .page{
-    width: 100%;
-    flex:1;
+  .mode.mode:nth-child(1){
+    margin-top: 35px;
   }
-  #loader-video{
-    width:80%;
-    height:40%;
+  .logout {
+    font-size: 1rem; 
+    margin-top: 30px; 
+    border-radius: 20px;
+    padding: 4px 8px; 
+    width: 50%;
+    text-align: center;
   }
-  #video-loader{
-    left:10%;
-    top:30%;
+  .menu-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  .menu-toggle.hide{
+    display:none;
   }
   
+  .menu-icon {
+    font-size: medium;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .menu-toggle,
+  .menu-open,
+  .menu-icon {
+    background: transparent;
+  }
+
+  .page{
+    width:100%;
+  }
 }
 
 .hide {
@@ -155,7 +204,6 @@ html, body {
   .top-controls{
     position:none;
     width:100%;
-    margin: 75px;
     padding: 9px 12px;
   }
 }
@@ -376,7 +424,7 @@ html, body {
 .mode{
   font-size: 0.9rem;
 }
-#logout{
+.logout{
   font-size: 0.8rem;
 }
 }
@@ -483,8 +531,3 @@ html, body {
     transform: scale(1,1);
   }
 }
-@keyframes pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-

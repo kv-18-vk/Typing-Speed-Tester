@@ -23,7 +23,6 @@ auth.onAuthStateChanged(user => {
   currentUser = user;
   if (user) {
     console.log("User signed in:", user.email);
-    window.location.href = "app.html"
   } else {
     console.log("No user signed in.");
   }
@@ -115,6 +114,7 @@ document.querySelector(".login").addEventListener("click", function () {
  auth. signInWithEmailAndPassword( email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      window.location.href = "app.html";
     })
     .catch((error) => {
       alert("Login failed: " + error.message);

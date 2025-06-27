@@ -48,8 +48,4 @@ A web-based application that helps users test and improve their typing speed and
 
 ## 🛠 Installation
 
-1. **Clone the repository:**
 
-```bash
-git clone https://github.com/kv-18-vk/Typing-Speed-Tester.git
-cd Typing-Speed-Tester

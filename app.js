@@ -123,6 +123,7 @@ document.querySelector(".login").addEventListener("click", function () {
         mode.classList.remove("selectedmode");
       });
       document.querySelector(".fillpage").classList.remove("hide");
+      document.querySelector("#menuToggle").classList.remove("hide");
       document.querySelector(".modebox button").classList.add("selectedmode");
     })
     .catch((error) => {
@@ -139,7 +140,7 @@ document.querySelector(".log").addEventListener("click", function () {
   loginPage.classList.remove("hide");
 });
 
-document.querySelector("#logout").addEventListener("click", function() {
+document.querySelector(".logout").addEventListener("click", function() {
   auth.signOut().then(() => {
     if (interval) {
       clearInterval(interval);
@@ -151,12 +152,14 @@ document.querySelector("#logout").addEventListener("click", function() {
     }
     document.querySelector(".container").classList.remove("hide");
     document.querySelector(".flex").classList.add("hide");
+    document.querySelector("#menuToggle").classList.add("hide");
     document.querySelector("#loginUsername").value = "";
     document.querySelector("#loginPassword").value = "";
   }).catch((error) => {
     alert("Logout error: " + error.message);
   });
 })
+
 document.querySelectorAll(".toggle-password").forEach((toggleIcon) => {
   toggleIcon.addEventListener("click", () => {
     const inputSelector = toggleIcon.getAttribute("toggle");
@@ -977,3 +980,14 @@ function downloadCertificatePDF() {
    resetstyle(certwpmstyles,certwpm)
   });
 }
+
+document.getElementById('menuToggle').addEventListener('click', function() {
+  const menu = document.querySelector('.modebox'); 
+  menu.classList.toggle('menu-open');
+})
+document.querySelectorAll('.mode, .logout').forEach(function(button) {
+  button.addEventListener('click', function() {
+    const menu = document.querySelector('.modebox');
+    menu.classList.remove('menu-open');
+  });
+})

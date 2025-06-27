@@ -3,7 +3,7 @@
 A web-based application that helps users test and improve their typing speed and accuracy in a fun, engaging way. Built with HTML, CSS, JavaScript, and Firebase Authentication & Firestore.
 
 ### 🔗 Live Demo:
-[Click here to try it!](https://tutorial-700bd.web.app/) <!-- Replace with actual live URL -->
+[Typing Speed Tester](https://tutorial-700bd.web.app/) <!-- Replace with actual live URL -->
 
 
 ## 🚀 Features
@@ -17,17 +17,23 @@ A web-based application that helps users test and improve their typing speed and
 
 - 🧪 **Typing Modes**
   - Typing Test (with WPM, accuracy, and score)
-  - Typing Practice (free typing with timer **(implementing more features ))
-  - Certification Mode (download PDF certificate)
-  - Stats Viewer (test history and summaries)
-  - Leaderboard (ranked globally by score)
+  - Easy, Medium and Hard, each with three different durations
 
 - 📄 **PDF Certificate**
   - Downloadable certificate with your name and your stats
-
+    
+-  **Practice mode**
+  - Can practice and improve the speed
+  - Future Enhancements**(different practice modes, gamification and courses)
+    
 - 🔥 **Firebase Integration**
   - Firestore used for storing user stats, test results, and leaderboard
+    
+- **Leaderboard**
+  - Compete globally and check your rank
 
+- **Stats**
+  - Check your previous test results and overall stats(average, highest with graphs)
 ---
 
 ## 📦 Tech Stack

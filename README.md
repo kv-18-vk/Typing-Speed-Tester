@@ -30,7 +30,7 @@ A web-based application that helps users test and improve their typing speed and
    - Firestore used for storing user stats, test results, and leaderboard
     
 - 🏆 **Leaderboard**
-   - Compete globally and check your rank
+   - Compete and check your rank globally
 
 - 📊 **Stats**
     - Check your previous test results and overall stats(average, highest with graphs)

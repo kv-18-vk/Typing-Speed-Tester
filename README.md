@@ -23,17 +23,17 @@ A web-based application that helps users test and improve their typing speed and
   - Downloadable certificate with your name and your stats
     
 -  **Practice mode**
-     - Can practice and improve the speed
-     - Future Enhancements**(different practice modes, gamification and courses)
+   - Can practice and improve the speed
+   - Future Enhancements**(different practice modes, gamification and courses)
     
 - 🔥 **Firebase Integration**
-      - Firestore used for storing user stats, test results, and leaderboard
+   - Firestore used for storing user stats, test results, and leaderboard
     
 - **Leaderboard**
-      - Compete globally and check your rank
+   - Compete globally and check your rank
 
 - **Stats**
-      - Check your previous test results and overall stats(average, highest with graphs)
+    - Check your previous test results and overall stats(average, highest with graphs)
 ---
 
 ## 📦 Tech Stack

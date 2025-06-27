@@ -10,7 +10,7 @@ A web-based application that helps users test and improve their typing speed and
 
 - 🔐 **Firebase Authentication**
   - Email/Password login & registration
-    **Future Enhancements
+  - **Future Enhancements
       - Email verification
       - Password reset ("Forgot Password")
       - Google Sign-In

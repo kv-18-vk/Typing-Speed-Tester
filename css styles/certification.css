@@ -20,9 +20,9 @@
 }
 .certificate-wrapper {
   width: 600px;
-  height: 425px;
+  height: 463px;
   margin: 0 auto;
-  padding: 10px;
+  padding:10px;
   background: white;
   position: relative;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -34,7 +34,6 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  padding-bottom: 10px;
 }
 
 .cert-name {
@@ -50,19 +49,19 @@
 .cert-wpm,
 .cert-accuracy {
   position: absolute;
-  top: 62%;
+  top: 61%;
   font-size: 1.15rem;
   font-weight: bold;
   color: #2d3436;
 }
 
 .cert-wpm {
-  left: 35%;
+  left: 42%;
   transform: translateX(-50%);
 }
 
 .cert-accuracy {
-  left: 62%;
+  left: 69%;
   transform: translateX(-50%);
 }
 

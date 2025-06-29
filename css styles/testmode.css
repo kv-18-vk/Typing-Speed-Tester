@@ -57,7 +57,7 @@
   background: linear-gradient(315deg, #e0f7fa, #A8F1FF);
 }
 
-.testpage button {
+#cancel {
   background-color: #e74c3c;
   color: white;
   padding: 10px 20px;
@@ -68,8 +68,7 @@
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.testpage button:hover {
+#cancel:hover {
   background-color: #c0392b;
   transform: translateY(-2px);
 }
@@ -102,6 +101,35 @@
   border-radius: 20px;
   font-weight: bold;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.ibutton{
+  position: relative;
+  border-radius: 50px;
+  margin-top: 5px;
+  margin-right: 5px;
+  font-size: smaller;
+}
+.instruct-card {
+  border: none;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  max-width: 380px;
+  width: 90%;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: all 0.3s ease;
+  background: white;
+}
+.instruct-card h3 {
+  margin-top: 0;
+  border-bottom: 2px solid #dfe6e9;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+.popup-show {
+  transform: scale(1);
+  opacity: 1;
 }
 .typeworld{
   display: flex;
@@ -209,6 +237,10 @@
     padding: 4px 10px;
     margin-top: 5px;
   }
+  .instruct-card{
+    font-size: 0.7rem;
+    width:80%;
+  }
   .typeworld{
     width: 100%;
     margin-top: 10px;
@@ -272,6 +304,9 @@
     font-size: 0.8rem;
     padding: 8px 16px;
     margin-bottom: 5px;
+  }
+  .instruct-card{
+    font-size: 0.9rem;
   }
   .typeworld{
     margin-top: 50px;

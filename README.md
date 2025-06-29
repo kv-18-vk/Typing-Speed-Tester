@@ -37,7 +37,7 @@ A web-based application that helps users test and improve their typing speed and
 - 📊 **Stats**
     - Check your previous test results and overall stats(average, highest with graphs)
       
-- **Responsive Design**
+- 📱 **Responsive Design**
     - The app is fully responsive and works seamlessly across all types of devices — desktops, tablets, and smartphones.
     - You can use it on any screen size without losing functionality or usability.
 ---

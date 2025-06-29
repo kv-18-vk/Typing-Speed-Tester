@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css styles/certification.css" />
   <link rel="stylesheet" href="css styles/statsmode.css" />
   <link rel="stylesheet" href="css styles/leaderboard.css" />
+  <link rel="icon" href="css styles/favicon-16x16.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Charm&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <title>Typing Speed Tester</title>
@@ -44,7 +45,7 @@
       <button onclick="SUBMIT()">Submit</button>
     </div>
     <div class="testpage hide page">
-      <div class="top-controls">
+      <div class="top-controls fortest">
         <div id="test-header">
           <h1>Typing Test</h1>
           <div id="modedisplay">Difficulty: Medium</div>
@@ -66,7 +67,7 @@
     </div>
 
     <div class="practicepage hide page" id="Typing Practice">
-      <div class="top-controls">
+      <div class="top-controls forpractice">
         <h1>Typing Practice</h1>
         <div id="timer-controls">
           <button class="break" onclick="Break()">pause</button>
@@ -86,15 +87,15 @@
     </div>
 
     <div class="certipage hide page" id="Certification">
-      <h1 class="blink"></h1>
-      <p id="certificate-text">We are providing certificates to our users with their Average Stats of Hard mode tests.</p>
-      <div id="certificate-div" class="certificate-wrapper">
-        <img alt="certificate" src="css styles/certificate.png" class="certificate-img">
-        <div class="cert-name" id="cert-name"></div>
-        <div class="cert-wpm" id="cert-wpm"></div>
-        <div class="cert-accuracy" id="cert-accuracy"></div>
-      </div>
-      <button class="cert-btn" onclick="downloadCertificatePDF()">Generate Certificate</button>
+        <h1 class="blink"></h1>
+        <p id="certificate-text">We are providing certificates to our users with their Average Stats of Hard mode tests.</p>
+        <div id="certificate-div" class="certificate-wrapper">
+          <img alt="certificate" src="css styles/certificate.png" class="certificate-img">
+          <div class="cert-name" id="cert-name"></div>
+          <div class="cert-wpm" id="cert-wpm"></div>
+          <div class="cert-accuracy" id="cert-accuracy"></div>
+        </div>
+        <button class="cert-btn" onclick="downloadCertificatePDF()">Generate Certificate</button>
     </div>
     
     <div class="statpage hide page" id="Your Stats">

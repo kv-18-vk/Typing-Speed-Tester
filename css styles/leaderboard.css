@@ -79,7 +79,7 @@
 }
 .leaderboard-scroll {
   flex: 1;
-  max-height: 380px;
+  max-height: 330px;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -112,7 +112,16 @@
   width: 100%;
   box-sizing: border-box;
 }
-
+@keyframes slideFade {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 
 /* Realistic Medal Colors */
 .gold-card {
@@ -128,6 +137,11 @@
 .bronze-card {
   background: linear-gradient(145deg, #ffe0b2, #cd7f32, #e6a76d);
   border-color: #e6a76d;
+}
+.gold-card,
+.bronze-card,
+.silver-card{
+  font-size: 1.1rem;
 }
 .cardtext{
   display:flex;

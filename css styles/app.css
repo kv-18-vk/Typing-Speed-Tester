@@ -416,9 +416,8 @@ html, body {
 
 @media (min-width: 601px) and (max-width: 992px) {
 .top-controls {
-  position: fixed;
-  top: 0;
-  width: calc(79% - 40px);
+  position: none;
+  width: calc(79% - 80px);
   height: 15%;
   padding: 15px 20px;
   display: flex;

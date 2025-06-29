@@ -47,7 +47,13 @@ A web-based application that helps users test and improve their typing speed and
 - Font Awesome, Google Fonts
 
 ---
+## User Experience
 
+-The application is designed to be fun and engaging, with real-time feedback and visual cues.
+-Users can track their progress over time, compete with others, and receive certificates for their achievements.
+-The platform is accessible via modern web browsers and requires no installation.
+
+---
 ## 🛠 Installation
 
 

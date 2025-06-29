@@ -17,6 +17,7 @@ A web-based application that helps users test and improve their typing speed and
 
 - 🧪 **Typing Modes**
   - Typing Test (with WPM, accuracy, and score)
+  - Animating text boxes and dynamic color changes
   - Easy, Medium and Hard, each with three different durations
   - Detailed scorecards and analysis of results
 

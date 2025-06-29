@@ -1,5 +1,5 @@
 body {
-  background: url(typing.jpg);
+  background: url(homepage.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -31,8 +31,8 @@ html, body {
   flex-direction: column;
   align-items: center;
 }
-
 .mode {
+  position: relative;
   width: 80%;
   font-size: 1.1rem;
   font-weight: 600;
@@ -41,17 +41,40 @@ html, body {
   border-radius: 20px;
   padding: 15px;
   margin: 15px 0;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: white;
-  text-align: center;
+  color: #fff;
+  background: linear-gradient(140deg,#A7C1A8,rgb(31, 31, 165),cyan);
+  background-size: 400% 400%;
+  animation: flow 3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+@keyframes flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 100%; }
 }
 
 .mode:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: scale(1.07);
+  box-shadow: 0 6px 20px 2px cyan, 0 8px 24px rgba(0,0,0,0.22);
 }
-
+.mode.mode:nth-child(1).selectedmode{
+  background: linear-gradient(135deg, #0984e3, #74b9ff);
+}
+.mode:nth-child(2).selectedmode{
+  background: #809D3C;
+}
+.mode.mode:nth-child(3).selectedmode{
+  background: linear-gradient(145deg,#ffec8b, #fffacd, #ffd700);
+}
+.mode.mode:nth-child(4).selectedmode{
+  background: linear-gradient(135deg, #f1c40f, #f39c12);
+}
+.mode.mode:nth-child(5).selectedmode{
+  background: linear-gradient(135deg, #3498db, #2980b9);
+}
 .logout {
   width: 40%;
   font-size: 0.9rem;
@@ -72,10 +95,6 @@ html, body {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.selectedmode {
-  transform: scale(1.2);
-  box-shadow: 0 0 0 3px white, 0 6px 12px rgba(0, 0, 0, 0.2);
-}
 
 /* Main content pages */
 .page {
@@ -85,10 +104,12 @@ html, body {
   gap: 20px;
   padding: 100px 40px 40px 40px;
   box-sizing: border-box;
-  min-height: 150vh;
+  margin: 20px 20px 20px 20px;
+  border-radius: 10px;
   position: relative;
   align-items: center;
-  overflow-y: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
   flex: 1;
 }
 
@@ -130,6 +151,7 @@ html, body {
   .mode.mode:nth-child(1){
     margin-top: 35px;
   }
+  
   .logout {
     font-size: 1rem; 
     margin-top: 30px; 
@@ -172,6 +194,8 @@ html, body {
 
   .page{
     width:100%;
+    margin:0;
+    border-radius: 0;
   }
 }
 
@@ -182,8 +206,8 @@ html, body {
 /* Fixed top controls */
 .top-controls {
   position: fixed;
-  top: 0;
-  width: calc(79% - 40px);
+  top: 20px;
+  width: calc(79% - 80px);
   padding: 15px 20px;
   display: flex;
   flex-direction: column;
@@ -191,7 +215,8 @@ html, body {
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
-  background: linear-gradient(315deg, #e0f7fa, #6FE6FC);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   z-index: 10;
 }
 .noclipboard {
@@ -202,35 +227,19 @@ html, body {
 
 @media (max-width: 600px){
   .top-controls{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    top:0;
     position:none;
     width:100%;
     padding: 9px 12px;
   }
 }
 
-
 #timer-controls {
   display: flex;
   gap: 40px;
   align-items: center;
-}
-
-
-/* Mode button colors */
-.mode:nth-child(1) {
-  background: linear-gradient(135deg, #A8F1FF, #6FE6FC);
-}
-.mode:nth-child(2) {
-  background: linear-gradient(315deg,#F3A26D,#FB9E3A);
-}
-.mode:nth-child(3) {
-  background: linear-gradient(135deg, #bd68ca, #ce99d7);
-}
-.mode:nth-child(4) {
-  background: linear-gradient(135deg, #f1c40f, #f39c12);
-}
-.mode:nth-child(5) {
-  background: linear-gradient(135deg, #3498db, #2980b9);
 }
 
 
@@ -327,8 +336,8 @@ html, body {
   background-image: url("noblogo.png");
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center 25px;
-  opacity: 0.1; /* Adjust logo opacity here */
+  background-position: center -25px;
+  opacity: 0.05; /* Adjust logo opacity here */
   z-index: -1;
 }
 

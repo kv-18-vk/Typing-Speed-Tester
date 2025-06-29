@@ -60,6 +60,7 @@ A web-based application that helps users test and improve their typing speed and
 
   - Save the ZIP file to your computer.
   - Extract the ZIP File and extract all files.
+  - Make sure that all extracted files are in same path and in same order.
   - Open the extracted folder.
   - Locate the index.html file.
   - Run the Application

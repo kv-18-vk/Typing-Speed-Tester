@@ -54,6 +54,6 @@ A web-based application that helps users test and improve their typing speed and
 - The platform is accessible via modern web browsers and requires no installation.
 
 ---
-## 🛠 Installation
+## 🛠 Installation (locally)
 
 

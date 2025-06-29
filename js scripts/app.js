@@ -28,6 +28,7 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+//logout//
 document.querySelector(".logout").addEventListener("click", function() {
   auth.signOut().then(() => {
     if (interval) {
@@ -45,7 +46,7 @@ document.querySelector(".logout").addEventListener("click", function() {
 })
 
 
-
+//variables and constants//
 const timeicon = '<i class="fas fa-clock icon-time"></i>';
 const speedicon = '<i class="fas fa-bolt icon-speed"></i>';
 const accuracyicon = '<i class="fas fa-bullseye icon-accuracy"></i>';
@@ -80,12 +81,104 @@ let correctWords;
 let backspace = true;
 let previouslength = 0;
 
+// mode buttons//
+const modes = document.querySelectorAll(".mode")
+const pages = document.querySelectorAll(".page")
+for(const mode of modes){
+  mode.addEventListener("click", () => {
+    pages.forEach(page=>page.classList.add("hide"));
+    modes.forEach(mode=>mode.classList.remove("selectedmode"));
+    selectmode(mode);
+  });
+}
+function selectmode(val){
+  if (interval){
+    clearInterval(interval);
+    interval = null;
+  }
+  if (practiceInterval) {
+    clearInterval(practiceInterval);
+    practiceInterval = null;
+  }
+  let page = document.getElementById(val.innerText.trim())
+  page.classList.remove("hide")
+  val.classList.add("selectedmode")
+  if (val.innerText.trim() === "Typing Practice") {
+    resetpractice();
+  }
+  if (val.innerText.trim() === "Your Stats") {
+    selectStatsMode(document.querySelector("#statsrefresh"), "Easy");
+  }
+  if (val.innerText.trim() === "Leaderboard") {
+    selectBoardMode(document.querySelector("#boardrefresh"), "Easy");
+  }
+  if (val.innerText.trim() === "Certification") {
+    loadcertificate();
+  }
+}
+
+
+//timer display//
 function updateTimerDisplay(id,sec) {
   const mins = Math.floor(sec / 60);
   const secs = sec % 60;
   document.getElementById(id).textContent =`${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
+//splitting the text into characters//
+function initMatter(val,id,x) {
+  let html = "";
+  for (let i = 0; i < val.length; i++) {
+    html += `<span class=" ${i >= windowSize ? 'hide-char' : ''}" id="${x}-${i}">${val[i]}</span>`;
+  }
+  document.getElementById(id).innerHTML = html;
+}
+
+//animation of text in the box//
+function updateWindowForward(x) {
+  for (let i = currentStart; i < currentStart + stepSize; i++) {
+    const charEl = document.getElementById(`${x}-${i}`);
+    if (charEl) charEl.classList.add("hide-char");
+  }
+  for (let i = currentStart + windowSize; i < currentStart + windowSize + stepSize; i++) {
+    const charEl = document.getElementById(`${x}-${i}`);
+    if (charEl) charEl.classList.remove("hide-char");
+  }
+  currentStart += stepSize;
+}
+function updateWindowBackward(x) {
+  for (let i = currentStart + windowSize - stepSize; i < currentStart + windowSize; i++) {
+    const charEl = document.getElementById(`${x}-${i}`);
+    if (charEl) charEl.classList.add("hide-char");
+  }
+  for (let i = currentStart - stepSize; i < currentStart; i++) {
+    const charEl = document.getElementById(`${x}-${i}`);
+    if (charEl) charEl.classList.remove("hide-char");
+  }
+  currentStart -= stepSize;
+}
+
+//dynamic color changes of the text//
+function colorCharacters(userInput,x) {
+  for (let i = 0; i < referenceText.length; i++) {
+    let expected = referenceText[i];
+    let typed = userInput[i];
+    let charSpan = document.getElementById(`${x}-${i}`);
+
+    if (!charSpan) continue;
+    charSpan.classList.remove("correct-char", "wrong-char");
+    if (i < userInput.length) {
+        if (typed === expected) {
+            charSpan.classList.add("correct-char");
+        } else {
+            charSpan.classList.add("wrong-char");
+        }
+    }
+  }
+}
+
+
+//testmode//
 function SUBMIT() {
   fillpage.classList.add("hide");
   testpage.classList.remove("hide");
@@ -103,17 +196,18 @@ function SUBMIT() {
   correctWords = 0;
   backspace = true;
   endtime = 0;
+  if (interval) {
+    clearInterval(interval);
+    interval = null;
+  }
   const randomInt = Math.floor(Math.random() * 5) + 1;
   db.collection("Typing-paragraphs").doc(`${difficulty}-${randomInt}`).get()
     .then((doc) => {
         referenceText = doc.data().Text;
         element.disabled = false;
         initMatter(referenceText,"matter","char");
+        instructionpopup();
     })
-  if (interval) {
-    clearInterval(interval);
-    interval = null;
-  }
 }
 
 function CANCEL() {
@@ -301,6 +395,7 @@ function restartTest(){
 }
 
 
+//practice mode//
 function Finishpractice() {
   if (practiceInterval) {
     clearInterval(practiceInterval);
@@ -397,92 +492,7 @@ function resetpractice() {
 }
 
 
-// mode buttons 
-const modes = document.querySelectorAll(".mode")
-const pages = document.querySelectorAll(".page")
-for(const mode of modes){
-  mode.addEventListener("click", () => {
-    pages.forEach(page=>page.classList.add("hide"));
-    modes.forEach(mode=>mode.classList.remove("selectedmode"));
-    selectmode(mode);
-  });
-}
-
-function selectmode(val){
-  if (interval){
-    clearInterval(interval);
-    interval = null;
-  }
-  if (practiceInterval) {
-    clearInterval(practiceInterval);
-    practiceInterval = null;
-  }
-  let page = document.getElementById(val.innerText.trim())
-  page.classList.remove("hide")
-  val.classList.add("selectedmode")
-  if (val.innerText.trim() === "Typing Practice") {
-    resetpractice();
-  }
-  if (val.innerText.trim() === "Your Stats") {
-    selectStatsMode(document.querySelector("#statsrefresh"), "Easy");
-  }
-  if (val.innerText.trim() === "Leaderboard") {
-    selectBoardMode(document.querySelector("#boardrefresh"), "Easy");
-  }
-  if (val.innerText.trim() === "Certification") {
-    loadcertificate();
-  }
-}
-
-function initMatter(val,id,x) {
-  let html = "";
-  for (let i = 0; i < val.length; i++) {
-    html += `<span class=" ${i >= windowSize ? 'hide-char' : ''}" id="${x}-${i}">${val[i]}</span>`;
-  }
-  document.getElementById(id).innerHTML = html;
-}
-
-function updateWindowForward(x) {
-  for (let i = currentStart; i < currentStart + stepSize; i++) {
-    const charEl = document.getElementById(`${x}-${i}`);
-    if (charEl) charEl.classList.add("hide-char");
-  }
-  for (let i = currentStart + windowSize; i < currentStart + windowSize + stepSize; i++) {
-    const charEl = document.getElementById(`${x}-${i}`);
-    if (charEl) charEl.classList.remove("hide-char");
-  }
-  currentStart += stepSize;
-}
-
-function updateWindowBackward(x) {
-  for (let i = currentStart + windowSize - stepSize; i < currentStart + windowSize; i++) {
-    const charEl = document.getElementById(`${x}-${i}`);
-    if (charEl) charEl.classList.add("hide-char");
-  }
-  for (let i = currentStart - stepSize; i < currentStart; i++) {
-    const charEl = document.getElementById(`${x}-${i}`);
-    if (charEl) charEl.classList.remove("hide-char");
-  }
-  currentStart -= stepSize;
-}
-
-function colorCharacters(userInput,x) {
-  for (let i = 0; i < referenceText.length; i++) {
-    let expected = referenceText[i];
-    let typed = userInput[i];
-    let charSpan = document.getElementById(`${x}-${i}`);
-
-    if (!charSpan) continue;
-    charSpan.classList.remove("correct-char", "wrong-char");
-    if (i < userInput.length) {
-        if (typed === expected) {
-            charSpan.classList.add("correct-char");
-        } else {
-            charSpan.classList.add("wrong-char");
-        }
-    }
-  }
-}
+//keyboard events for user-input//
 const wrong = new Audio("sounds/wrong.mp3");
 const typing = new Audio("sounds/typing_click_fast.wav");
 element.addEventListener("input", (e) => {
@@ -506,7 +516,6 @@ element.addEventListener("input", (e) => {
   }
   previouslength = typed.length;
 });
-
 element2.addEventListener("input", (e) => {
   startPracticeTimer();
   const typed = element2.value;
@@ -528,7 +537,6 @@ element2.addEventListener("input", (e) => {
   }
   previouslength = typed.length;
 });
-
 [element,element2].forEach(el=>{
   el.addEventListener("keydown",(e)=>{
     if(e.key === "Enter"){e.preventDefault();}
@@ -551,6 +559,8 @@ element2.addEventListener("input", (e) => {
   })
 })
 
+
+//statsmode//
 function loadStatsFor(level) {
   if (!currentUser) return;
 
@@ -628,7 +638,6 @@ function selectStatsMode(val, level) {
 
   loadStatsFor(level);
 }
-
 function showPopup(data) {
   const overlay = document.createElement("div");
   overlay.className = "popup-overlay";
@@ -659,6 +668,7 @@ function showPopup(data) {
   });
 }
 
+//leaderboard//
 function leaderboardfor(level){
   if(!currentUser) return;
   const board = document.getElementById("board");
@@ -726,7 +736,6 @@ function selectBoardMode(val, level) {
 
   leaderboardfor(level);
 }
-
 function BoardPopup(data,id) {
   const overlay = document.createElement("div");
   overlay.className = "popup-overlay";
@@ -777,6 +786,8 @@ function BoardPopup(data,id) {
   });
 }
 
+
+//certification//
 function loadcertificate() {
   db.collection("Leaderboard").doc(`${currentUser.uid}_Hard`).get()
   .then(doc => {
@@ -798,7 +809,6 @@ function loadcertificate() {
 
   })
 }
-
 function downloadCertificatePDF() {
   const element = document.getElementById("certificate-div");
   const certname = document.getElementById("cert-name");
@@ -848,6 +858,7 @@ function downloadCertificatePDF() {
   });
 }
 
+//toggle-button for mobiles//
 document.getElementById('menuToggle').addEventListener('click', function() {
   const menu = document.querySelector('.modebox'); 
   menu.classList.toggle('menu-open');
@@ -858,3 +869,49 @@ document.querySelectorAll('.mode, .logout').forEach(function(button) {
     menu.classList.remove('menu-open');
   });
 })
+
+//instructions in testmode//
+function instructionpopup(){
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
+
+  const popup = document.createElement("div");
+  popup.className = "instruct-card";
+  
+  popup.innerHTML = `
+    <h3><strong>Instructions</strong></h3>
+    <p><strong>> The timer starts when you try to enter  in  the typing space below</strong></p>
+    <p><strong>> Timer will be stopped only in the case of :</strong></p>
+    <ul>
+	      <li>completion of words</li>
+	      <li>after finishing the  given time</li>
+    </ul>
+    <p><strong>> If you try switching to other modes in website(i.e going to practice or stats while doing test)leads to losing your progress in the current mode</strong></p>
+    <p><strong>> Be careful while typing</strong></p>
+    <ul>
+        <li>The given sentence should be completely identical to your typed text(i.e spaces, punctuations)</li>
+	      <ul>
+           <li>I am handsome.</li>
+	         <li>Iam handsome.[give your wpm as 0]</li>
+        </ul>
+    </ul>
+    <p><strong>> Your score is equal to wpm*accuracy</strong></p>
+    <ul>
+	      <li>score=wpm*accuracy</li>
+        <li>Please correct your mistakes to achieve a good score.</li>
+    </ul>
+    <p><strong>> We hope your test goes planned as per your strategies</strong></p>
+  `;
+
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+
+  popup.classList.add("popup-show");
+  overlay.classList.add("popup-fade");
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlay.remove();
+    }
+  });
+}

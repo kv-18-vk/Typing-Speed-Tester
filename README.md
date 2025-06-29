@@ -56,4 +56,14 @@ A web-based application that helps users test and improve their typing speed and
 ---
 ## 🛠 Installation (locally)
 
+- Download the Code:
+
+  - Save the ZIP file to your computer.
+  - Extract the ZIP File and extract all files.
+  - Open the extracted folder.
+  - Locate the index.html file.
+  - Run the Application
+  - Double-click the index.html file.
+  - The application will open in your default web browser.
+
 

@@ -1,9 +1,16 @@
 .certipage {
-  background: linear-gradient(135deg, #e5c6ea, #d3c3d5);
+  background:url(white.jpg);
+  overflow: hidden;
 }
+
+@keyframes shimmerBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .certipage {
   flex-direction: column;
-  height:100%;
 }
 .certipage h1{
   margin-top: 0; 
@@ -74,8 +81,7 @@
 .cert-btn {
   margin-top: 30px;
   padding: 12px 25px;
-  background: linear-gradient(135deg, #9b59b6, #8e44ad);
-  color: white;
+  background: linear-gradient(145deg, #fffacd, #ffd700, #ffec8b);
   border: none;
   border-radius: 8px;
   font-weight: bold;
@@ -85,7 +91,7 @@
 }
 
 .cert-btn:hover {
-  background: linear-gradient(135deg, #8e44ad, #9b59b6);
+  background: linear-gradient(145deg,#ffec8b, #fffacd, #ffd700);
   transform: translateY(-2px);
 }
 
@@ -95,7 +101,7 @@
   }
   .certificate-wrapper{
     width: 240px;
-    height: 170px;
+    height: 185px;
     padding:4px;
   }
   .cert-name{
@@ -116,7 +122,7 @@
 @media (min-width:601px) and (max-width:992px){
   .certificate-wrapper{
     width: 480px;
-    height: 340px;
+    height: 370px;
     padding:8px;
   }
   .cert-name{

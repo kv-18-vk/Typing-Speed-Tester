@@ -2,13 +2,6 @@
   background:url(white.jpg);
   overflow: hidden;
 }
-
-@keyframes shimmerBG {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 .certipage {
   flex-direction: column;
 }

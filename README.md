@@ -3,7 +3,7 @@
 A web-based application that helps users test and improve their typing speed and accuracy in a fun, engaging way. Built with HTML, CSS, JavaScript, and Firebase Authentication & Firestore.
 
 ### 🔗 Live Demo:
-[Typing Speed Tester](https://tutorial-700bd.web.app/) <!-- Replace with actual live URL -->
+[Typing Speed Tester](https://tutorial-700bd.web.app/) 
 
 
 ## 🚀 Features

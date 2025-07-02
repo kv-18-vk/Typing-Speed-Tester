@@ -216,3 +216,49 @@ function restartTest(){
   scorecard.classList.add("hide");
   fillpage.classList.remove("hide");
 }
+
+//instructions in testmode//
+function instructionpopup(){
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
+
+  const popup = document.createElement("div");
+  popup.className = "instruct-card";
+  
+  popup.innerHTML = `
+    <h3><strong>Instructions</strong></h3>
+    <p><strong>> The timer starts when you try to enter  in  the typing space below</strong></p>
+    <p><strong>> Timer will be stopped only in the case of :</strong></p>
+    <ul>
+	      <li>completion of words</li>
+	      <li>after finishing the  given time</li>
+    </ul>
+    <p><strong>> If you try switching to other modes in website(i.e going to practice or stats while doing test)leads to losing your progress in the current mode</strong></p>
+    <p><strong>> Be careful while typing</strong></p>
+    <ul>
+        <li>The given sentence should be completely identical to your typed text(i.e spaces, punctuations)</li>
+	      <ul>
+           <li>I am handsome.</li>
+	         <li>Iam handsome.[give your wpm as 0]</li>
+        </ul>
+    </ul>
+    <p><strong>> Your score is equal to wpm*accuracy</strong></p>
+    <ul>
+	      <li>score=wpm*accuracy</li>
+        <li>Please correct your mistakes to achieve a good score.</li>
+    </ul>
+    <p><strong>> We hope your test goes planned as per your strategies</strong></p>
+  `;
+
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+
+  popup.classList.add("popup-show");
+  overlay.classList.add("popup-fade");
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlay.remove();
+    }
+  });
+}

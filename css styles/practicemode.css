@@ -1,8 +1,7 @@
 .practicepage {
   background: #EEEFE0 ;
 }
-#stopclock{
-  margin-top: 8px;
+.stopclock{
   background: #f1c40f;
   color: #2d3436;
   padding: 8px 20px;
@@ -13,8 +12,8 @@
 .top-controls.forpractice{
   background: #A9B5DF;
 }
-button.break,
-button.finish {
+.break,
+.finish {
   padding: 10px 20px;
   font-size: 1rem;
   border: none;
@@ -25,22 +24,22 @@ button.finish {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-button.break {
+.break {
   background: linear-gradient(135deg, #f39c12, #f1c40f);
   color: white;
 }
 
-button.break:hover {
+.break:hover {
   background: linear-gradient(135deg, #f1c40f, #f39c12);
   transform: translateY(-2px);
 }
 
-button.finish {
+.finish {
   background: linear-gradient(135deg, #e74c3c, #c0392b);
   color: white;
 }
 
-button.finish:hover {
+.finish:hover {
   background: linear-gradient(135deg, #c0392b, #e74c3c);
   transform: translateY(-2px);
 }
@@ -142,11 +141,11 @@ button.finish:hover {
   .practicepage h1{
     font-size: large;
   }
-  button.break,
-  button.finish{
+  .break,
+  .finish{
     font-size: 0.6rem;
   }
-  #stopclock{
+  .stopclock{
     font-size: 0.7em;
     padding: 4px 10px;
     margin-top: 5px;
@@ -204,11 +203,11 @@ button.finish:hover {
     font-size: 1.2rem;
     padding:12px;
   }
-  button.break,
-  button.finish{
+  .break,
+  .finish{
     font-size: 0.7rem;
   }
-  #stopclock{
+  .stopclock{
     font-size: 0.8rem;
     padding: 8px 16px;
     margin-bottom: 5px;

@@ -48,6 +48,7 @@ A web-based application that helps users test and improve their typing speed and
 - Firebase Authentication
 - Firebase Firestore
 - html2pdf.js (PDF generation)
+- chart.js (Graphs)
 - Font Awesome, Google Fonts
 
 ---

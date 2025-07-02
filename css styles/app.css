@@ -67,12 +67,15 @@ html, body {
   background: #809D3C;
 }
 .mode.mode:nth-child(3).selectedmode{
-  background: linear-gradient(145deg,#ffec8b, #fffacd, #ffd700);
+  background: #809D3C;
 }
 .mode.mode:nth-child(4).selectedmode{
-  background: linear-gradient(135deg, #f1c40f, #f39c12);
+  background: linear-gradient(145deg,#ffec8b, #fffacd, #ffd700);
 }
 .mode.mode:nth-child(5).selectedmode{
+  background: linear-gradient(135deg, #f1c40f, #f39c12);
+}
+.mode.mode:nth-child(6).selectedmode{
   background: linear-gradient(135deg, #3498db, #2980b9);
 }
 .logout {

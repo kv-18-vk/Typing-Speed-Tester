@@ -35,7 +35,6 @@ function wpmchart(level){
     wpmchartcondition.destroy();
   }
   let testDatesArray = [], wpmValuesArray = [];
-  const options = { month: 'long', day: 'numeric' };
   const pointcolors = ['blue','blue','blue','blue','white']
 
   db.collection(`users/${currentUser.uid}/${level} tests`)
@@ -47,7 +46,7 @@ function wpmchart(level){
     snapshot.forEach(doc=>{
       const userdata = doc.data();
       const dateandtime = userdata.timestamp.toDate();
-      testDatesArray.push([dateandtime.toLocaleDateString("en-US", options),dateandtime.toLocaleTimeString("en-US", { hour: 'numeric', minute: '2-digit' })]);
+      testDatesArray.push([dateandtime.toLocaleDateString("en-US", options = { month: 'long', day: 'numeric' }),dateandtime.toLocaleTimeString("en-US", { hour: 'numeric', minute: '2-digit' })]);
       wpmValuesArray.push(userdata.wpm);
     })
   })
@@ -182,11 +181,11 @@ function wpmchart(level){
 
 }
 
-function renderAccuracyChart(accuracy) {
+function renderAccuracyChart(accuracy,id) {
   if (accuracyChartcondition) {
     accuracyChartcondition.destroy();
   }
-  const ctx = document.getElementById("accuracyChart").getContext("2d");
+  const ctx = document.getElementById(id).getContext("2d");
   accuracyChartcondition = new Chart(ctx, {
     type: 'doughnut',
     data: {
@@ -257,10 +256,10 @@ function renderAccuracyChart(accuracy) {
 }
 
 
-function displayerrors(wrongwords){
-  const wrongListDiv = document.getElementById("wrongwords-list");
-  const wrongbox = document.getElementById("wrongwords-box");
-  const titlediv = document.getElementById("titlediv");
+function displayerrors(wrongwords,list,box,title){
+  const wrongListDiv = document.getElementById(list);
+  const wrongbox = document.getElementById(box);
+  const titlediv = document.getElementById(title);
   wrongListDiv.innerHTML = "";
   titlediv.innerHTML = "";
 
@@ -285,3 +284,179 @@ function displayerrors(wrongwords){
     });
   }
 }
+
+
+
+
+let allchart = null;
+
+function totalgraphs(level) {
+  if (!currentUser?.email) {
+    console.error("User not logged in");
+    return;
+  }
+  if (allchart) {allchart.destroy();}
+
+  const canvas = document.getElementById('allwpmchart');
+
+  const ctx = canvas.getContext('2d');
+  const labels = [];
+  const wpms = [];
+  const accuracies = [];
+  let index = 1;
+  canvas.style.display = 'block';
+
+  db.collection(`users/${currentUser.uid}/${level} tests`)
+    .where("DocType", "==", "test")
+    .orderBy("timestamp", "asc")
+    .get()
+    .then(snapshot => {
+      if(snapshot.empty){
+        return;
+      }
+      snapshot.forEach((doc) => {
+        const testData = doc.data();
+        wpms.push(testData.wpm);
+        accuracies.push(testData.accuracy);
+        const dateandtime = testData.timestamp.toDate();
+        labels.push([dateandtime.toLocaleDateString("en-US", { month: 'long', day: 'numeric' }),dateandtime.toLocaleTimeString("en-US", { hour: 'numeric', minute: '2-digit' })]);
+        index++;
+      });
+  const containerbox = document.querySelector(".containerbox");
+  if (index > 7) {
+    const newwidth = 700 + ((index - 5) * 140);
+    containerbox.style.width = `${newwidth}px`;
+  }
+  const chartWidth = Math.max(300, labels.length * 140);
+  canvas.style.width = `${chartWidth}px`;
+  canvas.style.minWidth = '100%';
+
+  const totalDuration = 2000; 
+  const delayBetweenPoints = totalDuration / wpms.length;
+      
+  const animation = {
+    x: {
+      type: 'number',
+      easing: 'linear',
+      duration: delayBetweenPoints,
+      from: NaN, 
+      delay(ctx) {
+        if (ctx.type !== 'data' || ctx.xStarted) {
+          return 0;
+        }
+        ctx.xStarted = true;
+        return ctx.index * delayBetweenPoints;
+      }
+    },
+    y: {
+      type: 'number',
+      easing: 'linear',
+      duration: delayBetweenPoints,
+      from(ctx) {
+        return ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(0) : 
+                ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+      },
+      delay(ctx) {
+        if (ctx.type !== 'data' || ctx.yStarted) {
+          return 0;
+        }
+        ctx.yStarted = true;
+        return ctx.index * delayBetweenPoints;
+      }
+    }
+  };
+
+  allchart = new Chart(ctx, {
+    type: 'line',
+    data: {
+    labels: labels,
+      datasets: [
+            {
+              data: wpms,
+              label: 'WPM',
+              borderWidth: 2,
+              borderColor: '#007bff',
+              backgroundColor: 'rgba(0, 123, 255, 0.1)',
+              fill: true,
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              pointStyle: 'triangle',              
+            },
+            {
+              data: accuracies,
+              label: 'Accuracy%',
+              borderWidth: 2,
+              borderColor: '#28a745',
+              backgroundColor: 'rgba(40, 167, 69, 0.1)',
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              pointStyle: 'circle',
+            }
+          ]
+        },
+        options: {
+          animation: animation,
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            intersect: false,
+            mode: 'index',
+          },
+          plugins: {
+            legend: { 
+              display: true,
+              onClick: (e, legendItem, legend) => {
+                const index = legendItem.datasetIndex;
+                const ci = legend.chart;
+                const meta = ci.getDatasetMeta(index);
+                meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+                ci.update();
+              }
+            },
+            tooltip: {
+              position: 'nearest',
+              usePointStyle: true,
+            }
+          },
+          scales: {
+            y: { 
+              ticks: {
+                color: 'black',
+                font: { weight: 'bold' }
+              },
+              border: { color: 'black',width:2},          
+              grid: {
+                display: false
+              }
+            },
+            x: {
+              ticks: {
+                autoSkip: false,
+                color: 'black',
+                font: {
+                  weight: 'bold'
+                }
+              },
+              border: { color: 'black',width:2},  
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+    })
+}
+
+document.getElementById('showChartBtn').addEventListener('click', function() {
+  const chartContainer = document.querySelector('.chart-container');
+  const button = this;
+  
+  chartContainer.classList.toggle('hidden');
+  
+  if (chartContainer.classList.contains('hidden')) {
+    button.innerHTML = '<i class="fa-solid fa-chart-simple"></i> Show Stats Chart';
+  } else {
+    button.innerHTML = '<i class="fa-solid fa-times"></i> Hide Chart';
+  }
+});

@@ -16,7 +16,7 @@
 
 .statpage h1 {
   margin-top: 0; 
-  margin-bottom: 15px; 
+  margin-bottom: 10px; 
 }
 .statpage {
   padding-top: 20px;
@@ -25,15 +25,15 @@
 
 .diff-option {
   flex: 1;
-  padding: 12px 0;
+  padding: 12px 0px;
   text-align: center;
   cursor: pointer;
   background: transparent;
   font-weight: bold;
   color: #2d3436;
   transition: all 0.3s ease;
-  user-select: none;
   font-size: 1.1rem;
+  transition: all 0.3s ease;
 }
 
 .diff-option:hover {
@@ -48,7 +48,7 @@
   font-weight: bold;
   font-size: 1.3rem;
   color: #2d3436;
-  margin-bottom: 5px;
+  margin-bottom: 0;
 }
 #stats-container {
   width: 100%;
@@ -63,12 +63,12 @@
 
 #stats-summary {
   width: 95%;
-  padding: 20px;
+  padding: 10px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   font-size: 1.1rem;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   margin-left: 5px;
 }
 #history-heading {
@@ -245,4 +245,61 @@
   margin-bottom: 5px;
 }
 
+}
+
+
+
+.chart-toggle-btn {
+  background: linear-gradient(135deg, #f1c40f, #f39c12);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.chart-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.chart-toggle-btn i {
+  font-size: 1.2em;
+}
+
+.chart-container {
+  width: 90%;
+  min-height: 400px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-container.hidden {
+  display: none;
+}
+
+
+.container{
+  width:80%;
+  overflow-x: scroll;
+}
+.container::-webkit-scrollbar{
+  display: none;
+}
+.containerbox{
+ height: 400px;
+}
+canvas#allwpmchart{
+  height: 400px !important;
 }

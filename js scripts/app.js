@@ -82,6 +82,7 @@ let correctWords;
 let wrongwords = [];
 let wpmchartcondition = null;
 let accuracyChartcondition = null;
+let statschartcondition = null;
 let previouslength = 0;
 
 // mode buttons//
@@ -289,8 +290,10 @@ function loadStatsFor(level) {
       if (snapshot.empty) {
         summaryDiv.innerHTML = `<p class="center-text">No ${level} tests taken yet.</p>`;
         document.getElementById("history-heading").innerText = `No Test History`;
+        document.getElementById("showChartBtn").classList.add("hide");
         return;
       }
+      document.getElementById("showChartBtn").classList.remove("hide");
       snapshot.forEach(doc => {
         const d = doc.data();
         const card = document.createElement("div");
@@ -348,6 +351,9 @@ function selectStatsMode(val, level) {
   val.classList.add("selected-diff");
 
   loadStatsFor(level);
+  document.querySelector(".chart-container").classList.add("hidden");
+  document.getElementById('showChartBtn').innerHTML = '<i class="fa-solid fa-chart-simple"></i> Show Stats Chart';
+  totalgraphs(level);
 }
 function showPopup(data) {
   const overlay = document.createElement("div");

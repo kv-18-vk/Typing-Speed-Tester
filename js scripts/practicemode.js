@@ -13,6 +13,9 @@ function Finishpractice() {
     if (typedWords[i] === refWords[i]) {
       correctWords++;
     }
+    else{
+      wrongwords.push([refWords[i],typedWords[i]]);
+    }
   }
   let minutes = practiceSeconds / 60;
   Accuracy = parseFloat(((correcttyped / totaltyped) * 100).toFixed(2));
@@ -28,7 +31,8 @@ function Finishpractice() {
     timerEl.classList.remove("blink");
     practicepage.classList.add("hide");
     scorecardpractice.classList.remove("hide");
-
+    displayerrors(wrongwords,"p-wrongwords-list","p-wrongwords-box","ptitlediv");
+    renderAccuracyChart(Accuracy,"p-accuracyChart");
     const report = document.querySelector(".practicestats");
     report.innerHTML = `
       Time:  ${Math.floor(minutes)} min : ${practiceSeconds%60} sec<br>
@@ -83,6 +87,7 @@ function resetpractice() {
     previouslength = 0;
     currentStart = 0;
     correctWords = 0;
+    wrongwords=[];
     const randomInt = Math.floor(Math.random() * 5) + 1;
     db.collection("practice-paragraphs").doc(`Practice-${randomInt}`).get()
     .then((doc) => {

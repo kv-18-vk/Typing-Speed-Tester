@@ -139,6 +139,7 @@ exerciseContainer.addEventListener('click', function (e) {
         previouslength = 0;
         currentStart = 0;
         correctWords = 0;
+        wrongwords=[];
         lessonbreakbtn.classList.add("hide");
         updateTimerDisplay("lessonstopclock",practiceSeconds);
         const buttonId = e.target.id;
@@ -191,7 +192,7 @@ function Finishlessonpractice() {
   for (let i = 0; i < typedWords.length; i++) {
     if (typedWords[i] === refWords[i]) {
       correctWords++;
-    }
+    }else{wrongwords.push([refWords[i],typedWords[i]]);}
   }
   let minutes = practiceSeconds / 60;
   Accuracy = parseFloat(((correcttyped / totaltyped) * 100).toFixed(2));
@@ -206,6 +207,8 @@ function Finishlessonpractice() {
     timerEl.classList.remove("blink");
     lessontestpage.classList.add("hide");
     lessonresultspage.classList.remove("hide");
+    displayerrors(wrongwords,"l-wrongwords-list","l-wrongwords-box","ltitlediv");
+    renderAccuracyChart(Accuracy,"l-accuracyChart");
     const report = document.querySelector(".lesson-stats");
     report.innerHTML = `
       Time:  ${Math.floor(minutes)} min : ${practiceSeconds%60} sec<br>

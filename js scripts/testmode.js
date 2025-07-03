@@ -93,8 +93,8 @@ function STOP() {
     .then(()=>{
       setTimeout(()=>{
         wpmchart(difficulty);
-        renderAccuracyChart(Accuracy);
-        displayerrors(wrongwords);
+        renderAccuracyChart(Accuracy,"accuracyChart");
+        displayerrors(wrongwords,"wrongwords-list","wrongwords-box","titlediv");
         document.getElementById("scoreheader").innerHTML = `<strong>Your Score: </strong>${score}`;
         document.getElementById("testresults").innerHTML = `
           ⏰ Time: ${time} min<br><br><br>
@@ -143,8 +143,8 @@ function finish() {
     .then(()=>{
       setTimeout(()=>{
         wpmchart(difficulty);
-        renderAccuracyChart(Accuracy);
-        displayerrors(wrongwords);
+        renderAccuracyChart(Accuracy,"accuracyChart");
+        displayerrors(wrongwords,"wrongwords-list","wrongs-box","titlediv");
         document.getElementById("scoreheader").innerHTML = `<strong>Your Score: </strong>${score}`;
         document.getElementById("testresults").innerHTML = `
           ⏰ Time: ${finishedtime} min<br><br><br>
@@ -216,6 +216,7 @@ function restartTest(){
   scorecard.classList.add("hide");
   fillpage.classList.remove("hide");
 }
+
 
 //instructions in testmode//
 function instructionpopup(){

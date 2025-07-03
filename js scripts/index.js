@@ -28,6 +28,11 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+document.querySelector(".btn").addEventListener("click",()=>{
+  document.getElementById("homepage").classList.add("hide");
+  document.getElementById("logform").classList.remove("hide");
+})
+
 let loginPage = document.querySelector(".login-form");
 let registerPage = document.querySelector(".register-form");
 

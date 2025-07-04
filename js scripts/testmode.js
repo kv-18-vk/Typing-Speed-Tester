@@ -144,7 +144,7 @@ function finish() {
       setTimeout(()=>{
         wpmchart(difficulty);
         renderAccuracyChart(Accuracy,"accuracyChart");
-        displayerrors(wrongwords,"wrongwords-list","wrongs-box","titlediv");
+        displayerrors(wrongwords,"wrongwords-list","wrongwords-box","titlediv");
         document.getElementById("scoreheader").innerHTML = `<strong>Your Score: </strong>${score}`;
         document.getElementById("testresults").innerHTML = `
           ⏰ Time: ${finishedtime} min<br><br><br>

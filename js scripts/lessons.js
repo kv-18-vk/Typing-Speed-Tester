@@ -91,6 +91,69 @@ const lessons = {
     ]
   }
 };
+const indexToExerciseId = {
+  0: "exercise1-1",
+  1: "exercise1-2",
+  2: "exercise1-3",
+  3: "exercise1-4",
+  4: "exercise1-5",
+  5: "exercise1-6",
+  6: "exercise1-7",
+  7: "exercise1-8",
+  8: "exercise1-9",
+  9: "exercise1-10",
+
+  10: "exercise2-1",
+  11: "exercise2-2",
+  12: "exercise2-3",
+  13: "exercise2-4",
+  14: "exercise2-5",
+  15: "exercise2-6",
+  16: "exercise2-7",
+  17: "exercise2-8",
+  18: "exercise2-9",
+  19: "exercise2-10",
+  20: "exercise2-11",
+  21: "exercise2-12",
+
+  22: "exercise3-1",
+  23: "exercise3-2",
+  24: "exercise3-3",
+  25: "exercise3-4",
+  26: "exercise3-5",
+  27: "exercise3-6",
+  28: "exercise3-7",
+  29: "exercise3-8",
+  30: "exercise3-9",
+  31: "exercise3-10",
+  32: "exercise3-11",
+
+  33: "exercise4-1",
+  34: "exercise4-2",
+  35: "exercise4-3",
+
+  36: "exercise5-1",
+  37: "exercise5-2",
+  38: "exercise5-3",
+  39: "exercise5-4",
+  40: "exercise5-5",
+  41: "exercise5-6",
+  42: "exercise5-7",
+
+  43: "exercise6-1",
+  44: "exercise6-2",
+  45: "exercise6-3",
+  46: "exercise6-4",
+  47: "exercise6-5",
+  48: "exercise6-6",
+
+  49: "exercise7-1",
+  50: "exercise7-2",
+  51: "exercise7-3",
+  52: "exercise7-4",
+  53: "exercise7-5",
+  54: "exercise7-6"
+};
 
 const lessonSelect = document.getElementById('lesson-select');
 const exerciseContainer = document.getElementById('exercise-section');
@@ -112,6 +175,13 @@ function loadExercises(lessonId) {
         
         const desc = document.createElement('p');
         desc.textContent = ex.desc;
+
+        const exIndex = Object.values(indexToExerciseId).indexOf(ex.id);
+        if (exIndex > unlockedIndex) {
+          button.disabled = true;
+          button.style.background = "grey";
+          button.textContent += " 🔒";
+        }
         
         exerciseContainer.appendChild(button);
         exerciseContainer.appendChild(desc);
@@ -123,7 +193,7 @@ lessonSelect.addEventListener('change', function() {
     loadExercises(lessonSelect.value);
 });
 
-let buttonId=null;
+let buttonId;
 const lessonpage = document.getElementById('Lessons');
 const lesson_name = document.getElementById("lesson-name");
 const lessontestpage = document.getElementById('Lessontest');
@@ -142,7 +212,7 @@ exerciseContainer.addEventListener('click', function (e) {
         wrongwords=[];
         lessonbreakbtn.classList.add("hide");
         updateTimerDisplay("lessonstopclock",practiceSeconds);
-        const buttonId = e.target.id;
+        buttonId = e.target.id;
         const lessonId = lessonSelect.value;
         const lesson = lessons[lessonId]["title"];
         lessonpage.classList.add('hide');
@@ -221,7 +291,21 @@ function Finishlessonpractice() {
       Timestamp: ${new Date().toLocaleString()}
     `;
     document.getElementById("loader").classList.add("hide");
+    if (wpm >= 10 && Accuracy >= 60) {
+    const currentIndex = Object.values(indexToExerciseId).indexOf(buttonId);
+    
+    if (currentIndex === unlockedIndex) {
+      unlockedIndex++;
+      db.collection("users").doc(currentUser.uid)
+        .set({ unlockedIndex: unlockedIndex })
+        .then(() => {
+          alert("🎉 Next exercise unlocked!");
+        });
+    }
+  }
   }, 2000);
+  
+
 }
 function lessonBreak() {
   if (practiceInterval) {
@@ -239,4 +323,5 @@ function lessonBreak() {
 function lessonrestart(){
   lessonresultspage.classList.add("hide");
   lessonpage.classList.remove("hide");
+  loadExercises("lesson1");
 }

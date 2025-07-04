@@ -62,6 +62,7 @@ document.querySelector(".register").addEventListener("click", function () {
         TotalEasyTests: 0,
         TotalMediumTests: 0,
         TotalHardTests: 0,
+        unlockedIndex: 0,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
 

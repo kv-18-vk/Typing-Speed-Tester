@@ -66,16 +66,14 @@
     </div>
     <div class="scorecard hide page">
         <h1 id="scoreheader"></h1>
-        <div>
-          <div class="testresults" id="testresults"></div>
-        </div>
+        <div class="testresults" id="testresults"></div>
         <div class="wrongwords-box" id="wrongwords-box">
           <h3>Wrongly Typed Words</h3>
-          <div id="titlediv"></div>
-          <div id="wrongwords-list"></div>
+          <div id="titlediv" class="titlediv"></div>
+          <div id="wrongwords-list" class="wrongwords-list"></div>
         </div>
-        <div class="scorecard-circle">
-          <canvas id="accuracyChart" width="120" height="120"></canvas>
+        <div class="scorecard-circle" id="scorecard-circle">
+          <canvas id="accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
         </div>
         <div class="scorecard-graph">
           <canvas id="wpmChart" width="600" height="400"></canvas>
@@ -100,6 +98,14 @@
     <div class="practicescorecard hide page">
         <h1>Practice Results</h1>
         <div class="practicestats"></div>
+        <div class="wrongwords-box" id="p-wrongwords-box">
+          <h3>Wrongly Typed Words</h3>
+          <div id="ptitlediv" class="titlediv"></div>
+          <div id="p-wrongwords-list" class="wrongwords-list"></div>
+        </div>
+        <div class="scorecard-circle" id="p-scorecard-circle">
+          <canvas id="p-accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
+        </div>
         <button onclick="restartPractice()" class="practicerestart">Practice Again</button>
     </div>
 
@@ -139,6 +145,14 @@
     <div class="lesson-scorecard hide page" id="LessonResults">
       <h1>Results</h1>
       <div class="lesson-stats"></div>
+      <div class="wrongwords-box" id="l-wrongwords-box">
+        <h3>Wrongly Typed Words</h3>
+        <div id="ltitlediv" class="titlediv"></div>
+        <div id="l-wrongwords-list" class="wrongwords-list"></div>
+      </div>
+      <div class="scorecard-circle" id="l-scorecard-circle">
+        <canvas id="l-accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
+      </div>
       <button class="practicerestart" onclick="lessonrestart()">Practice Again</button>
     </div>
 
@@ -161,6 +175,18 @@
         <div class="diff-option" onclick="selectStatsMode(this, 'Medium')">Medium</div>
         <div class="diff-option" onclick="selectStatsMode(this, 'Hard')">Hard</div>
       </div>
+       <button id="showChartBtn" class="chart-toggle-btn">
+        <i class="fa-solid fa-chart-simple"></i> Show Stats Chart
+      </button>
+
+      <div class="chart-container hidden">
+          <div class="container">
+            <div class="containerbox">
+              <canvas class="allwpmchart" id="allwpmchart"></canvas>
+            </div>
+          </div>
+      </div>
+
       <div id="stats-container">
         <div id="stats-summary"></div>
         <div class="stats-center-text" id="history-heading"></div>

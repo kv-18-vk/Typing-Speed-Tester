@@ -410,6 +410,7 @@ function leaderboardfor(level){
     }
     db.collection('Leaderboard').where("Difficulty", "==", level)
       .orderBy(`HighestScore`, "desc")
+      .orderBy(`AvgAccuracy`,"desc")
       .get()
       .then(snapshot => {
         let rank=1;

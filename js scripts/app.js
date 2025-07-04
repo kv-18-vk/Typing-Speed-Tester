@@ -30,13 +30,6 @@ auth.onAuthStateChanged(user => {
     })
   } else {
     console.log("No user signed in.");
-    unlockedIndex = 0;
-  }
-});
-
-//logout//
-document.querySelector(".logout").addEventListener("click", function() {
-  auth.signOut().then(() => {
     if (interval) {
       clearInterval(interval);
       interval = null;
@@ -45,8 +38,13 @@ document.querySelector(".logout").addEventListener("click", function() {
       clearInterval(practiceInterval);
       practiceInterval = null;
     }
-    window.location.href = "index.html";
-  }).catch((error) => {
+    window.location.replace("index.html");
+  }
+});
+
+//logout//
+document.querySelector(".logout").addEventListener("click", function() {
+  auth.signOut().catch((error) => {
     alert("Logout error: " + error.message);
   });
 })

@@ -121,7 +121,7 @@ document.querySelector(".login").addEventListener("click", function () {
  auth. signInWithEmailAndPassword( email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      window.location.href = "app.html";
+      window.location.replace("app.html");
     })
     .catch((error) => {
       alert("Login failed: " + error.message);

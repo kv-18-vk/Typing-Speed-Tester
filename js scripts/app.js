@@ -17,14 +17,20 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 let currentUser = null;
+let unlockedIndex;
 
 // Track current user
 auth.onAuthStateChanged(user => {
   currentUser = user;
   if (user) {
     console.log("User signed in:", user.email);
+    db.collection("users").doc(user.uid).get()
+    .then(doc=>{
+      unlockedIndex = doc.data().unlockedIndex;
+    })
   } else {
     console.log("No user signed in.");
+    unlockedIndex = 0;
   }
 });
 

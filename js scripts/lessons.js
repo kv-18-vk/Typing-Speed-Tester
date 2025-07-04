@@ -297,7 +297,7 @@ function Finishlessonpractice() {
     if (currentIndex === unlockedIndex) {
       unlockedIndex++;
       db.collection("users").doc(currentUser.uid)
-        .set({ unlockedIndex: unlockedIndex })
+        .update({ unlockedIndex: unlockedIndex })
         .then(() => {
           alert("🎉 Next exercise unlocked!");
         });

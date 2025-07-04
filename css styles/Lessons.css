@@ -59,6 +59,12 @@
     margin-top: 10px;
     width: 100%;
   }
+  .exercise-section{
+    width:100%;
+  }
+  .exercise-section p{
+    font-size: smaller;
+  }
 }
 
 

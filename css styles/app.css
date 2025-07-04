@@ -197,6 +197,7 @@ html, body {
 
   .page{
     position:absolute;
+    padding: 50px 20px 20px 20px;
     width:100%;
     left:0;
     top:0;

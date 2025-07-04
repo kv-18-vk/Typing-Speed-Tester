@@ -2,6 +2,7 @@
   background:url(white.jpg);
   overflow: hidden;
 }
+
 .certipage {
   flex-direction: column;
 }
@@ -110,6 +111,7 @@
   }
   .certipage h1{
     font-size: 12px;
+    margin-top: 50px;
   }
 }
 @media (min-width:601px) and (max-width:992px){

@@ -147,7 +147,7 @@ function finish() {
         displayerrors(wrongwords,"wrongwords-list","wrongwords-box","titlediv");
         document.getElementById("scoreheader").innerHTML = `<strong>Your Score: </strong>${score}`;
         document.getElementById("testresults").innerHTML = `
-          ⏰ Time: ${finishedtime} min<br><br><br>
+          ⏰ Time: ${parseFloat(finishedtime.toFixed(2))} min<br><br><br>
           ⌨️ Total KeyStrokes: ${totaltyped}<br><br><br>
           ✅ Correct KeyStrokes: ${correcttyped}<br><br><br>
           🔠 Correct Words: ${correctWords}<br><br><br>

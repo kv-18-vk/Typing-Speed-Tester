@@ -322,7 +322,7 @@ body {
 .stat h3 {
     font-size: clamp(18px, 2vw, 22px);
     margin-bottom: 12px;
-    color: #FFF;
+    color: #333;
     font-weight: 600;
 }
 .stat p {

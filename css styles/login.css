@@ -205,7 +205,6 @@ body {
     background-image: linear-gradient(rgba(240, 237, 237, 0.4), rgba(0, 0, 0, 0.4)), url(1.jpg);
     background-position: center;
     background-size: cover;
-    position: relative;
     overflow: hidden;
     padding: 20px;
 }

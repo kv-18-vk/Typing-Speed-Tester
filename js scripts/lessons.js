@@ -181,6 +181,19 @@ function loadExercises(lessonId) {
           button.disabled = true;
           button.style.background = "grey";
           button.textContent += " 🔒";
+          button.addEventListener('mouseenter', (e) => {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'lesson-tooltip';
+            tooltip.innerText = 'Requires 10 WPM and 60% accuracy in previous exercise to unlock';
+            document.body.appendChild(tooltip);
+
+            const rect = e.target.getBoundingClientRect();
+            tooltip.style.top = `${rect.top - 30}px`;
+            tooltip.style.left = `${rect.left + rect.width*2}px`;
+          });
+          button.addEventListener('mouseleave', () => {
+            document.querySelectorAll('.lesson-tooltip').forEach(t => t.remove());
+          })
         }
         
         exerciseContainer.appendChild(button);

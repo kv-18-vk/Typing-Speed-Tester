@@ -1,0 +1,218 @@
+.practicepage {
+  background: #EEEFE0 ;
+}
+.stopclock{
+  background: #f1c40f;
+  color: #2d3436;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.top-controls.forpractice{
+  background: #A9B5DF;
+}
+.break,
+.finish {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.break {
+  background: linear-gradient(135deg, #f39c12, #f1c40f);
+  color: white;
+}
+
+.break:hover {
+  background: linear-gradient(135deg, #f1c40f, #f39c12);
+  transform: translateY(-2px);
+}
+
+.finish {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+}
+
+.finish:hover {
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  transform: translateY(-2px);
+}
+
+.practiceworld {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin-top: 100px;
+  gap: 20px;
+  font-size: large;
+  animation: fadeIn 1s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#practicematter {
+  background-color: white;
+  border: 2px solid #bdc3c7;
+  padding: 20px;
+  border-radius: 12px;
+  width: 70%;
+  min-height: 200px;
+  box-sizing: border-box;
+  resize: none;
+  font-size: 1.5rem;
+  line-height: 2;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+#practice-space {
+  background-color: white;
+  border: 2px solid #bdc3c7;
+  color: #2d3436;
+  padding: 20px;
+  border-radius: 12px;
+  width: 70%;
+  min-height: 250px;
+  box-sizing: border-box;
+  resize: none;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+#practicematter {
+  text-align: left;
+  overflow: visible;
+  height: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.practicescorecard {
+  background: linear-gradient(135deg, #fff8e1, #ffecb3);
+  padding: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.practicestats {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.practicerestart {
+  padding: 12px 25px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.practicerestart:hover {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px){
+  .practicepage h1{
+    font-size: large;
+  }
+  .break,
+  .finish{
+    font-size: 0.6rem;
+  }
+  .stopclock{
+    font-size: 0.7em;
+    padding: 4px 10px;
+    margin-top: 5px;
+  }
+  .practiceworld{
+    width: 100%;
+    margin-top: 60px;
+  }
+  #practicematter{
+    font-size: 1rem;
+    min-height: 120px;
+    max-height: 150px;
+    min-width: 300px;
+    line-height: 1.3;
+    padding:10px;
+  }
+  #practice-space{
+    font-size: 0.9rem;
+    min-height: 120px;
+    min-width: 300px;
+    line-height: 1.3;
+    padding:10px;
+  }
+  .practicescorecard h1{
+    font-size: 1.1rem;
+  }
+  .practicestats{
+    font-size: 0.9rem;
+  }
+  .practicerestart{
+    font-size: 0.8rem;
+    padding: 8px 15px;
+  }
+}
+
+@media (min-width:601px) and (max-width:992px){
+  .practicepage h1{
+    font-size: x-large;
+    margin-bottom: 5px;
+  }
+  .practiceworld{
+    margin-top: 50px;
+  }
+  #practicematter{
+    min-width: 450px;
+    max-height: 160px;
+    min-height: 120px;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    padding:12px;
+  }
+  #practice-space{
+    min-height: 180px;
+    min-width: 450px;
+    font-size: 1.2rem;
+    padding:12px;
+  }
+  .break,
+  .finish{
+    font-size: 0.7rem;
+  }
+  .stopclock{
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    margin-bottom: 5px;
+  }
+  .practicerestart{
+    font-size: 0.8rem;
+  }
+}

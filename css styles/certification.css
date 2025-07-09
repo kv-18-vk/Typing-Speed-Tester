@@ -1,0 +1,134 @@
+.certipage {
+  background:url(white.jpg);
+  overflow: hidden;
+}
+
+.certipage {
+  flex-direction: column;
+}
+.certipage h1{
+  margin-top: 0; 
+  margin-bottom: 15px; 
+}
+#certificate-text{
+  position: absolute;
+  top: 30px;
+  width: 90%;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.certificate-wrapper {
+  width: 600px;
+  height: 463px;
+  margin: 0 auto;
+  padding:10px;
+  background: white;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.certificate-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.cert-name {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.3rem;
+  font-weight: bolder;
+  color: #2d3436;
+}
+
+.cert-wpm,
+.cert-accuracy {
+  position: absolute;
+  top: 61%;
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: #2d3436;
+}
+
+.cert-wpm {
+  left: 42%;
+  transform: translateX(-50%);
+}
+
+.cert-accuracy {
+  left: 69%;
+  transform: translateX(-50%);
+}
+
+.cert-accuracy,
+.cert-name,
+.cert-wpm {
+  font-family: 'Charm',cursive;
+}
+
+.cert-btn {
+  margin-top: 30px;
+  padding: 12px 25px;
+  background: linear-gradient(145deg, #fffacd, #ffd700, #ffec8b);
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.cert-btn:hover {
+  background: linear-gradient(145deg,#ffec8b, #fffacd, #ffd700);
+  transform: translateY(-2px);
+}
+
+@media (max-width:600px){
+  #certificate-text{
+    font-size: 12px;
+  }
+  .certificate-wrapper{
+    width: 240px;
+    height: 185px;
+    padding:4px;
+  }
+  .cert-name{
+    font-size: 0.6rem;
+  }
+  .cert-accuracy,
+  .cert-wpm{
+    font-size: 0.5rem;
+  }
+  .cert-btn{
+    padding: 6px 12px;
+    font-size: 0.5rem;
+  }
+  .certipage h1{
+    font-size: 12px;
+    margin-top: 50px;
+  }
+}
+@media (min-width:601px) and (max-width:992px){
+  .certificate-wrapper{
+    width: 480px;
+    height: 370px;
+    padding:8px;
+  }
+  .cert-name{
+    font-size: 1rem;
+  }
+  .cert-accuracy,
+  .cert-wpm{
+    font-size: 0.9rem;
+  }
+  .certipage h1{
+    font-size: 1.1rem;
+    margin-top: 10px;
+  }
+}

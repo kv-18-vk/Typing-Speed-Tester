@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css styles/app.css" />
+  <link rel="stylesheet" href="css styles/login.css" />
+  <link rel="stylesheet" href="css styles/testmode.css" />
+  <link rel="stylesheet" href="css styles/practicemode.css" />
+  <link rel="stylesheet" href="css styles/multiplayer.css">
+  <link rel="stylesheet" href="css styles/certification.css" />
+  <link rel="stylesheet" href="css styles/statsmode.css" />
+  <link rel="stylesheet" href="css styles/leaderboard.css" />
+  <link rel="stylesheet" href="css styles/Lessons.css" />
+  <link rel="icon" href="css styles/favicon-16x16.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Charm&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Typing Speed Tester</title>
+</head>
+<body>
+
+  <div class="flex">
+    <div class="modebox">
+      <button class="mode selectedmode">Typing Test</button>
+      <button class="mode">Typing Practice</button>
+      <button class="mode">Lessons</button>
+      <button class="mode">Certification</button>
+      <button class="mode">Multiplayer</button>
+      <button class="mode">Your Stats</button>
+      <button class="mode">Leaderboard</button>
+      <button class="logout">LogOut</button>
+    </div>
+
+    <div class="fillpage page" id="Typing Test">
+      <h1>Provide your interests</h1>
+      <label for="difficulty">Choose a difficulty level:</label>
+      <select id="difficulty" name="difficulty">
+        <option value="Easy">Easy</option>
+        <option value="Medium" selected>Medium</option>
+        <option value="Hard">Hard</option>
+      </select>
+
+      <label for="time">Choose the Duration (min):</label>
+      <select id="time" name="time">
+        <option value="0.05" selected>0.05</option>
+        <option value="1">1</option>
+        <option value="3">3</option>
+        <option value="5">5</option>
+      </select>
+      <button onclick="SUBMIT()">Submit</button>
+    </div>
+    <div class="testpage hide page">
+      <div class="top-controls fortest">
+        <div id="test-header">
+          <button class="ibutton" id="ibutton" onclick="instructionpopup()">i</button>
+          <h1>Typing Test</h1>
+          <div id="modedisplay">Difficulty: Medium</div>
+        </div>
+        <div id="timer-controls">
+          <div id="timer">00:00</div>
+        </div>
+      </div>
+      <div class="typeworld">
+          <div id="matter"></div>
+          <textarea class="noclipboard" id="typing-space" placeholder="Start typing here..." disabled spellcheck="false" autocorrect="off"autocomplete="off"></textarea>
+      </div>
+      <button onclick="CANCEL()" class="cancel" id="cancel">Cancel</button>
+    </div>
+    <div class="scorecard hide page">
+        <h1 id="scoreheader"></h1>
+        <div class="testresults" id="testresults"></div>
+        <div class="wrongwords-box" id="wrongwords-box">
+          <h3>Wrongly Typed Words</h3>
+          <div id="titlediv" class="titlediv"></div>
+          <div id="wrongwords-list" class="wrongwords-list"></div>
+        </div>
+        <div class="scorecard-circle" id="scorecard-circle">
+          <canvas id="accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
+        </div>
+        <div class="scorecard-graph">
+          <canvas id="wpmChart" width="600" height="400"></canvas>
+        </div>
+        <button onclick="restartTest()" class="restart">Take another Test</button>
+    </div>
+
+    <div class="practicepage hide page" id="Typing Practice">
+      <div class="top-controls forpractice">
+        <h1>Typing Practice</h1>
+        <div id="timer-controls">
+          <button id="break"class="break" onclick="Break()">pause</button>
+          <div id="stopclock" class="stopclock">00:00</div>
+          <button id="finish" class=finish onclick="Finishpractice()">Finish</button>
+        </div>
+      </div>
+      <div class="practiceworld">
+          <div id="practicematter"></div>
+          <textarea class="noclipboard" id="practice-space" placeholder="Start typing here..." disabled spellcheck="false"autocorrect="off"autocomplete="off"></textarea>
+      </div>
+    </div>
+    <div class="practicescorecard hide page">
+        <h1>Practice Results</h1>
+        <div class="practicestats"></div>
+        <div class="wrongwords-box" id="p-wrongwords-box">
+          <h3>Wrongly Typed Words</h3>
+          <div id="ptitlediv" class="titlediv"></div>
+          <div id="p-wrongwords-list" class="wrongwords-list"></div>
+        </div>
+        <div class="scorecard-circle" id="p-scorecard-circle">
+          <canvas id="p-accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
+        </div>
+        <button onclick="restartPractice()" class="practicerestart">Practice Again</button>
+    </div>
+
+    <div class="lessonpage hide page" id="Lessons">
+      <h2>Learn Typing</h2>
+      <div class="lesson-header">
+        <label for="lesson-select">Select Lesson:</label>
+        <select id="lesson-select">
+          <option value="lesson1" selected>Lesson I - Home Row</option>
+          <option value="lesson2">Lesson II - Upper Row</option>
+          <option value="lesson3">Lesson III - Lower Row</option>
+          <option value="lesson4">Lesson IV - Punctuations</option>
+          <option value="lesson5">Lesson V - Capital Letters</option>
+          <option value="lesson6">Lesson VI - Numbers</option>
+          <option value="lesson7">Lesson VII - Symbols</option>
+        </select>
+      </div>
+      <h3 id="lesson-title"></h3>
+      <div class="exercise-section" id="exercise-section"></div>
+    </div>
+    <!-- lesson Practice Section -->
+    <div class="lesson-test hide page" id="Lessontest">
+      <div class="top-controls forlesson">
+        <h1 id="lesson-name">Lesson Test</h1>
+        <div id="timer-controls">
+          <button id="lessonbreak"class="break" onclick="lessonBreak()">pause</button>
+          <div class="stopclock" id="lessonstopclock">00:00</div>
+        </div>
+      </div>
+      <div class="lesson-world">
+        <div id="lesson-text"></div>
+        <textarea id="lesson-input" class="nocopy" placeholder="Start typing here..." disabled spellcheck="false" autocorrect="off"  autocomplete="off"></textarea>
+      </div>
+      <button class="cancel" id="lessoncancel" onclick="cancellesson()">Cancel</button>
+    </div>
+    <!-- lesson Results Section -->
+    <div class="lesson-scorecard hide page" id="LessonResults">
+      <h1>Results</h1>
+      <div class="lesson-stats"></div>
+      <div class="wrongwords-box" id="l-wrongwords-box">
+        <h3>Wrongly Typed Words</h3>
+        <div id="ltitlediv" class="titlediv"></div>
+        <div id="l-wrongwords-list" class="wrongwords-list"></div>
+      </div>
+      <div class="scorecard-circle" id="l-scorecard-circle">
+        <canvas id="l-accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
+      </div>
+      <button class="practicerestart" onclick="lessonrestart()">Practice Again</button>
+    </div>
+
+    <div class="certipage hide page" id="Certification">
+        <h1 class="blink"></h1>
+        <p id="certificate-text">We are providing certificates to our users with their Highest Stats of Hard mode tests.</p>
+        <div id="certificate-div" class="certificate-wrapper">
+          <img alt="certificate" src="css styles/certificate.png" class="certificate-img">
+          <div class="cert-name" id="cert-name"></div>
+          <div class="cert-wpm" id="cert-wpm"></div>
+          <div class="cert-accuracy" id="cert-accuracy"></div>
+        </div>
+        <button class="cert-btn" onclick="downloadCertificatePDF()">Generate Certificate</button>
+    </div>
+    <div class=" multi-intro page hide" id="Multiplayer">
+      <img src="css styles/1vs1.png" id="multi-logo">
+      <button id="multi-btn">PLAY</button>
+      <div class="multirules">
+        <p>> It's a 1 min game</p>
+        <p>> Once match is made then countdown starts</p>
+        <p>> Time starts and Players will be able to type after the countdown</p>
+        <p>> TextArea will be disbaled once time ends</p>
+        <p>> Your Exp increase by 30 if you win</p>
+        <p>> Your Exp increase by 5 if you loose</p>
+        <p>> Your Exp doesn't change if you quit in middle of the game</p>
+      </div>
+    </div>
+    <div class="onevone hide page" id="Multiplayerpage">
+      <div class="allplayerstats">
+        <div class="playerstats">
+          <div id="username" class="name"></div>
+          <div id="userwpm" class="wpm"></div>
+          <div id="useraccu" class="accu"></div>
+        </div>
+        <p>vs</p>
+        <div class="playerstats">
+          <div id="opponame" class="name"></div>
+          <div id="oppowpm" class="wpm"></div>
+          <div id="oppoaccu" class="accu"></div>
+        </div>
+      </div>
+      <div class="multiworld">
+        <div id="multimatter"></div>
+        <textarea id="multispace" class="nocopy" placeholder="Start typing here..." disabled spellcheck="false" autocorrect="off"  autocomplete="off"></textarea>
+      </div>
+    </div>
+
+    <div class="statpage hide page" id="Your Stats">
+      <h1>Your Stats</h1>
+      <div id="diff-bar">
+        <div class="diff-option selected-diff" id="statsrefresh" onclick="selectStatsMode(this, 'Easy')">Easy</div>
+        <div class="diff-option" onclick="selectStatsMode(this, 'Medium')">Medium</div>
+        <div class="diff-option" onclick="selectStatsMode(this, 'Hard')">Hard</div>
+      </div>
+       <button id="showChartBtn" class="chart-toggle-btn">
+        <i class="fa-solid fa-chart-simple"></i> Show Stats Chart
+      </button>
+
+      <div class="chart-container hidden">
+          <div class="container">
+            <div class="containerbox">
+              <canvas class="allwpmchart" id="allwpmchart"></canvas>
+            </div>
+          </div>
+      </div>
+
+      <div id="stats-container">
+        <div id="stats-summary"></div>
+        <div class="stats-center-text" id="history-heading"></div>
+        <div id="stats-history" class="history-scroll"></div>
+      </div>
+
+    </div>
+
+    <div class="leaderpage hide page" id="Leaderboard">
+      <h1 class="center-text"><i class="fas fa-trophy icon-trophy1"></i>Leaderboard<i class="fas fa-trophy icon-trophy2"></i></h1>
+      <p class="center-text quote-text">Champions aren’t born — they’re typed.</p>
+      <div id="lvl-bar">
+        <div class="lvl-option selected-lvl" id="boardrefresh" onclick="selectBoardMode(this,`Easy`)">Easy</div>
+        <div class="lvl-option" onclick="selectBoardMode(this,`Medium`)">Medium</div>
+        <div class="lvl-option" onclick="selectBoardMode(this,`Hard`)" >Hard</div>
+      </div>
+      <div id="board-message"></div>
+      <div class="leaderboard-head" id="leaderboard-head">
+        <div><strong>Name</strong></div>
+        <div id="userrank"></div>
+        <div id="highscore"><strong>Highest Score</strong></div>
+      </div>
+      <div id="board" class="leaderboard-scroll"></div>
+    </div>
+  </div>
+
+  <div id="loader" class="hide">
+    <div class="loader-container">
+      <div class="ball-loader"></div>
+      <div class="bar-loader">
+        <div class="bar bar-1"></div>
+        <div class="bar bar-2"></div>
+        <div class="bar bar-3"></div>
+        <div class="bar bar-4"></div>
+        <div class="bar bar-5"></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="menu-toggle" id="menuToggle">
+      <i class="fas fa-user menu-icon" aria-hidden="true"></i>
+  </button>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js scripts/graphs.js"></script>
+  <script src="js scripts/lessons.js"></script>
+  <script src="js scripts/testmode.js"></script>
+  <script src="js scripts/practicemode.js"></script>
+  <script src="js scripts/multiplayer.js"></script>
+  <script src="js scripts/app.js"></script>
+</body>
+</html>

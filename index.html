@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css styles/login.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="css styles/favicon-16x16.png" type="image/png">
+  <title>Typing Speed Tester</title>
+</head>
+<body>
+  <div class="main" id="homepage">
+      <img src="css styles/logo.PNG" class="logo">
+      <button class="btn">SIGN IN</button>
+      <div class="content">
+        <h1>TYPING: Why It Matters</h1>
+        
+        <div class="stats-container">
+          <div class="stat">
+            <h2>42%</h2>
+            <h3>Productivity Gain</h3>
+            <p>Average improvement in work efficiency after regular typing practice.</p>
+          </div>
+          
+          <div class="stat">
+            <h2>65%</h2>
+            <h3>Error Reduction</h3>
+            <p>Decrease in typing mistakes leading to clearer communication.</p>
+          </div>
+          
+          <div class="stat">
+            <h2>3.5hrs</h2>
+            <h3>Time Saved</h3>
+            <p>Weekly time savings for professionals who improve typing speed by 20 WPM.</p>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="container hide" id="logform">
+    <div class="login-form">
+      <h3>Login</h3>
+      <label for="loginUsername">Email</label><br>
+      <div class="input-container">
+        <i class="fas fa-envelope"></i>
+        <input id="loginUsername" placeholder="Email"><br>
+      </div>
+      <label for="loginPassword">Password</label><br>
+      <div class="input-container">
+        <i class="fas fa-lock"></i>
+        <input id="loginPassword" type="password" placeholder="Password"><br>
+        <i class="fas fa-eye toggle-password" toggle="#loginPassword"></i>
+      </div>
+      <button class="login">Login</button><br><br>
+
+      <p>Need to create a new account?</p>
+      <button class="registernew">Register</button>
+    </div>
+    <div class="register-form hide">
+      <h3>Register</h3>
+      <form id="registerForm">
+        <label for="regName">Name</label><br>
+        <div class="input-container">
+          <i class="fas fa-user"></i>
+          <input id="regName" name="name" placeholder="Name" required><br>
+        </div>
+        <label for="regUsername">Email</label><br>
+        <div class="input-container">
+          <i class="fas fa-envelope"></i>
+          <input id="regUsername" name="Email" placeholder="Email" required><br>
+        </div>
+        <label for="regPassword">Password</label><br>
+        <div class="input-container">
+          <i class="fas fa-lock"></i>
+          <input id="regPassword" name="password" type="password" placeholder="Password" required><br>
+          <i class="fas fa-eye toggle-password" toggle="#regPassword"></i>
+        </div>
+        <label for="regConfirmPassword">Confirm Password</label><br>
+        <div class="input-container">
+          <i class="fas fa-lock"></i>
+          <input id="regConfirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password" required><br>
+          <i class="fas fa-eye toggle-password" toggle="#regConfirmPassword"></i>
+        </div>
+        <button type="button" class="register">Register</button>
+
+        <p>Already have an account?</p>
+        <button type ="button" class="log">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="js scripts/index.js"></script>
+
+</body>
+</html>

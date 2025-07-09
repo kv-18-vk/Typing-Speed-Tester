@@ -65,6 +65,12 @@ document.querySelector(".register").addEventListener("click", function () {
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
 
+      db.collection("Multiplayer").doc(user.uid).set({
+        TotalGames:0,
+        EXP:0,
+        Name:name
+      });
+
       const difficulties = ["Easy", "Medium", "Hard"];
       const Data = {
         totalTests: 0,

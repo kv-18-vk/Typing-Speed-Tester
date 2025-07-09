@@ -267,7 +267,6 @@ canvas.accuracyChart{
   max-height: 375px;
   overflow-y: auto;
   scroll-behavior: smooth;
-  scrollbar-width: none;
   -ms-overflow-style: none;
 }
 .wrongwords-list::-webkit-scrollbar{

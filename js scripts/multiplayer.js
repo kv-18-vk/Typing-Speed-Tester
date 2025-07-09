@@ -1,6 +1,7 @@
 let socket;
 let playerseconds;
 let NAME;
+let exp;
 let multinterval;
 let player_finished;
 let oppo_finished;
@@ -30,6 +31,7 @@ function startMultiplayer(){
     player_finished = false;
     oppo_finished = false;
     match_ended = false;
+    exp = 0;
     yourfinalaccu = 0;
     yourfinalwpm = 0;
     accuracy = 0;
@@ -65,6 +67,9 @@ function startMultiplayer(){
                 referenceText = "ok so all the best for multiplayer, lets see who wins";
                 initMatter(referenceText,"multimatter","m-char");
                 multitimer();
+                db.collection("Multiplayer").doc(currentUser.uid).update({
+                    TotalGames:firebase.firestore.FieldValue.increment(1)
+                });
         }
         if (data.type == "details"){
                 opponame.textContent = `${data.name}`;
@@ -196,10 +201,15 @@ function stopmultitimer(){
             result();
         },1000);
     }
+    else{
+        multimatter.textContent = `Opponent not finished ...`;
+    }
 }
 
 function oppo_quit() {
   if(match_ended) return;
+
+  match_ended = true;
 
   document.getElementById("multispace").disabled = true;
   if(multinterval){
@@ -223,6 +233,13 @@ function oppo_quit() {
   popup.classList.add("multi-show");
   overlay.classList.add("multi-fade");
 
+  const docRef = db.collection("Multiplayer").doc(currentUser.uid);
+    docRef.get().then(doc => {
+        const currentEXP = doc.data().EXP;
+        const newEXP = currentEXP + 30;
+        docRef.set({ EXP: newEXP }, { merge: true });
+    });
+
   setTimeout(()=>{
     overlay.remove();
     document.getElementById("Multiplayerpage").classList.add("hide");
@@ -244,14 +261,17 @@ function result(){
     if(your_score>oppo_score){
         restext = "You Win";
         color = "green";
+        exp = 30;
     }
     else if(oppo_score>your_score){
         restext = "You Lost";
         color = "red";
+        exp = 5;
     }
     else{
         restext = "Match Tie";
         color = "blue";
+        exp = 15;
     }
     popup.innerHTML = `
         <h3 style="color:${color}">${restext}</h3>
@@ -261,9 +281,15 @@ function result(){
     popup.style.borderColor = color;
     overlay.appendChild(popup);
     document.getElementById("Multiplayerpage").appendChild(overlay);
-
     popup.classList.add("multi-show");
     overlay.classList.add("multi-fade");
+
+    const docRef = db.collection("Multiplayer").doc(currentUser.uid);
+    docRef.get().then(doc => {
+        const currentEXP = doc.data().EXP;
+        const newEXP = currentEXP + exp;
+        docRef.set({ EXP: newEXP }, { merge: true });
+    });
 
     setTimeout(()=>{
         overlay.remove();

@@ -118,9 +118,9 @@ function selectmode(val){
   let page = document.getElementById(val.innerText.trim())
   page.classList.remove("hide")
   val.classList.add("selectedmode")
-  if(val.innerText.trim() !== "Multiplayer"){
-    closeMultiplayer();
-  }
+  
+  closeMultiplayer();
+  
   if (val.innerText.trim() === "Typing Practice") {
     resetpractice();
   }

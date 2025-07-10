@@ -25,6 +25,11 @@ document.getElementById("multi-btn").addEventListener("click",()=>{
     document.getElementById("Multiplayerpage").classList.remove("hide");
     startMultiplayer();
 })
+document.getElementById("multi-leaderboard-btn").addEventListener("click",()=>{
+    document.getElementById("Multiplayer").classList.add("hide");
+    document.getElementById("multileaderboard").classList.remove("hide");
+    MultiLeaderboard();
+})
 
 function startMultiplayer(){
     const element4 = document.getElementById("multispace");
@@ -297,4 +302,57 @@ function result(){
         document.getElementById("Multiplayer").classList.remove("hide");
     },5000);
 
+}
+
+
+
+//Leaderboard
+
+function MultiLeaderboard(){
+  if(!currentUser) return;
+  const board = document.getElementById("multi-board");
+  document.getElementById("multirank").innerText = "";
+  board.innerHTML = "";
+  const userdoc = db.collection('Multiplayer').doc(currentUser.uid);
+  userdoc.get().then(userdoc => {
+    db.collection('Multiplayer')
+      .orderBy(`EXP`, "desc")
+      .orderBy(`TotalGames`,"asc")
+      .get()
+      .then(snapshot => {
+        let rank=1;
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const medalIcon = rank === 1 ? '<i class="fas fa-crown" style="color: gold;"></i>'
+                : rank === 2 ? '<i class="fas fa-crown" style="color: silver;"></i>'
+                : rank === 3 ? '<i class="fas fa-crown" style="color: #cd7f32;"></i>'
+                : '';
+          const card = document.createElement("div");
+          card.className = "leaderboard-card";
+          card.innerHTML = `
+            <div><strong>${medalIcon} ${rank}. ${data.Name}</strong></div>
+            <div><strong>${data.EXP}</strong></div>
+          `;
+          board.appendChild(card);
+          if (rank === 1) {
+            card.classList.add("gold-card");
+          }
+          else if (rank === 2) {
+            card.classList.add("silver-card");
+          }
+          else if (rank === 3) {
+            card.classList.add("bronze-card");
+          }
+          
+          if (userdoc.id === doc.id){
+            document.getElementById("multirank").innerText = `Your Rank: ${rank}`;
+          }
+          rank++;
+        })
+      })
+      .catch(error => {
+        console.error("Error loading leaderboard:", error);
+        board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
+      })
+  })
 }

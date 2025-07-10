@@ -94,8 +94,8 @@
     font-size: 12px;
   }
   .certificate-wrapper{
-    width: 240px;
-    height: 185px;
+    width: 90%;
+    height: auto;
     padding:4px;
   }
   .cert-name{

@@ -172,6 +172,7 @@
     <div class=" multi-intro page hide" id="Multiplayer">
       <img src="css styles/1vs1.png" id="multi-logo">
       <button id="multi-btn">PLAY</button>
+      <button id="multi-leaderboard-btn">LEADERBOARD</button>
       <div class="multirules">
         <p>> It's a 1 min game</p>
         <p>> Once match is made then countdown starts</p>
@@ -182,6 +183,16 @@
         <p>> Your Exp doesn't change if you quit in middle of the game</p>
         <p>> Changing the mode or closing the app quits you from the game</p>
       </div>
+    </div>
+    <div class="multileaderpage hide page" id="multileaderboard">
+      <h1 class="center-text"><i class="fas fa-crown icon-trophy1"></i>Leaderboard<i class="fas fa-crown icon-trophy2"></i></h1>
+      <p class="center-text quote-text">Champions aren’t born — they’re typed.</p>
+      <div class="leaderboard-head" id="leaderboard-head">
+        <div><strong>Player</strong></div>
+        <div id="multirank"></div>
+        <div><strong>EXP</strong></div>
+      </div>
+      <div id="multi-board" class="leaderboard-scroll"></div>
     </div>
     <div class="onevone hide page" id="Multiplayerpage">
       <div class="allplayerstats">
@@ -242,7 +253,7 @@
       <div class="leaderboard-head" id="leaderboard-head">
         <div><strong>Name</strong></div>
         <div id="userrank"></div>
-        <div id="highscore"><strong>Highest Score</strong></div>
+        <div><strong>Highest Score</strong></div>
       </div>
       <div id="board" class="leaderboard-scroll"></div>
     </div>

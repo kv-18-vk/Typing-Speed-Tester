@@ -159,6 +159,11 @@
 
 
 @media (max-width: 600px){
+  .lesson-scorecard{
+    align-items: center;
+    gap:10px !important;
+    overflow-y: auto;
+  }
   .lesson-test h1 {
     font-size: large;
   }
@@ -172,6 +177,10 @@
   }
   .lesson-world{
     margin-top:60px;
+  }
+  .lesson-stats{
+    top:0;
+    font-size: 0.9rem;
   }
 }
 

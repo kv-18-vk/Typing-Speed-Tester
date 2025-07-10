@@ -69,13 +69,13 @@
     <div class="scorecard hide page">
         <h1 id="scoreheader"></h1>
         <div class="testresults" id="testresults"></div>
+        <div class="scorecard-circle" id="scorecard-circle">
+          <canvas id="accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
+        </div>
         <div class="wrongwords-box" id="wrongwords-box">
           <h3>Wrongly Typed Words</h3>
           <div id="titlediv" class="titlediv"></div>
           <div id="wrongwords-list" class="wrongwords-list"></div>
-        </div>
-        <div class="scorecard-circle" id="scorecard-circle">
-          <canvas id="accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
         </div>
         <div class="scorecard-graph">
           <canvas id="wpmChart" width="600" height="400"></canvas>
@@ -100,15 +100,15 @@
     <div class="practicescorecard hide page">
         <h1>Practice Results</h1>
         <div class="practicestats"></div>
+        <div class="scorecard-circle" id="p-scorecard-circle">
+          <canvas id="p-accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
+        </div>
         <div class="wrongwords-box" id="p-wrongwords-box">
           <h3>Wrongly Typed Words</h3>
           <div id="ptitlediv" class="titlediv"></div>
           <div id="p-wrongwords-list" class="wrongwords-list"></div>
         </div>
-        <div class="scorecard-circle" id="p-scorecard-circle">
-          <canvas id="p-accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
-        </div>
-        <button onclick="restartPractice()" class="practicerestart">Practice Again</button>
+        <button onclick="restartPractice()" class="restart">Practice Again</button>
     </div>
 
     <div class="lessonpage hide page" id="Lessons">
@@ -147,15 +147,15 @@
     <div class="lesson-scorecard hide page" id="LessonResults">
       <h1>Results</h1>
       <div class="lesson-stats"></div>
+      <div class="scorecard-circle" id="l-scorecard-circle">
+        <canvas id="l-accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
+      </div>
       <div class="wrongwords-box" id="l-wrongwords-box">
         <h3>Wrongly Typed Words</h3>
         <div id="ltitlediv" class="titlediv"></div>
         <div id="l-wrongwords-list" class="wrongwords-list"></div>
       </div>
-      <div class="scorecard-circle" id="l-scorecard-circle">
-        <canvas id="l-accuracyChart" class="accuracyChart" width="120" height="120"></canvas>
-      </div>
-      <button class="practicerestart" onclick="lessonrestart()">Practice Again</button>
+      <button class="restart" onclick="lessonrestart()">Practice Again</button>
     </div>
 
     <div class="certipage hide page" id="Certification">
@@ -180,6 +180,7 @@
         <p>> Your Exp increase by 30 if you win</p>
         <p>> Your Exp increase by 5 if you loose</p>
         <p>> Your Exp doesn't change if you quit in middle of the game</p>
+        <p>> Changing the mode or closing the app quits you from the game</p>
       </div>
     </div>
     <div class="onevone hide page" id="Multiplayerpage">

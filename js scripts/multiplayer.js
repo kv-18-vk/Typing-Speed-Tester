@@ -323,25 +323,27 @@ function MultiLeaderboard(){
         let rank=1;
         snapshot.forEach(doc => {
           const data = doc.data();
-          const medalIcon = rank === 1 ? '<i class="fas fa-crown" style="color: gold;"></i>'
-                : rank === 2 ? '<i class="fas fa-crown" style="color: silver;"></i>'
-                : rank === 3 ? '<i class="fas fa-crown" style="color: #cd7f32;"></i>'
-                : '';
-          const card = document.createElement("div");
-          card.className = "leaderboard-card";
-          card.innerHTML = `
-            <div><strong>${medalIcon} ${rank}. ${data.Name}</strong></div>
-            <div><strong>${data.EXP}</strong></div>
-          `;
-          board.appendChild(card);
-          if (rank === 1) {
-            card.classList.add("gold-card");
+
+          if(rank==1){
+            document.getElementById("gold-name").innerText = `${data.Name}`;
+            document.getElementById("gold-exp").innerText = `EXP: ${data.EXP}`;
           }
-          else if (rank === 2) {
-            card.classList.add("silver-card");
+          if(rank==2){
+            document.getElementById("silver-name").innerText = `${data.Name}`;
+            document.getElementById("silver-exp").innerText = `EXP: ${data.EXP}`;
           }
-          else if (rank === 3) {
-            card.classList.add("bronze-card");
+          if(rank==3){
+            document.getElementById("bronze-name").innerText = `${data.Name}`;
+            document.getElementById("bronze-exp").innerText = `EXP: ${data.EXP}`;
+          }
+          if (rank>3){
+            const card = document.createElement("div");
+            card.className = "leaderboard-card";
+            card.innerHTML = `
+                <div><strong>${rank}. ${data.Name}</strong></div>
+                <div><strong>${data.EXP}</strong></div>
+            `;
+            board.appendChild(card);
           }
           
           if (userdoc.id === doc.id){

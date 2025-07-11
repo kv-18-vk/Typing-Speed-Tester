@@ -251,6 +251,8 @@
   background: white;
   position: relative;
   z-index: 1;
+  padding-top: 10px;
+  gap:5px;
 }
 .multileaderpage::before{
   content: "";
@@ -265,4 +267,212 @@
   background-repeat: no-repeat;
   opacity: 0.05;
   z-index: -1;
+}
+.multileaderpage h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.gradient-icon {
+  background: linear-gradient(to right, orange,gold,orange);
+  background-size: 200%;
+  animation: shimmer 1.5s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0%; }
+  100% { background-position: 100%; }
+}
+
+.top-ranks {
+  width:75%;
+  height:200px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 0;
+}
+.gold-rank, .silver-rank, .bronze-rank {
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.gold-rank{
+  width:40%;
+  height:80%;
+  background: linear-gradient(135deg, #fffacd, #ffd700, #ffec8b);
+  border-color: #d4af37;
+}
+.silver-rank{
+  width:30%;
+  height:75%;
+  background: linear-gradient(135deg, #f0f0f0,#c0c0c0, #dcdcdc);
+  border-color: #c0c0c0;
+}
+.bronze-rank{
+  width:25%;
+  height:70%;
+  background: linear-gradient(135deg, #ffe0b2, #cd7f32, #e6a76d);
+  border-color: #e6a76d;
+}
+#usericon{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border-style: solid;
+  margin-bottom: 10px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#crown{
+  font-size: 2.5rem;
+}
+.ico-crown{
+  position: absolute;
+  top: 5%;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.gold-rank .fa-user{
+  border-color:#d4af37;;
+}
+.silver-rank .fa-user{
+  border-color: #c0c0c0;
+}
+.bronze-rank .fa-user{
+  border-color: #e6a76d;
+}
+.gold-rank .fa-crown{
+  background: linear-gradient(135deg,#ffd700,#ffd700, orange);
+  background-size: 400%;
+  animation: goldshimmer 6s infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@keyframes goldshimmer {
+  0% { background-position: 0%; }
+  25% { background-position: 100%; }
+  50% { background-position: 200%; }
+  75% { background-position: 100%; }
+  100% { background-position: 0%; }
+}
+.silver-rank .fa-crown{
+  color: silver;
+}
+.bronze-rank .fa-crown{
+  color: #cd7f32;
+}
+.toprank-info {
+  position: absolute;
+  top: 60%; 
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px; 
+}
+.toprank-info p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+.toprank-name {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-weight: bold;
+}
+.toprank-exp{
+  font-weight: bold;
+}
+#gold-name,
+#gold-exp{
+  font-size: 1rem;
+}
+#silver-name,
+#silver-exp{
+  font-size: 0.95rem;
+}
+#bronze-name,
+#bronze-exp{
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .multileaderpage h1 {
+    font-size: 1.8rem;
+  }
+  #usericon {
+    width: 35px;
+    height: 35px;
+  }
+  #crown {
+    font-size: 1.8rem;
+  }
+  .top-ranks {
+    width:100%;
+    gap:2px;
+    height:150px;
+  }
+  #gold-name,
+  #gold-exp{
+    font-size: 0.7rem;
+  }
+  #silver-name,
+  #silver-exp{
+    font-size: 0.68rem;
+  }
+  #bronze-name,
+  #bronze-exp{
+    font-size: 0.65rem;
+  }
+}
+@media (min-width: 601px) and (max-width: 992px) {
+  .multileaderpage h1 {
+    font-size: 2rem;
+  }
+  #usericon {
+    width: 40px;
+    height: 40px;
+  }
+  #crown {
+    font-size: 2rem;
+  }
+  .top-ranks {
+    width:100%;
+    gap:10px;
+    height:180px;
+  }
+  #gold-name,
+  #gold-exp{
+    font-size: 0.8rem;
+  }
+  #silver-name,
+  #silver-exp{
+    font-size: 0.78rem;
+  }
+  #bronze-name,
+  #bronze-exp{
+    font-size: 0.75rem;
+  }
 }

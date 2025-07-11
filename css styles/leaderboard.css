@@ -146,14 +146,6 @@
   display:flex;
   justify-content: space-between;
 }
-.icon-trophy1 {
-  color: gold;
-  margin-right: 10px;
-}
-.icon-trophy2 {
-  color: gold;
-  margin-left: 10px;
-}
 
 @media (max-width: 600px){
   .leaderpage h1{

@@ -68,13 +68,16 @@ function startMultiplayer(){
     socket.onmessage = (e) =>{
         const data = JSON.parse(e.data);
         if (data.type == "status"){
+                tick();
                 socket.send(JSON.stringify({type:"details",name:my_name.textContent}));
                 referenceText = "ok so all the best for multiplayer, lets see who wins";
                 initMatter(referenceText,"multimatter","m-char");
-                multitimer();
                 db.collection("Multiplayer").doc(currentUser.uid).update({
                     TotalGames:firebase.firestore.FieldValue.increment(1)
                 });
+                setTimeout(()=>{
+                    multitimer();
+                },3000);
         }
         if (data.type == "details"){
                 opponame.textContent = `${data.name}`;
@@ -357,4 +360,20 @@ function MultiLeaderboard(){
         board.innerHTML = `<p class="center-text" style="color:red;">Failed to load leaderboard.</p>`;
       })
   })
+}
+
+const tick = () => {
+  let e = document.getElementById("countdown");
+  e.classList.remove("hide");
+  let time = 3;
+  e.innerHTML = `<span id="countdown-time">${time}</span>`
+  const k = setInterval(() => {
+    time--;
+    e.innerHTML = `<span id="countdown-time">${time}</span>`;
+    if (time == 0){
+      clearInterval(k);
+      e.innerHTML = `<span id="countdown-time></span>`
+      e.classList.add("hide");
+    }
+  },1000);
 }

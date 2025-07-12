@@ -79,13 +79,13 @@
 }
 .leaderboard-scroll {
   flex: 1;
-  max-height: 330px;
+  max-height: 400px;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   padding-right: 0;
   scroll-behavior: smooth;
   -ms-overflow-style: none;
@@ -171,7 +171,7 @@
     font-size: 0.6rem;
   }
   .leaderboard-scroll{
-    max-height: 350px;
+    max-height: 400px;
   }
 }
 

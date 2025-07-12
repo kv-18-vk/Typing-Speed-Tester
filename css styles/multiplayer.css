@@ -417,7 +417,9 @@
 #bronze-exp{
   font-size: 0.9rem;
 }
-
+#multi-board{
+  gap:5px;
+}
 @media (max-width: 600px) {
   .multileaderpage h1 {
     font-size: 1.8rem;

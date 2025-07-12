@@ -26,8 +26,13 @@ A web-based application that helps users test and improve their typing speed and
     
 -  🖊️ **Practice mode**
    - Can practice and improve the speed
-   - different practice modes, gamification and courses
+   - prepare for the tests
     
+-  👤vs👤 **Multiplayer Mode**
+   - Enjoy playing with others
+   - Real-time game, compete with random players
+   - Leaderboards
+
 - 🔥 **Firebase Integration**
    - Firestore used for storing user stats, test results, and leaderboard
     
@@ -50,6 +55,7 @@ A web-based application that helps users test and improve their typing speed and
 - html2pdf.js (PDF generation)
 - chart.js (Graphs)
 - Font Awesome, Google Fonts
+- WebSocket deployed with render --> [check our server's repository](https://github.com/kv-18-vk/WebSocket)
 
 ---
 ## 👤 User Experience

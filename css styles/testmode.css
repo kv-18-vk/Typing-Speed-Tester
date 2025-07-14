@@ -450,13 +450,10 @@ canvas.accuracyChart{
     height: 170px;
     padding:20px 10px;
   }
-    .scorecard-circle {
+  .scorecard-circle {
     position: absolute;
     left: 20px;
     top:70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 15px;
     width: 150px;
   }

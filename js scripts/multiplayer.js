@@ -33,6 +33,7 @@ document.getElementById("multi-leaderboard-btn").addEventListener("click",()=>{
 
 function startMultiplayer(){
     const element4 = document.getElementById("multispace");
+    multimatter.textContent = "Connecting to server...";
     player_finished = false;
     oppo_finished = false;
     match_ended = false;
@@ -64,6 +65,17 @@ function startMultiplayer(){
     socket.onopen = () => {
         multimatter.textContent = "Waiting for opponent......";
     };
+    socket.onclose = () => {
+        if (!match_ended) {
+            multimatter.textContent = "❌ Connection lost. Please go back and start again.";
+        }
+    };
+
+    socket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        multimatter.textContent = "⚠️ Network issue. Please try again.";
+    };
+
 
     socket.onmessage = (e) =>{
         const data = JSON.parse(e.data);

@@ -196,6 +196,19 @@
     padding: 8px 16px;
     margin-bottom: 5px;
   }
+  .practicescorecard h1{
+    position: absolute;
+    left:30px;
+    top: 20px;
+    font-size: 1.3rem;
+  }
+  .practicestats{
+    position:absolute;
+    top:10px;
+    right:40px;
+    font-size: 0.8rem;
+    line-height: 1.8;
+  }
   .practicerestart{
     font-size: 0.8rem;
   }

@@ -7,12 +7,12 @@
 }
 
 #multi-logo{
-    position: relative;
+    position: absolute;
     top: -15%;
 }
 #multi-btn {
-  position: relative;
-  top:-40%;
+  position: absolute;
+  top:30%;
   padding: 15px 30px;
   font-size: 1.2rem;
   background: linear-gradient(to left, #f4854e, #1e90ff);
@@ -28,8 +28,8 @@
   box-shadow: 0 0 10px #ff4e50, 0 0 10px #1e90ff;
 }
 #multi-leaderboard-btn {
-  position: relative;
-  top:-40%;
+  position: absolute;
+  top:40%;
   padding: 15px 30px;
   font-size: 1.2rem;
   background: linear-gradient(to left, #f4854e, #2196f3);
@@ -62,13 +62,13 @@
 
 @media (max-width:600px){
   #multi-logo{
-    top: -20%;
+    top: -15%;
   }
   #multi-btn {
-    top:-47%;
+    top:30%;
   }
   #multi-leaderboard-btn {
-    top:-47%;
+    top:40%;
   }
   .multirules{
     top:50%;

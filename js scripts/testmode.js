@@ -249,6 +249,7 @@ function instructionpopup(){
         <li>Please correct your mistakes to achieve a good score.</li>
     </ul>
     <p><strong>> We hope your test goes planned as per your strategies</strong></p>
+    <button id="start-test">OK</button>
   `;
 
   overlay.appendChild(popup);
@@ -258,7 +259,7 @@ function instructionpopup(){
   overlay.classList.add("popup-fade");
 
   overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) {
+    if (e.target === document.getElementById("start-test")) {
       overlay.remove();
     }
   });

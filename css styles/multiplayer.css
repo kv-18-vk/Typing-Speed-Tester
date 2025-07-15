@@ -5,14 +5,21 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-
 #multi-logo{
-    position: absolute;
-    top: -15%;
+  position: relative;
+  top: -15%;
+  width:70%;
+  height:70%;
+}
+.multiplayer-buttons{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width:45%;
+  top:-35%;
 }
 #multi-btn {
-  position: absolute;
-  top:30%;
   padding: 15px 30px;
   font-size: 1.2rem;
   background: linear-gradient(to left, #f4854e, #1e90ff);
@@ -28,8 +35,7 @@
   box-shadow: 0 0 10px #ff4e50, 0 0 10px #1e90ff;
 }
 #multi-leaderboard-btn {
-  position: absolute;
-  top:40%;
+ 
   padding: 15px 30px;
   font-size: 1.2rem;
   background: linear-gradient(to left, #f4854e, #2196f3);
@@ -46,10 +52,10 @@
 }
 .multirules{
     position: absolute;
-    top:52%;
-    left:2%;
+    top: 50%;
     border-radius: 10px;
     font-weight: 650;
+    font-size: 1rem;
     padding: 5px 10px;
     color: linear-gradient(135deg,white,black);
     min-height:200px;
@@ -63,18 +69,21 @@
 @media (max-width:600px){
   #multi-logo{
     top: -15%;
+    width:90%;
+    height:60%;
   }
-  #multi-btn {
-    top:30%;
-  }
-  #multi-leaderboard-btn {
-    top:40%;
+  .multiplayer-buttons{
+    width:90%;
+    top:-35%;
+    flex-direction: column;
+    gap:10px;
+    align-items: center;
   }
   .multirules{
     top:50%;
     width:90%;
     left:3%;
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 
 }
@@ -478,3 +487,4 @@
     font-size: 0.75rem;
   }
 }
+

@@ -55,11 +55,7 @@
   font-size: 1.1rem;
 }
 #typing-gif {
-  position:absolute;
-  top:5%;
-  left:-15%;
-  width:50%;
-  height:20%;
+  position:relative;
   object-fit:contain;
 }
 .fillpage select,
@@ -94,7 +90,6 @@
 }
 .fill-tip {
   text-align: center;
-  margin-top: 10px;
   font-size: 0.95rem;
   color: #444;
 }
@@ -111,9 +106,8 @@
   .fillpage label {
     font-size: 0.9rem;
   }
-  #typing-gif{
-    top:65%;
-    left:25%;
+  .fill-tip{
+    font-size: 0.8rem;
   }
 }
 

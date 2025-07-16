@@ -28,6 +28,7 @@ auth.onAuthStateChanged(user => {
     .then(doc=>{
       unlockedIndex = doc.data().unlockedIndex;
       player_name = doc.data().name;
+      document.getElementById("welcome-text").innerText = `Hello,  ${player_name}!`;
     })
   } else {
     console.log("No user signed in.");

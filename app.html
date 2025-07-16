@@ -33,14 +33,15 @@
     </div>
 
     <div class="fillpage page" id="Typing Test">
-      <h1>Provide your interests</h1>
+      <h1 class="fill-heading">🔥 Ready to Test Your Typing Speed?</h1>
+      <p class="fill-subtext">Choose your level & time — and crush the keyboard!</p>
+      <img src="css styles/typing.gif" alt="Typing Animation" id="typing-gif">
       <label for="difficulty">Choose a difficulty level:</label>
       <select id="difficulty" name="difficulty">
         <option value="Easy">Easy</option>
         <option value="Medium" selected>Medium</option>
         <option value="Hard">Hard</option>
       </select>
-
       <label for="time">Choose the Duration (min):</label>
       <select id="time" name="time">
         <option value="0.05" selected>0.05</option>
@@ -48,8 +49,15 @@
         <option value="3">3</option>
         <option value="5">5</option>
       </select>
-      <button onclick="SUBMIT()">Submit</button>
+
+      <button onclick="SUBMIT()">🔥 Start Typing Test</button>
+
+      <div class="fill-tip">
+        <i class="fas fa-lightbulb" style="color: gold;"></i> 
+        Tip: Slow is smooth, smooth is fast. Stay accurate!
+      </div>
     </div>
+
     <div class="testpage hide page">
       <div class="top-controls fortest">
         <div id="test-header">

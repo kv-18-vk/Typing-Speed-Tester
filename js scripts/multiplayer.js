@@ -249,9 +249,9 @@ function oppo_quit() {
   `;
 
   overlay.appendChild(popup);
-  document.getElementById("Multiplayerpage").appendChild(overlay);
-  popup.classList.add("multi-show");
-  overlay.classList.add("multi-fade");
+  document.body.appendChild(overlay);
+  popup.classList.add("popup-show");
+  overlay.classList.add("popup-fade");
 
   const docRef = db.collection("Multiplayer").doc(currentUser.uid);
     docRef.get().then(doc => {
@@ -260,11 +260,13 @@ function oppo_quit() {
         docRef.set({ EXP: newEXP }, { merge: true });
     });
 
-  setTimeout(()=>{
-    overlay.remove();
-    document.getElementById("Multiplayerpage").classList.add("hide");
-    document.getElementById("Multiplayer").classList.remove("hide");
-  },5000);
+  overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            overlay.remove();
+            document.getElementById("Multiplayerpage").classList.add("hide");
+            document.getElementById("Multiplayer").classList.remove("hide");
+        }
+    });
 }
 
 function result(){
@@ -273,15 +275,17 @@ function result(){
     your_score = Math.round((yourfinalaccu*yourfinalwpm)*100)/100;
     oppo_score = Math.round((opfinalaccu*opfinalwpm)*100)/100;
     closeMultiplayer();
-    const overlay = document.createElement("div");
-    overlay.className = "multi-overlay";
-
-    const popup = document.createElement("div");
-    popup.className = "multi-card";
+    const celeb = document.createElement("img");
+    celeb.src = "css styles/Celebrations.GIF";
+    celeb.className = "multi-celeb";
+    celeb.classList.add("hide");
     if(your_score>oppo_score){
         restext = "You Win";
         color = "green";
         exp = 30;
+        setTimeout(()=>{
+            celeb.classList.remove("hide");
+        },100);
     }
     else if(oppo_score>your_score){
         restext = "You Lost";
@@ -293,16 +297,26 @@ function result(){
         color = "blue";
         exp = 15;
     }
+    const oldOverlay = document.querySelector(".multi-overlay");
+    if (oldOverlay) oldOverlay.remove();
+    const overlay = document.createElement("div");
+    overlay.className = "multi-overlay";
+    
+    const popup = document.createElement("div");
+    popup.className = "multi-card";
+    
     popup.innerHTML = `
         <h3 style="color:${color}">${restext}</h3>
         <p>your score: ${your_score}</p>
         <p>opponent score: ${oppo_score}</p>
     `;
     popup.style.borderColor = color;
+    popup.appendChild(celeb);
     overlay.appendChild(popup);
-    document.getElementById("Multiplayerpage").appendChild(overlay);
-    popup.classList.add("multi-show");
-    overlay.classList.add("multi-fade");
+    document.body.appendChild(overlay);
+    void overlay.offsetWidth;
+    popup.classList.add("popup-show");
+    overlay.classList.add("popup-fade");
 
     const docRef = db.collection("Multiplayer").doc(currentUser.uid);
     docRef.get().then(doc => {
@@ -311,11 +325,13 @@ function result(){
         docRef.set({ EXP: newEXP }, { merge: true });
     });
 
-    setTimeout(()=>{
-        overlay.remove();
-        document.getElementById("Multiplayerpage").classList.add("hide");
-        document.getElementById("Multiplayer").classList.remove("hide");
-    },5000);
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            overlay.remove();
+            document.getElementById("Multiplayerpage").classList.add("hide");
+            document.getElementById("Multiplayer").classList.remove("hide");
+        }
+    });
 
 }
 

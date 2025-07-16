@@ -1,5 +1,33 @@
 .fillpage {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  background: linear-gradient(135deg, #fff5e1, #ffe5ec);
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+.fillpage {
+  animation: fadeInUp 0.7s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fill-heading {
+  font-size: 2.2rem;
+  color: #ff6b00;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.fill-subtext {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #555;
 }
 
 .fillpage label {
@@ -7,7 +35,14 @@
   color: #2d3436;
   font-size: 1.1rem;
 }
-
+#typing-gif {
+  position:absolute;
+  top:5%;
+  left:-15%;
+  width:50%;
+  height:20%;
+  object-fit:contain;
+}
 .fillpage select,
 .fillpage button {
   width: 40%;
@@ -38,6 +73,13 @@
   background: linear-gradient(135deg, #74b9ff, #0984e3);
   transform: translateY(-2px);
 }
+.fill-tip {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
 
 @media (max-width: 600px){
   .fillpage select,

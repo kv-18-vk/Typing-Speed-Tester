@@ -20,6 +20,13 @@
   margin-left: 10px;
   width: 200px;
 }
+#link{
+  margin-left: 10px;
+  border-radius: 5px;
+  padding: 8px 12px;
+  background-color: whitesmoke;
+  text-decoration: none;
+}
 .exercise-section{
     padding-right: 10px;
     overflow-y: auto;

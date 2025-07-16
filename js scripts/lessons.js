@@ -13,7 +13,8 @@ const lessons = {
       { id: "exercise1-8", name: "Exercise 1.8", desc: "Now add the middle keys H and G to your home row practice." },
       { id: "exercise1-9", name: "Exercise 1.9", desc: "Practice all index finger letters: J, F, H, and G." },
       { id: "exercise1-10", name: "Exercise 1.10", desc: "Congratulations! You've mastered the home row — ready for the ultimate test." }
-    ]
+    ],
+    link: "https://youtu.be/gfFHkqJZ7so?si=CcIA5TAZEhoYfDKb"
   },
   lesson2: {
     title: "Lesson II - Top Row",
@@ -158,14 +159,14 @@ const indexToExerciseId = {
 const lessonSelect = document.getElementById('lesson-select');
 const exerciseContainer = document.getElementById('exercise-section');
 const lessonTitle = document.getElementById('lesson-title');
-
+const link = document.getElementById('link');
 
 function loadExercises(lessonId) {
     const lesson = lessons[lessonId];
     if (!lesson) return;
 
     lessonTitle.textContent = lesson.title;
-
+    link.href = lesson.link;
     exerciseContainer.innerHTML = ''; 
 
     lesson.exercises.forEach(ex => {

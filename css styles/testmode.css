@@ -1,10 +1,17 @@
 .fillpage {
   position: relative;
-  background: linear-gradient(135deg, #fff5e1, #ffe5ec);
+  background: linear-gradient(135deg, #fff5e1,#d0f7e8,#d2f6f5, #ffe5ec);
+  background-size: 600% 600%;
   padding: 20px;
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  animation: fadeInUp 0.7s ease;
+  
+  animation: animate 20s ease infinite;
   z-index: 1;
+}
+@keyframes animate{
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
 }
 .fillpage::before{
   content: "";
@@ -20,16 +27,6 @@
   opacity: 0.03;
   z-index: -1;
 }
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .fill-heading {
   font-size: 2.2rem;
   color: #ff6b00;
@@ -39,8 +36,8 @@
 }
 
 @keyframes glowText {
-  0% { text-shadow: 0 0 10px #ff6b00; }
-  100% { text-shadow: 0 0 20px #ffa500, 0 0 30px #ff6b00; }
+  0% { text-shadow: 0 0 5px #ff6b00; }
+  100% { text-shadow: 0 0 10px #ffa500, 0 0 15px #ff6b00; }
 }
 .fill-subtext {
   text-align: center;
@@ -89,6 +86,7 @@
   transform: translateY(-2px);
 }
 .fill-tip {
+  margin-top: -20px;
   text-align: center;
   font-size: 0.95rem;
   color: #444;
@@ -98,13 +96,14 @@
 @media (max-width: 600px){
   .fillpage select,
   .fillpage button {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
+    width:60%;
   }
   .fillpage h1 {
     font-size: 1.1rem;
   }
   .fillpage label {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   .fill-tip{
     font-size: 0.8rem;

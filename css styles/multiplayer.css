@@ -283,7 +283,7 @@
 }
 .multileaderpage h1 {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #333;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -435,7 +435,7 @@
 }
 @media (max-width: 600px) {
   .multileaderpage h1 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
   #usericon {
     width: 35px;

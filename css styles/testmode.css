@@ -32,12 +32,17 @@
   color: #ff6b00;
   margin-bottom: 10px;
   text-align: center;
-  animation: glowText 2s infinite alternate;
+  background: linear-gradient(135deg, #ff6b00,orange,gold,orange,#ff6b00);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: bgradient 10s ease infinite;
+  -webkit-text-fill-color: transparent;
 }
-
-@keyframes glowText {
-  0% { text-shadow: 0 0 5px #ff6b00; }
-  100% { text-shadow: 0 0 10px #ffa500, 0 0 15px #ff6b00; }
+@keyframes bgradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 .fill-subtext {
   text-align: center;
@@ -101,6 +106,8 @@
   }
   .fillpage h1 {
     font-size: 1.1rem;
+    margin-top: 20px;
+    margin-bottom: 0;
   }
   .fillpage label {
     font-size: 1rem;

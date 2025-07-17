@@ -19,6 +19,9 @@ html, body {
 #modeMenu{
   display:none;
 }
+#device-disclaimer {
+  display:none;
+}
 .menu-toggle{
   display:none;
 }
@@ -120,6 +123,14 @@ html, body {
 }
 
 @media (max-width: 600px){
+  #device-disclaimer {
+    display:inline;
+    
+    position: relative;
+    font-size: 0.6rem;
+    color: #2d3436;
+    margin-top: 15px;
+  }
   .flex {
     flex-direction: column;
     min-height: 100vh;

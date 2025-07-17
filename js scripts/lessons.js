@@ -14,7 +14,9 @@ const lessons = {
       { id: "exercise1-9", name: "Exercise 1.9", desc: "Practice all index finger letters: J, F, H, and G." },
       { id: "exercise1-10", name: "Exercise 1.10", desc: "Congratulations! You've mastered the home row — ready for the ultimate test." }
     ],
-    link: "https://youtu.be/gfFHkqJZ7so?si=CcIA5TAZEhoYfDKb"
+    link: "https://youtu.be/gfFHkqJZ7so?si=CcIA5TAZEhoYfDKb",
+    content: `As you begin these typing lessons, remember to focus on accuracy. The first principle of touch typing is to always return your fingers to the home row when you are not typing.<br>The home row will be the reference point from which you will learn the positions of all the other keys. Most keyboards have small bumps on the f and j keys to help you find the home row without looking at the keys.<br>Position your right hand so that your index finger is placed on j, your middle finger is on k, your ring finger is on l and your pinky is on ;(semi-colon). Let your right thumb rest comfortably on the spacebar at the bottom of the keyboard.
+<br>Your hand should be raised above the keyboard with your fingers curving down to point directly on the keys.<br>Position your left hand so that your index finger is on f, your middle finger is on d, your ring finger is on s and your pinky is on a. Your thumb can rest on the spacebar.`
   },
   lesson2: {
     title: "Lesson II - Top Row",
@@ -32,7 +34,8 @@ const lessons = {
       { id: "exercise2-11", name: "Exercise 2.11", desc: "Practice typing Y and T alongside home row letters." },
       { id: "exercise2-12", name: "Exercise 2.12", desc: "Amazing job! You’ve learned most of the alphabet." }
     ],
-    link: "https://youtu.be/8_aktb9kWzY?si=fik2LvjBW5AV4nEr"
+    link: "https://youtu.be/8_aktb9kWzY?si=fik2LvjBW5AV4nEr",
+    content: `You will be moving your fingers much more frequently in this lesson.<br>Remember to always return your fingers to the home row and keep your fingers curved and pointing directly down on the keys. This will make it easier to reach the new keys you will learn in this lesson.<br>Strike the keys with only enough force required to register a keystroke. As you encounter new keys, slow down as much as necessary to reach them with accuracy.`
   },
   lesson3: {
     title: "Lesson III - Bottom Row",
@@ -49,7 +52,8 @@ const lessons = {
       { id: "exercise3-10", name: "Exercise 3.10", desc: "Practice typing N and B with home row letters." },
       { id: "exercise3-11", name: "Exercise 3.11", desc: "Fantastic! You now know the full alphabet — let’s put it to use." }
     ],
-    link:"https://youtu.be/n72Cb0m1lto?si=S1Gdvg-0rtwycbGl"
+    link:"https://youtu.be/n72Cb0m1lto?si=S1Gdvg-0rtwycbGl",
+    content: `You will be moving your fingers much more frequently in this lesson.<br>Remember to always return your fingers to the home row and keep your fingers curved and pointing directly down on the keys. This will make it easier to reach the new keys you will learn in this lesson.<br>Strike the keys with only enough force required to register a keystroke. As you encounter new keys, slow down as much as necessary to reach them with accuracy.`
   },
   lesson4: {
     title: "Lesson IV - Capital Letters",
@@ -58,7 +62,8 @@ const lessons = {
       { id: "exercise4-2", name: "Exercise 4.2", desc: "Practice capitalizing left-hand letters using the right Shift key." },
       { id: "exercise4-3", name: "Exercise 4.3", desc: "Now switch between both Shift keys to type capital letters on both sides." }
     ],
-    link:"https://youtu.be/F_o1OAAtmyo?si=taUbBo1V2P9q25R_"
+    link:"https://youtu.be/F_o1OAAtmyo?si=taUbBo1V2P9q25R_",
+    content: `Now that you know all the letter keys, let's learn to type them in capitals.<br>To type the capital case of any letter, hold down the shift key while typing the letter key. You will notice there are two shift keys on your keyboard - one on each side. You should press the shift key with the pinky finger of the hand opposite the one you are typing the letter with.<br>This way, you can maintain the correct hand position with your letter typing hand and more easily return to the home row position afterwards.`
   },
   lesson5: {
     title: "Lesson V - Punctuation",
@@ -71,7 +76,8 @@ const lessons = {
       { id: "exercise5-6", name: "Exercise 5.6", desc: "Introduce the hyphen (-) into your punctuation practice." },
       { id: "exercise5-7", name: "Exercise 5.7", desc: "You’ve mastered all punctuation marks — great work!" }
     ],
-    link: "https://youtu.be/ysgmtZWx_DQ?si=aHhU9Pw-tWkY_q2z"
+    link: "https://youtu.be/ysgmtZWx_DQ?si=aHhU9Pw-tWkY_q2z",
+    content: `In this lesson we will learn how to type commonly used punctuation marks.<br>You have already learned the period, comma and semicolon, and we will review those keys as well. In the previous lesson, we learned to type capital letters. The capital letters are the secondary characters for the lower case keys and holding the shift allows us to type them.<br>Likewise, the symbol keys also have other symbols as secondary characters, and you will encounter several of these keys in this lesson.<br><br>As you already know, the <strong>semi-colon</strong> is the home row key for the right pinky. The <strong>comma</strong>, <strong>period</strong>, and <strong>forward slash</strong> are the bottom row keys for the right hand middle finger, ring finger and pinky, respectively.<br>The <strong>colon</strong> is the alternate character for the semi-colon key. To type it, just press the key with your right pinky finger while holding the left shift key.<br><strong>Apostrophe</strong> and the <strong>double quotation mark</strong>( ' " ) - Both characters use the same key. To reach it, extend your right pinky finger to the key directly to the right. The double quote is typed while holding the left shift key and the apostrophe is typed without it.<br>The <strong>question mark</strong> is the secondary character for the /, which you have already learned. To type it, move your right pinky down to the bottom row and hold the left shift key.<br>You will type the <strong>exclamation</strong> point character with the left pinky, reaching above and to the left of the q key, while holding the right shift key.<br>The <strong>hyphen</strong> is typed with the right pinky finger, reaching up and to the right of the p key.`
   },
   lesson6: {
     title: "Lesson VI - Numbers",
@@ -83,7 +89,8 @@ const lessons = {
       { id: "exercise6-5", name: "Exercise 6.5", desc: "Complete the number row by adding 5 and 6." },
       { id: "exercise6-6", name: "Exercise 6.6", desc: "Now type all the numbers in a complete review." }
     ],
-    link :"https://youtu.be/DxYq6H_xgYU?si=i3QRWDxofs9jhPBw"
+    link :"https://youtu.be/DxYq6H_xgYU?si=i3QRWDxofs9jhPBw",
+    content: `Whether you program, work with spreadsheets, or frequently work with numerical data, you will find this lesson particularly helpful.<br>To type the <strong>7</strong> key, use your right index finger to strike the key above and to the left of the <strong>u</strong> key. The <strong>8</strong> key is typed with the right hand middle finger, reaching above and to the left of the <strong>i</strong> key.<br>Type the <strong>9</strong> key using your right ring finger to reach above and to the left of the <strong>o</strong> key. For the <strong>0</strong> key, reach above and to the left of the <strong>p</strong> key.<br>The left index finger is used to type the <strong>4</strong> key. Reach above and to the left of the <strong>r</strong> key to reach it. To type the <strong>3</strong> key, use your left middle finger to reach up and to the left of the <strong>e</strong>.<br>The <strong>2</strong> key is typed with your left ring finger. It is located above and to the left of the <strong>w</strong> key. Type the <strong>1</strong> key with your pinky finger, reaching up and to the left of the <strong>q</strong> key.<br>Both the 5 and 6 keys are typed with the left index finger. The <strong>5</strong> key is located above and to the right of the <strong>r</strong> key. The <strong>6</strong> key is a bit more of a stretch - it is above and to the right of the <strong>t</strong> key.`
   },
   lesson7: {
     title: "Lesson VII - Symbols",
@@ -95,7 +102,8 @@ const lessons = {
       { id: "exercise7-5", name: "Exercise 7.5", desc: "Type the percent symbol (%) and caret (^)." },
       { id: "exercise7-6", name: "Exercise 7.6", desc: "Review all the symbols together in one final exercise." }
     ],
-    link :"https://youtu.be/DxYq6H_xgYU?si=i3QRWDxofs9jhPBw"
+    link :"https://youtu.be/DxYq6H_xgYU?si=i3QRWDxofs9jhPBw",
+    content: `In this lesson we will learn how to type the symbol characters. You have already learned several of them in previous lessons, but now we will complete your symbol typing skills. We will begin by revisiting the number keys you just learned in the previous lesson, but this time we will have a look at the associated secondary symbol characters with those keys and shift keys.<br>Use left shift key when you are using right hand for the number keys and right shift key when you use left hand for number keys`
   }
 };
 const indexToExerciseId = {
@@ -166,6 +174,7 @@ const lessonSelect = document.getElementById('lesson-select');
 const exerciseContainer = document.getElementById('exercise-section');
 const lessonTitle = document.getElementById('lesson-title');
 const link = document.getElementById('link');
+const lessonContent = document.getElementById('lesson-content');
 
 function loadExercises(lessonId) {
     const lesson = lessons[lessonId];
@@ -173,6 +182,7 @@ function loadExercises(lessonId) {
 
     lessonTitle.textContent = lesson.title;
     link.href = lesson.link;
+    lessonContent.innerHTML = lesson.content || "";
     exerciseContainer.innerHTML = ''; 
 
     lesson.exercises.forEach(ex => {

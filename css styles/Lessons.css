@@ -30,6 +30,7 @@
 .exercise-section{
     padding-right: 10px;
     overflow-y: auto;
+    width: 45%;
 }
 .exercise-section button {
   background: linear-gradient(135deg,navy , blue);
@@ -41,10 +42,34 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
 .exercise-section button:hover {
   background: linear-gradient(270deg,navy , blue);
 }
+#lesson-image{
+  width:50%;
+  position: absolute;
+  height:auto;
+  right:2%;
+  top:40%;
+}
+.lesson-matter{
+  position:absolute;
+  width:50%;
+  right:1%;
+  top:20px;
+}
+#lesson-content {
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: 2;
+  padding-right: 5px;
+  scrollbar-width: thin;
+}
+#lesson-content::-webkit-scrollbar {
+  width: 2px;
+}
+
 .lesson-tooltip {
   position: fixed;
   transform: translateX(-50%);
@@ -64,7 +89,14 @@
   .lessonpage {
     padding: 15px;
   }
-  
+  #lesson-image,
+  .lesson-matter{
+    display: none;
+  }
+  #link{
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
   .lesson-header {
     display: flex;
     flex-direction: column;

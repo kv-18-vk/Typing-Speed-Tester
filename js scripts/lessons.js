@@ -31,7 +31,8 @@ const lessons = {
       { id: "exercise2-10", name: "Exercise 2.10", desc: "Learn the final top row keys: Y and T." },
       { id: "exercise2-11", name: "Exercise 2.11", desc: "Practice typing Y and T alongside home row letters." },
       { id: "exercise2-12", name: "Exercise 2.12", desc: "Amazing job! You’ve learned most of the alphabet." }
-    ]
+    ],
+    link: "https://youtu.be/8_aktb9kWzY?si=fik2LvjBW5AV4nEr"
   },
   lesson3: {
     title: "Lesson III - Bottom Row",
@@ -47,7 +48,8 @@ const lessons = {
       { id: "exercise3-9", name: "Exercise 3.9", desc: "Learn the last bottom row letters: N and B." },
       { id: "exercise3-10", name: "Exercise 3.10", desc: "Practice typing N and B with home row letters." },
       { id: "exercise3-11", name: "Exercise 3.11", desc: "Fantastic! You now know the full alphabet — let’s put it to use." }
-    ]
+    ],
+    link:"https://youtu.be/n72Cb0m1lto?si=S1Gdvg-0rtwycbGl"
   },
   lesson4: {
     title: "Lesson IV - Capital Letters",
@@ -55,7 +57,8 @@ const lessons = {
       { id: "exercise4-1", name: "Exercise 4.1", desc: "Begin typing uppercase letters with your right hand using the left Shift key." },
       { id: "exercise4-2", name: "Exercise 4.2", desc: "Practice capitalizing left-hand letters using the right Shift key." },
       { id: "exercise4-3", name: "Exercise 4.3", desc: "Now switch between both Shift keys to type capital letters on both sides." }
-    ]
+    ],
+    link:"https://youtu.be/F_o1OAAtmyo?si=taUbBo1V2P9q25R_"
   },
   lesson5: {
     title: "Lesson V - Punctuation",
@@ -67,7 +70,8 @@ const lessons = {
       { id: "exercise5-5", name: "Exercise 5.5", desc: "Now let's type the exclamation mark (!)." },
       { id: "exercise5-6", name: "Exercise 5.6", desc: "Introduce the hyphen (-) into your punctuation practice." },
       { id: "exercise5-7", name: "Exercise 5.7", desc: "You’ve mastered all punctuation marks — great work!" }
-    ]
+    ],
+    link: "https://youtu.be/ysgmtZWx_DQ?si=aHhU9Pw-tWkY_q2z"
   },
   lesson6: {
     title: "Lesson VI - Numbers",
@@ -78,7 +82,8 @@ const lessons = {
       { id: "exercise6-4", name: "Exercise 6.4", desc: "Add numbers 1 and 2 to your practice." },
       { id: "exercise6-5", name: "Exercise 6.5", desc: "Complete the number row by adding 5 and 6." },
       { id: "exercise6-6", name: "Exercise 6.6", desc: "Now type all the numbers in a complete review." }
-    ]
+    ],
+    link :"https://youtu.be/DxYq6H_xgYU?si=i3QRWDxofs9jhPBw"
   },
   lesson7: {
     title: "Lesson VII - Symbols",
@@ -89,7 +94,8 @@ const lessons = {
       { id: "exercise7-4", name: "Exercise 7.4", desc: "Learn to type the at sign (@) and exclamation point (!)." },
       { id: "exercise7-5", name: "Exercise 7.5", desc: "Type the percent symbol (%) and caret (^)." },
       { id: "exercise7-6", name: "Exercise 7.6", desc: "Review all the symbols together in one final exercise." }
-    ]
+    ],
+    link :"https://youtu.be/DxYq6H_xgYU?si=i3QRWDxofs9jhPBw"
   }
 };
 const indexToExerciseId = {

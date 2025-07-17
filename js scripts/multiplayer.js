@@ -405,3 +405,8 @@ const tick = () => {
     }
   },1000);
 }
+
+document.getElementById("homeButton").addEventListener("click",()=>{
+    document.getElementById("Multiplayer").classList.remove("hide");
+    document.getElementById("multileaderboard").classList.add("hide");
+})

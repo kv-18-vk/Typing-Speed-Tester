@@ -114,6 +114,7 @@
   cursor: pointer;
   background: white;
   transition: all 0.3s ease;
+  box-shadow: 0 0 1px rgb(9, 132, 227,0.5);
 }
 
 .fillpage select:focus {

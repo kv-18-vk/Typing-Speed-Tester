@@ -224,6 +224,15 @@
 }
 
 @media (min-width:601px) and (max-width:992px){
+  .lesson-matter{
+    display:none;
+  }
+  #lesson-image{
+    display: none;
+  }
+  .exercise-section{
+    width:100%;
+  }
   .lesson-test h1 {
     font-size: x-large;
     margin-bottom: 5px;

@@ -87,6 +87,21 @@
   }
 
 }
+@media (min-width:601px) and (max-width:992px){
+  #multi-logo{
+    width:100%;
+  }
+  .multiplayer-buttons{
+    width:90%;
+    top:-40%;
+  }
+  .multirules{
+    top:45%;
+    width:70%;
+    font-size: 0.9rem;
+    font-weight: 650;
+  }
+}
 
 .onevone{
 	background: white;
@@ -261,7 +276,39 @@
         padding:10px;
     }
 }
-
+@media (min-width:601px) and (max-width:992px){
+  .allplayerstats{
+    width:100%;
+  }
+  .playerstats{
+    min-width: 0;
+    width:40%;
+  }
+  .name{
+    font-size: 0.9rem;
+  }
+  .wpm,
+  .accu{
+    font-size: 0.7rem;
+  }
+  .multiworld{
+    margin-top: 30px;
+  }
+  #multimatter{
+    min-width: 450px;
+    max-height: 180px;
+    min-height: 150px;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    padding:12px;
+  }
+  #multispace {
+    min-height: 180px;
+    min-width: 450px;
+    font-size: 1.2rem;
+    padding:12px;
+  }
+}
 .home-button-style {
     position: absolute; 
     top: 20px;         
@@ -488,8 +535,12 @@
   }
 }
 @media (min-width: 601px) and (max-width: 992px) {
+  .home-button-style{
+    font-size: 0.8rem;
+    padding: 10px 10px;
+  }
   .multileaderpage h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   #usericon {
     width: 40px;

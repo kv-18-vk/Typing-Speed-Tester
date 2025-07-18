@@ -530,12 +530,26 @@ canvas.accuracyChart{
 }
 
 @media (min-width:601px) and (max-width:992px){
+  .fillpage{
+    gap:12px;
+  }
   .fillpage h1{
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+  }
+  .welcome-text{
+    font-size: 1rem;
+  }
+  #device-disclaimer{
+    display: inline;
+    font-size: 0.65rem;
+    margin-top: 5px;
+  }
+  .fill-tip{
+    font-size: 0.8rem;
   }
   .fillpage label {
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   .fillpage select,
   .fillpage button {
@@ -560,7 +574,8 @@ canvas.accuracyChart{
   #timer{
     font-size: 0.8rem;
     padding: 8px 16px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
+    margin-top: 10px;
   }
   .instruct-card{
     font-size: 0.9rem;

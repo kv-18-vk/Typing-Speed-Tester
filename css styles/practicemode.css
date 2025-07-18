@@ -192,11 +192,12 @@
   .break,
   .finish{
     font-size: 0.7rem;
+    margin-top: 5px;
   }
   .stopclock{
     font-size: 0.8rem;
     padding: 8px 16px;
-    margin-bottom: 5px;
+    margin-top: 5px;
   }
   .practicescorecard h1{
     position: absolute;

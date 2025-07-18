@@ -278,7 +278,7 @@ function result(){
     closeMultiplayer();
     multimatter.innerText = 'Match Finished';
     const celeb = document.createElement("img");
-    celeb.src = "css styles/Celebrations.GIF";
+    celeb.src = "css styles/Celebrations.gif";
     celeb.className = "multi-celeb";
     celeb.classList.add("hide");
     if(your_score>oppo_score){

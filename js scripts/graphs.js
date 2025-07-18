@@ -331,7 +331,7 @@ function totalgraphs(level) {
   canvas.style.width = `${chartWidth}px`;
   canvas.style.minWidth = '100%';
 
-  const totalDuration = 2000; 
+  const totalDuration = 1500; 
   const delayBetweenPoints = totalDuration / wpms.length;
       
   const animation = {

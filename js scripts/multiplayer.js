@@ -50,6 +50,7 @@ function startMultiplayer(){
     totaltyped = 0;
     correcttyped = 0;
     previouslength = 0;
+    currentStart = 0;
     element4.value = "";
     element4.disabled = true;
     opponame.textContent = "";
@@ -82,7 +83,7 @@ function startMultiplayer(){
         if (data.type == "status"){
                 tick();
                 socket.send(JSON.stringify({type:"details",name:my_name.textContent}));
-                referenceText = "ok so all the best for multiplayer, lets see who wins";
+                referenceText = data.text;
                 initMatter(referenceText,"multimatter","m-char");
                 db.collection("Multiplayer").doc(currentUser.uid).update({
                     TotalGames:firebase.firestore.FieldValue.increment(1)
@@ -275,6 +276,7 @@ function result(){
     your_score = Math.round((yourfinalaccu*yourfinalwpm)*100)/100;
     oppo_score = Math.round((opfinalaccu*opfinalwpm)*100)/100;
     closeMultiplayer();
+    multimatter.innerText = 'Match Finished';
     const celeb = document.createElement("img");
     celeb.src = "css styles/Celebrations.GIF";
     celeb.className = "multi-celeb";

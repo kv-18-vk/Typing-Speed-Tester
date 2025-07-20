@@ -206,6 +206,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    gap:20px;
     height:100vh;
     background-image: linear-gradient(rgba(240, 237, 237, 0.4), rgba(0, 0, 0, 0.4)), url(homepage.jpg);
     background-repeat: no-repeat;
@@ -299,6 +300,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 0 50px;
+    width:90%;
     max-width: 1200px;
     margin-bottom: 30px;
 }
@@ -396,4 +398,128 @@ body {
     .stats-container{
         flex-direction: row;
     }
+}
+
+.specials{
+  display:flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.special,
+.lesson {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.05); 
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); 
+  transition: background 0.3s ease-in-out;
+}
+.special{
+   width:45%;
+   margin-bottom: 10px;
+}
+.lesson{
+  width:100%;
+}
+.special-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width:50%;
+}
+.lesson-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width:70%;
+}
+.lessons-image{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:30%;
+  height:80%;
+}
+#lessons-image{
+  width:100%;
+  height:100%;
+  transition: transform 0.3s ease;
+}
+
+.lesson-text h1,
+.special-text h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.text {
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.special-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:50%;
+  height:80%;
+}
+
+.special-image .i {
+  width: 100%;
+  height:100%;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+.i.lead-gif{
+  box-shadow: none;
+  border-radius: 0;
+}
+.special-image .i:hover {
+  transform: scale(1.02);
+}
+@media (max-width: 600px) {
+  .specials {
+    width:90%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap:15px;
+  }
+  .special,
+  .lesson{
+    width:100%;
+    padding:15px;
+    gap:0;
+  }
+  .lesson{
+    flex-direction: column;
+  }
+  .lesson-text{
+    width:100%;
+  }
+  .special-text{
+    text-align: left;
+  }
+  .special-text h1,
+  .lesson-text h1 {
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  .lessons-image{
+    width:60%;
+  }
+  .text {
+    font-size: 0.8rem;
+  }
 }

@@ -345,6 +345,12 @@ function MultiLeaderboard(){
   if(!currentUser) return;
   const board = document.getElementById("multi-board");
   document.getElementById("multirank").innerText = "";
+  document.querySelectorAll(".toprank-name").forEach(id=>{
+    id.innerText="";
+  })
+  document.querySelectorAll(".toprank-exp").forEach(id=>{
+    id.innerText="";
+  })
   board.innerHTML = "";
   const userdoc = db.collection('Multiplayer').doc(currentUser.uid);
   userdoc.get().then(userdoc => {

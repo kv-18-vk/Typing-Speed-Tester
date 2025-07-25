@@ -158,3 +158,7 @@ document.querySelectorAll(".toggle-password").forEach((toggleIcon) => {
     }
   });
 });
+document.getElementById('goback').addEventListener('click', function () {
+  document.getElementById("homepage").classList.remove("hide");
+  document.getElementById("logform").classList.add("hide");
+});

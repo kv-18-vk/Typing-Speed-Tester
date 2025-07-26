@@ -27,9 +27,10 @@ auth.onAuthStateChanged(user => {
   }
 });
 
-document.querySelector(".btn").addEventListener("click",()=>{
+document.querySelectorAll(".btn").forEach(btn=>{btn.addEventListener("click",()=>{
   document.getElementById("homepage").classList.add("hide");
   document.getElementById("logform").classList.remove("hide");
+})
 })
 
 let loginPage = document.querySelector(".login-form");

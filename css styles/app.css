@@ -70,7 +70,7 @@ html, body {
   background: #809D3C;
 }
 .mode.mode:nth-child(3).selectedmode{
-  background: #809D3C;
+  background: linear-gradient(135deg, #665838, #4d3529);
 }
 .mode.mode:nth-child(4).selectedmode{
   background: linear-gradient(145deg,#ffec8b, #fffacd, #ffd700);
@@ -232,6 +232,7 @@ html, body {
   position: fixed;
   top: 20px;
   width: calc(79% - 80px);
+  height:120px;
   padding: 15px 20px;
   display: flex;
   flex-direction: column;
@@ -254,6 +255,7 @@ html, body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     top:0;
+    height:80px;
     position:none;
     width:100%;
     padding: 9px 12px;

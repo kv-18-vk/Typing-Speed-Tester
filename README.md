@@ -10,10 +10,6 @@ A web-based application that helps users test and improve their typing speed and
 
 - 🔐 **Firebase Authentication**
   - Email/Password login & registration
-  - **Future Enhancements
-      - Email verification
-      - Password reset ("Forgot Password")
-      - Google Sign-In
 
 - 🧪 **Typing Modes**
   - Typing Test (with WPM, accuracy, and score)
@@ -45,6 +41,10 @@ A web-based application that helps users test and improve their typing speed and
 - 📱 **Responsive Design**
     - The app is fully responsive and works seamlessly across all types of devices — desktops, tablets, and smartphones.
     - You can use it on any screen size without losing functionality or usability.
+      
+- 🧑‍💻 **Typing Lessons**
+    -  Structured lessons to sharpen your typing
+    -  Lessons  follow a proven step by step approach which improves the speed and accuracy
 ---
 
 ## 📦 Tech Stack

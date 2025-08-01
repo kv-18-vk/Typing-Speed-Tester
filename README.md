@@ -55,7 +55,7 @@ A web-based application that helps users test and improve their typing speed and
 - html2pdf.js (PDF generation)
 - chart.js (Graphs)
 - Font Awesome, Google Fonts
-- WebSocket deployed with render --> [check our server's repository](https://github.com/kv-18-vk/WebSocket)
+- WebSocket deployed with render --> [WebSocket for Multiplayer](https://github.com/kv-18-vk/WebSocket)
 
 ---
 ## 👤 User Experience
